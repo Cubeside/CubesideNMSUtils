@@ -38,7 +38,7 @@ public interface NMSUtils {
         } catch (ClassNotFoundException ex) {
             // fallthrough, does not exist
         } catch (ReflectiveOperationException ex) {
-            throwUnsupportedVersion(plugin.getServer(), ex);
+            throwUnsupportedVersion(plugin, ex);
         }
 
         try {
@@ -47,10 +47,12 @@ public interface NMSUtils {
             if (NMSUtils.class.isAssignableFrom(numUtilsType)) {
                 return ((NMSUtils) numUtilsType.getDeclaredConstructor(Plugin.class).newInstance(plugin));
             }
+        } catch (ClassNotFoundException ex) {
+            throwUnsupportedVersion(plugin);
         } catch (ReflectiveOperationException ex) {
-            throwUnsupportedVersion(plugin.getServer(), ex);
+            throwUnsupportedVersion(plugin, ex);
         }
-        throwUnsupportedVersion(plugin.getServer());
+        throwUnsupportedVersion(plugin);
         return null; // unreachable
     }
 
@@ -60,23 +62,25 @@ public interface NMSUtils {
         while (!serverClass.getPackage().getName().startsWith(CRAFTBUKKIT_PACKAGE)) {
             serverClass = serverClass.getSuperclass();
             if (serverClass == null) {
-                throwUnsupportedVersion(server);
+                throwUnsupportedVersion(plugin);
             }
         }
         String packageName = serverClass.getPackage().getName();
         int i = packageName.lastIndexOf(".");
         if (i == -1) {
-            throwUnsupportedVersion(server);
+            throwUnsupportedVersion(plugin);
         }
         return packageName.substring(i + 1);
     }
 
-    private static void throwUnsupportedVersion(Server server) {
-        throwUnsupportedVersion(server, null);
+    private static void throwUnsupportedVersion(Plugin plugin) {
+        throwUnsupportedVersion(plugin, null);
     }
 
-    private static void throwUnsupportedVersion(Server server, Exception ex) {
-        throw new UnsupportedOperationException("Unsupported CraftBukkit version: " + server.getBukkitVersion(), ex);
+    private static void throwUnsupportedVersion(Plugin plugin, Exception ex) {
+        String msg = "Unsupported CraftBukkit version: " + plugin.getServer().getBukkitVersion();
+        plugin.getLogger().severe(msg);
+        throw new UnsupportedOperationException(msg, ex);
     }
 
     public static interface VersionedNMS {
