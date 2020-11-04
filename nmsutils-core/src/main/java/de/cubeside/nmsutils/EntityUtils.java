@@ -1,5 +1,6 @@
 package de.cubeside.nmsutils;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
 
@@ -23,5 +24,11 @@ public interface EntityUtils {
     void moveEntity(Entity e, Vector v);
 
     void setEntityYaw(Entity e, float yaw);
+
+    void setEntityNavigationTarget(Entity entity, Location target, double speed);
+
+    void setEntityLeftHanded(Entity ent, boolean left);
+
+    boolean isEntityLeftHanded(Entity ent);
 
 }

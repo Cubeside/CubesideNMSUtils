@@ -4,23 +4,35 @@ import de.cubeside.nmsutils.EntityUtils;
 import de.cubeside.nmsutils.NMSUtils;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
+import net.minecraft.server.v1_16_R3.BlockPosition;
 import net.minecraft.server.v1_16_R3.Entity;
+import net.minecraft.server.v1_16_R3.EntityBat;
+import net.minecraft.server.v1_16_R3.EntityInsentient;
+import net.minecraft.server.v1_16_R3.EntityVex;
 import net.minecraft.server.v1_16_R3.EnumMoveType;
 import net.minecraft.server.v1_16_R3.PacketPlayOutEntityTeleport;
 import net.minecraft.server.v1_16_R3.PlayerChunkMap;
 import net.minecraft.server.v1_16_R3.Vec3D;
+import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftBat;
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftCreature;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPiglin;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftShulker;
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftVex;
+import org.bukkit.entity.Bat;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
+import org.bukkit.entity.Vex;
 import org.bukkit.util.Vector;
 
 public class EntityUtilsImpl implements EntityUtils {
+    private static final String FIELD_BAT_TARGET_NAME = "d";
 
     private final NMSUtilsImpl nmsUtils;
 
     private Field fieldEntityTracker;
+    private Field fieldBatTarget;
 
     public EntityUtilsImpl(NMSUtilsImpl nmsUtils) {
         this.nmsUtils = nmsUtils;
@@ -132,5 +144,45 @@ public class EntityUtilsImpl implements EntityUtils {
     public void setEntityYaw(org.bukkit.entity.Entity e, float yaw) {
         Entity handle = ((CraftEntity) e).getHandle();
         handle.yaw = yaw;
+    }
+
+    @Override
+    public void setEntityNavigationTarget(org.bukkit.entity.Entity entity, Location target, double speed) {
+        if (entity instanceof Bat) {
+            try {
+                if (fieldBatTarget == null) {
+                    fieldBatTarget = EntityBat.class.getDeclaredField(FIELD_BAT_TARGET_NAME);
+                    fieldBatTarget.setAccessible(true);
+                }
+                fieldBatTarget.set(((CraftBat) entity).getHandle(), new BlockPosition(target.getX(), target.getY(), target.getZ()));
+            } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
+                nmsUtils.getPlugin().getLogger().log(Level.SEVERE, "could not set field", e);
+            }
+        } else if (entity instanceof Vex) {
+            EntityVex entityVex = ((CraftVex) entity).getHandle();
+            entityVex.getControllerMove().a(target.getX(), target.getY(), target.getZ(), speed);
+            if (entityVex.getGoalTarget() == null) {
+                entityVex.getControllerLook().a(target.getX(), target.getY(), target.getZ(), 180, 20);
+            }
+        } else {
+            ((CraftCreature) entity).getHandle().getNavigation().a(target.getX(), target.getY(), target.getZ(), speed);
+        }
+    }
+
+    @Override
+    public void setEntityLeftHanded(org.bukkit.entity.Entity ent, boolean left) {
+        Entity nmsEntity = ((CraftEntity) ent).getHandle();
+        if (nmsEntity instanceof EntityInsentient) {
+            ((EntityInsentient) nmsEntity).setLeftHanded(left);
+        }
+    }
+
+    @Override
+    public boolean isEntityLeftHanded(org.bukkit.entity.Entity ent) {
+        Entity nmsEntity = ((CraftEntity) ent).getHandle();
+        if (nmsEntity instanceof EntityInsentient) {
+            return ((EntityInsentient) nmsEntity).isLeftHanded();
+        }
+        return false;
     }
 }
