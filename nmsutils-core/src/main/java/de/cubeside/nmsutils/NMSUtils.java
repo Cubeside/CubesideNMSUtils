@@ -45,7 +45,7 @@ public interface NMSUtils {
             String className = NMSUtils.class.getPackage().getName() + '.' + version + ".NMSUtilsImpl";
             Class<?> numUtilsType = Class.forName(className);
             if (NMSUtils.class.isAssignableFrom(numUtilsType)) {
-                return ((NMSUtils) numUtilsType.getDeclaredConstructor().newInstance(plugin));
+                return ((NMSUtils) numUtilsType.getDeclaredConstructor(Plugin.class).newInstance(plugin));
             }
         } catch (ReflectiveOperationException ex) {
             throwUnsupportedVersion(plugin.getServer(), ex);
