@@ -10,6 +10,7 @@
         <module>nmsutils-v1_16_R2</module>
         <module>nmsutils-v1_16_R3</module>
         <module>nmsutils</module>
+        <module>nmsutils-plugin</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
