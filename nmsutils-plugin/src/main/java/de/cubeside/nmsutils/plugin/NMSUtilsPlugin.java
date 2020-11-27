@@ -1,5 +1,6 @@
-package de.cubeside.nmsutils;
+package de.cubeside.nmsutils.plugin;
 
+import de.cubeside.nmsutils.NMSUtils;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
