@@ -1,7 +1,10 @@
 package de.cubeside.nmsutils;
 
+import java.util.function.Function;
 import org.bukkit.Location;
+import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Mob;
 import org.bukkit.util.Vector;
 
 public interface EntityUtils {
@@ -31,4 +34,7 @@ public interface EntityUtils {
 
     boolean isEntityLeftHanded(Entity ent);
 
+    void addGoalFloat(Mob mob);
+
+    void addGoalLimitedStrollLand(Creature mob, double velocity, Function<Vector, Boolean> checkTargetFunction);
 }

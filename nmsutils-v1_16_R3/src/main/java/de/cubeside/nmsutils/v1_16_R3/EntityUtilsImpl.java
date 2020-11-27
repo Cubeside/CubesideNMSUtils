@@ -1,26 +1,33 @@
 package de.cubeside.nmsutils.v1_16_R3;
 
+import com.destroystokyo.paper.entity.ai.VanillaGoal;
 import de.cubeside.nmsutils.EntityUtils;
 import de.cubeside.nmsutils.NMSUtils;
 import java.lang.reflect.Field;
+import java.util.function.Function;
 import java.util.logging.Level;
 import net.minecraft.server.v1_16_R3.BlockPosition;
 import net.minecraft.server.v1_16_R3.Entity;
 import net.minecraft.server.v1_16_R3.EntityBat;
+import net.minecraft.server.v1_16_R3.EntityCreature;
 import net.minecraft.server.v1_16_R3.EntityInsentient;
 import net.minecraft.server.v1_16_R3.EntityVex;
 import net.minecraft.server.v1_16_R3.EnumMoveType;
 import net.minecraft.server.v1_16_R3.PacketPlayOutEntityTeleport;
+import net.minecraft.server.v1_16_R3.PathfinderGoalFloat;
 import net.minecraft.server.v1_16_R3.PlayerChunkMap;
 import net.minecraft.server.v1_16_R3.Vec3D;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftBat;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftCreature;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftMob;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPiglin;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftShulker;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftVex;
 import org.bukkit.entity.Bat;
+import org.bukkit.entity.Creature;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Vex;
@@ -48,6 +55,20 @@ public class EntityUtilsImpl implements EntityUtils {
         if (entity instanceof Mob) {
             nmsUtils.getPlugin().getServer().getMobGoals().removeAllGoals((Mob) entity);
         }
+    }
+
+    @Override
+    public void addGoalFloat(Mob mob) {
+        if (!Bukkit.getMobGoals().hasGoal(mob, VanillaGoal.FLOAT)) {
+            EntityInsentient h = ((CraftMob) mob).getHandle();
+            h.goalSelector.addGoal(1, new PathfinderGoalFloat(h));
+        }
+    }
+
+    @Override
+    public void addGoalLimitedStrollLand(Creature mob, double velocity, Function<Vector, Boolean> checkTargetFunction) {
+        EntityCreature h = ((CraftCreature) mob).getHandle();
+        h.goalSelector.addGoal(7, new PathfinderGoalLimitedRandomStrollLand(h, velocity, checkTargetFunction));
     }
 
     @Override
