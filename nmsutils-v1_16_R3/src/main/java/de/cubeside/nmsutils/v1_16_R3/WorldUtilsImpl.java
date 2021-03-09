@@ -55,13 +55,13 @@ public class WorldUtilsImpl implements WorldUtils {
         // remove broken players
         CraftWorld craftWorld = (CraftWorld) world;
         WorldServer handle = craftWorld.getHandle();
-        if (!handle.players.isEmpty()) {
-            for (EntityHuman human : new ArrayList<>(handle.players)) {
+        if (!handle.getPlayers().isEmpty()) {
+            for (EntityHuman human : new ArrayList<>(handle.getPlayers())) {
                 if (human.getBukkitEntity() instanceof Player) {
                     ((Player) human.getBukkitEntity()).kickPlayer("Connection lost");
                 }
             }
-            handle.players.clear();
+            handle.getPlayers().clear();
         }
 
         // unload the now empty world from the server
