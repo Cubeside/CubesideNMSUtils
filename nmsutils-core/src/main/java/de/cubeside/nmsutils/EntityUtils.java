@@ -40,7 +40,14 @@ public interface EntityUtils {
 
     void addGoalLimitedStrollLand(Creature mob, double velocity, Function<Vector, Boolean> checkTargetFunction);
 
+    boolean isEntityInvisible(Entity entity);
+
+    /**
+     * Probably needs to be delayed by 1 or 2 ticks in order to work correctly.
+     */
     void setEntityInvisible(Entity entity, boolean invisible);
+
+    boolean hasEntityNoClip(Entity entity);
 
     /**
      * Changes whether or not the entity can go through walls.

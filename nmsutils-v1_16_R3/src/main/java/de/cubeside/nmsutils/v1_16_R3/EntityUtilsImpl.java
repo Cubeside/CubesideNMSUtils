@@ -214,9 +214,21 @@ public class EntityUtilsImpl implements EntityUtils {
     }
 
     @Override
+    public boolean isEntityInvisible(org.bukkit.entity.Entity entity) {
+        Entity nmsEntity = ((CraftEntity) entity).getHandle();
+        return nmsEntity.isInvisible();
+    }
+
+    @Override
     public void setEntityInvisible(org.bukkit.entity.Entity entity, boolean invisible) {
         Entity nmsEntity = ((CraftEntity) entity).getHandle();
         nmsEntity.setInvisible(invisible);
+    }
+
+    @Override
+    public boolean hasEntityNoClip(org.bukkit.entity.Entity entity) {
+        Entity nmsEntity = ((CraftEntity) entity).getHandle();
+        return nmsEntity.noclip;
     }
 
     @Override
