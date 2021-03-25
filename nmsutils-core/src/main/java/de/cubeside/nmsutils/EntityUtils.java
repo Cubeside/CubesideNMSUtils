@@ -28,6 +28,8 @@ public interface EntityUtils {
 
     void setEntityYaw(Entity e, float yaw);
 
+    void setEntityPitch(Entity e, float pitch);
+
     void setEntityNavigationTarget(Entity entity, Location target, double speed);
 
     void setEntityLeftHanded(Entity ent, boolean left);
@@ -37,4 +39,13 @@ public interface EntityUtils {
     void addGoalFloat(Mob mob);
 
     void addGoalLimitedStrollLand(Creature mob, double velocity, Function<Vector, Boolean> checkTargetFunction);
+
+    void setEntityInvisible(Entity entity, boolean invisible);
+
+    /**
+     * Changes whether or not the entity can go through walls.
+     * @param entity The entity
+     * @param noClip true if entity should pass walls, false if not (default for most entities)
+     */
+    void setEntityNoClip(Entity entity, boolean noClip);
 }

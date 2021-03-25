@@ -168,6 +168,12 @@ public class EntityUtilsImpl implements EntityUtils {
     }
 
     @Override
+    public void setEntityPitch(org.bukkit.entity.Entity e, float pitch) {
+        Entity handle = ((CraftEntity) e).getHandle();
+        handle.pitch = pitch;
+    }
+
+    @Override
     public void setEntityNavigationTarget(org.bukkit.entity.Entity entity, Location target, double speed) {
         if (entity instanceof Bat) {
             try {
@@ -205,5 +211,17 @@ public class EntityUtilsImpl implements EntityUtils {
             return ((EntityInsentient) nmsEntity).isLeftHanded();
         }
         return false;
+    }
+
+    @Override
+    public void setEntityInvisible(org.bukkit.entity.Entity entity, boolean invisible) {
+        Entity nmsEntity = ((CraftEntity) entity).getHandle();
+        nmsEntity.setInvisible(invisible);
+    }
+
+    @Override
+    public void setEntityNoClip(org.bukkit.entity.Entity entity, boolean noClip) {
+        Entity nmsEntity = ((CraftEntity) entity).getHandle();
+        nmsEntity.noclip = noClip;
     }
 }
