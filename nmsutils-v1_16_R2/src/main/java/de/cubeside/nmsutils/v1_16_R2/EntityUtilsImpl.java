@@ -168,9 +168,21 @@ public class EntityUtilsImpl implements EntityUtils {
     }
 
     @Override
+    public float getEntityYaw(org.bukkit.entity.Entity e) {
+        Entity handle = ((CraftEntity) e).getHandle();
+        return handle.yaw;
+    }
+
+    @Override
     public void setEntityPitch(org.bukkit.entity.Entity e, float pitch) {
         Entity handle = ((CraftEntity) e).getHandle();
         handle.pitch = pitch;
+    }
+
+    @Override
+    public float getEntityPitch(org.bukkit.entity.Entity e) {
+        Entity handle = ((CraftEntity) e).getHandle();
+        return handle.pitch;
     }
 
     @Override

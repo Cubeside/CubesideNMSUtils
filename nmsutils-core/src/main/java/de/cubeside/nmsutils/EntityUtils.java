@@ -28,7 +28,11 @@ public interface EntityUtils {
 
     void setEntityYaw(Entity e, float yaw);
 
+    float getEntityYaw(Entity e);
+
     void setEntityPitch(Entity e, float pitch);
+
+    float getEntityPitch(Entity e);
 
     void setEntityNavigationTarget(Entity entity, Location target, double speed);
 
