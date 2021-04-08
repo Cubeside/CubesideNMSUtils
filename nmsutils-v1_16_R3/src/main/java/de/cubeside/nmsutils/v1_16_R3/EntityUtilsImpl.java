@@ -162,6 +162,18 @@ public class EntityUtilsImpl implements EntityUtils {
     }
 
     @Override
+    public void setEntityHeadRotation(org.bukkit.entity.Entity e, float headRotation) {
+        Entity handle = ((CraftEntity) e).getHandle();
+        handle.setHeadRotation(headRotation);
+    }
+
+    @Override
+    public float getEntityHeadRotation(org.bukkit.entity.Entity e) {
+        Entity handle = ((CraftEntity) e).getHandle();
+        return handle.getHeadRotation();
+    }
+
+    @Override
     public void setEntityYaw(org.bukkit.entity.Entity e, float yaw) {
         Entity handle = ((CraftEntity) e).getHandle();
         handle.yaw = yaw;

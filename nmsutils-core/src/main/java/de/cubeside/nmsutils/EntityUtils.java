@@ -26,6 +26,10 @@ public interface EntityUtils {
 
     void moveEntity(Entity e, Vector v);
 
+    void setEntityHeadRotation(Entity e, float headRotation);
+
+    float getEntityHeadRotation(Entity e);
+
     void setEntityYaw(Entity e, float yaw);
 
     float getEntityYaw(Entity e);
