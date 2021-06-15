@@ -23,6 +23,11 @@
             <artifactId>nmsutils-v1_16_R3</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>nmsutils-v1_17_R1</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
