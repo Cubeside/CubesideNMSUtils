@@ -58,7 +58,7 @@ public class WorldUtilsImpl implements WorldUtils {
         if (!handle.getPlayers().isEmpty()) {
             for (EntityHuman human : new ArrayList<>(handle.getPlayers())) {
                 if (human.getBukkitEntity() instanceof Player) {
-                    ((Player) human.getBukkitEntity()).kickPlayer("Connection lost");
+                    kickPlayer(((Player) human.getBukkitEntity()), "Connection lost");
                 }
             }
             handle.getPlayers().clear();
@@ -73,4 +73,8 @@ public class WorldUtilsImpl implements WorldUtils {
         // nmsUtils.getPlugin().getLogger().info("Unloading world " + worldName + " completed in " + (t - t0) + "ms.");
     }
 
+    @SuppressWarnings("deprecation")
+    private void kickPlayer(Player player, String message) {
+        player.kickPlayer(message);
+    }
 }

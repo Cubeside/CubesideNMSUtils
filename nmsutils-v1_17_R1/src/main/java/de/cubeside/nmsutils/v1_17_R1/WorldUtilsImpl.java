@@ -57,7 +57,7 @@ public class WorldUtilsImpl implements WorldUtils {
         ServerLevel handle = craftWorld.getHandle();
         if (!handle.players().isEmpty()) {
             for (ServerPlayer human : new ArrayList<>(handle.players())) {
-                ((Player) human.getBukkitEntity()).kickPlayer("Connection lost");
+                kickPlayer((human.getBukkitEntity()), "Connection lost");
             }
             handle.players().clear();
         }
@@ -71,4 +71,8 @@ public class WorldUtilsImpl implements WorldUtils {
         // nmsUtils.getPlugin().getLogger().info("Unloading world " + worldName + " completed in " + (t - t0) + "ms.");
     }
 
+    @SuppressWarnings("deprecation")
+    private void kickPlayer(Player player, String message) {
+        player.kickPlayer(message);
+    }
 }
