@@ -10,15 +10,9 @@
     <dependencies>
         <dependency>
             <groupId>io.papermc.paper</groupId>
-            <artifactId>Paper-Server</artifactId>
+            <artifactId>paper</artifactId>
             <version>1.17-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
-            <version>1.17-R0.1-SNAPSHOT</version>
-            <classifier>remapped-mojang</classifier>
+            <classifier>mojang-mapped</classifier>
             <scope>provided</scope>
         </dependency>
         <dependency>
