@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
 import net.minecraft.server.level.ChunkMap;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -161,7 +162,12 @@ public class EntityUtilsImpl implements EntityUtils {
     @Override
     public void setEntityHeadRotation(org.bukkit.entity.Entity e, float headRotation) {
         Entity handle = ((CraftEntity) e).getHandle();
-        handle.setYHeadRot(headRotation);
+        if (handle instanceof LivingEntity) {
+            // required for goats
+            ((LivingEntity) handle).yHeadRot = headRotation;
+        } else {
+            handle.setYHeadRot(headRotation);
+        }
     }
 
     @Override
