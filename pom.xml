@@ -10,6 +10,8 @@
         <module>nmsutils-v1_16_R2</module>
         <module>nmsutils-v1_16_R3</module>
         <module>nmsutils-v1_17_R1</module>
+        <module>nmsutils-v1_17_R1_0</module>
+        <module>nmsutils-v1_17_R1_1</module>
         <module>nmsutils</module>
         <module>nmsutils-plugin</module>
     </modules>

@@ -1,4 +1,4 @@
-package de.cubeside.nmsutils.v1_17_R1;
+package de.cubeside.nmsutils.v1_17_R1_0;
 
 import de.cubeside.nmsutils.EntityUtils;
 import de.cubeside.nmsutils.NMSUtils;

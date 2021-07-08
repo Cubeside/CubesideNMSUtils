@@ -1,5 +1,6 @@
 package de.cubeside.nmsutils;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
 
@@ -33,7 +34,11 @@ public interface NMSUtils {
             String className = NMSUtils.class.getPackage().getName() + '.' + version + ".VersionedNMS";
             Class<?> versioningType = Class.forName(className);
             if (VersionedNMS.class.isAssignableFrom(versioningType)) {
-                return ((VersionedNMS) versioningType.getDeclaredConstructor().newInstance()).createNMSUtils(plugin);
+                NMSUtils result = ((VersionedNMS) versioningType.getDeclaredConstructor().newInstance()).createNMSUtils(plugin);
+                if (result != null) {
+                    return result;
+                }
+                // fallthrough, not versioned
             }
         } catch (ClassNotFoundException ex) {
             // fallthrough, does not exist
@@ -81,6 +86,19 @@ public interface NMSUtils {
         String msg = "Unsupported CraftBukkit version: " + plugin.getServer().getBukkitVersion();
         plugin.getLogger().severe(msg);
         throw new UnsupportedOperationException(msg, ex);
+    }
+
+    public static String getServerVersion() {
+        String version = Bukkit.getServer().getVersion();
+        int start = version.indexOf("(MC: ");
+        if (start >= 0) {
+            start += 5;
+            int end = version.indexOf(")");
+            if (end > 0) {
+                return version.substring(start, end);
+            }
+        }
+        throw new RuntimeException("Could not detect minecraft server version! Version is: " + version);
     }
 
     public static interface VersionedNMS {

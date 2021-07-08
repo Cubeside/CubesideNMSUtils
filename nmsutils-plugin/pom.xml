@@ -40,6 +40,18 @@
                         <goals>
                             <goal>shade</goal>
                         </goals>
+                        <configuration>
+                            <artifactSet>
+                                <excludes>
+                                    <exclude>de.cubeside.nmsutils:nmsutils-core</exclude>
+                                    <exclude>de.cubeside.nmsutils:nmsutils-v1_16_R2</exclude>
+                                    <exclude>de.cubeside.nmsutils:nmsutils-v1_16_R3</exclude>
+                                    <exclude>de.cubeside.nmsutils:nmsutils-v1_17_R1</exclude>
+                                    <exclude>de.cubeside.nmsutils:nmsutils-v1_17_R1_0</exclude>
+                                    <exclude>de.cubeside.nmsutils:nmsutils-v1_17_R1_1</exclude>
+                                </excludes>
+                            </artifactSet>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
