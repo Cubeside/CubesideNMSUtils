@@ -32,7 +32,7 @@ import org.bukkit.entity.Vex;
 import org.bukkit.util.Vector;
 
 public class EntityUtilsImpl implements EntityUtils {
-    private static final String FIELD_BAT_TARGET_NAME = "targetPosition";
+    private static final String FIELD_BAT_TARGET_NAME = "bU";
 
     private final NMSUtilsImpl nmsUtils;
 
