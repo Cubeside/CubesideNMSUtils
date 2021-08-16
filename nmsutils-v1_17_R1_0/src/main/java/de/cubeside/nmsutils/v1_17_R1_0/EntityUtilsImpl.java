@@ -9,14 +9,20 @@ import java.util.logging.Level;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
 import net.minecraft.server.level.ChunkMap;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.entity.Visibility;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftBat;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftCreature;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftEntity;
@@ -262,5 +268,37 @@ public class EntityUtilsImpl implements EntityUtils {
     public void setEntityNoClip(org.bukkit.entity.Entity entity, boolean noClip) {
         Entity nmsEntity = ((CraftEntity) entity).getHandle();
         nmsEntity.noPhysics = noClip;
+    }
+
+    @Override
+    public boolean areChunkEntitiesLoaded(Chunk c) {
+        return ((CraftWorld) c.getWorld()).getHandle().areEntitiesLoaded(ChunkPos.asLong(c.getX(), c.getZ()));
+    }
+
+    @Override
+    public void loadChunkEntities(Chunk c) {
+        int x = c.getX();
+        int z = c.getZ();
+        World world = c.getWorld();
+        if (!world.isChunkLoaded(x, z)) {
+            world.getChunkAt(x, z);
+        }
+
+        if (areChunkEntitiesLoaded(c)) {
+            return;
+        }
+        ServerLevel serverLevel = ((CraftWorld) world).getHandle();
+        serverLevel.entityManager.updateChunkStatus(new ChunkPos(x, z), Visibility.TRACKED);
+        // now wait until entities are loaded
+        if (!areChunkEntitiesLoaded(c)) {
+            serverLevel.getServer().managedBlock(() -> {
+                if (areChunkEntitiesLoaded(c)) {
+                    return true;
+                }
+                // process chunk inbox
+                serverLevel.entityManager.tick();
+                return areChunkEntitiesLoaded(c);
+            });
+        }
     }
 }

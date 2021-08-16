@@ -1,6 +1,7 @@
 package de.cubeside.nmsutils;
 
 import java.util.function.Function;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
@@ -59,8 +60,33 @@ public interface EntityUtils {
 
     /**
      * Changes whether or not the entity can go through walls.
-     * @param entity The entity
-     * @param noClip true if entity should pass walls, false if not (default for most entities)
+     *
+     * @param entity
+     *            The entity
+     * @param noClip
+     *            true if entity should pass walls, false if not (default for most entities)
      */
     void setEntityNoClip(Entity entity, boolean noClip);
+
+    /**
+     * Checks if the entities are laoded for a chunk
+     *
+     * @param c
+     *            The chunk
+     * @return
+     *         true if the entities are loaded
+     */
+    default boolean areChunkEntitiesLoaded(Chunk c) {
+        return c.getWorld().isChunkLoaded(c);
+    }
+
+    /**
+     * Loads the entities for a given chunk
+     *
+     * @param c
+     *            The chunk
+     */
+    default void loadChunkEntities(Chunk c) {
+        c.getWorld().loadChunk(c); // in minecraft pre 1.17 this will load the entities
+    }
 }
