@@ -26,6 +26,13 @@ public interface NMSUtils {
      */
     public WorldUtils getWorldUtils();
 
+    /**
+     * Gets an instance of MiscUtils for various features.
+     *
+     * @return the MiscUtils
+     */
+    public MiscUtils getMiscUtils();
+
     public static final String CRAFTBUKKIT_PACKAGE = "org.bukkit.craftbukkit";
 
     public static NMSUtils createInstance(Plugin plugin) {
