@@ -260,4 +260,10 @@ public class EntityUtilsImpl implements EntityUtils {
         Entity nmsEntity = ((CraftEntity) entity).getHandle();
         nmsEntity.noclip = noClip;
     }
+
+    @Override
+    public void setOnGround(org.bukkit.entity.Entity entity, boolean onGround) {
+        Entity nmsEntity = ((CraftEntity) entity).getHandle();
+        nmsEntity.setOnGround(onGround);
+    }
 }

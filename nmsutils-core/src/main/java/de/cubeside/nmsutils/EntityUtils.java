@@ -89,4 +89,6 @@ public interface EntityUtils {
     default void loadChunkEntities(Chunk c) {
         c.getWorld().loadChunk(c); // in minecraft pre 1.17 this will load the entities
     }
+
+    void setOnGround(Entity ent, boolean onGround);
 }
