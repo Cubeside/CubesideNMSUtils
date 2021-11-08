@@ -13,22 +13,80 @@
             <artifactId>nmsutils-core</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>nmsutils-v1_16_R2</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>nmsutils-v1_16_R3</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>nmsutils-v1_17_R1</artifactId>
-            <version>${project.version}</version>
-        </dependency>
     </dependencies>
+    <profiles>
+        <profile>
+            <id>v1_17_1</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>all</name>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>nmsutils-v1_17_R1</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>de.cubeside.nmsutils</groupId>
+                    <artifactId>nmsutils-v1_17_R1_1</artifactId>
+                    <version>0.0.1-SNAPSHOT</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>v1_17</id>
+            <activation>
+                <property>
+                    <name>all</name>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>nmsutils-v1_17_R1</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>de.cubeside.nmsutils</groupId>
+                    <artifactId>nmsutils-v1_17_R1_0</artifactId>
+                    <version>0.0.1-SNAPSHOT</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>v1_16_5</id>
+            <activation>
+                <property>
+                    <name>all</name>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>nmsutils-v1_16_R3</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>v1_16_3</id>
+            <activation>
+                <property>
+                    <name>all</name>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>nmsutils-v1_16_R2</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
     <build>
         <plugins>
             <plugin>
@@ -51,8 +109,6 @@
                         <configuration>
                             <artifactSet>
                                 <excludes>
-                                    <exclude>de.cubeside.nmsutils:nmsutils-v1_17_R1_0</exclude>
-                                    <exclude>de.cubeside.nmsutils:nmsutils-v1_17_R1_1</exclude>
                                 </excludes>
                             </artifactSet>
                         </configuration>

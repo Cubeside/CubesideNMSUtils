@@ -109,6 +109,6 @@ public interface NMSUtils {
     }
 
     public static interface VersionedNMS {
-        NMSUtils createNMSUtils(Plugin plugin);
+        NMSUtils createNMSUtils(Plugin plugin) throws ReflectiveOperationException;
     }
 }

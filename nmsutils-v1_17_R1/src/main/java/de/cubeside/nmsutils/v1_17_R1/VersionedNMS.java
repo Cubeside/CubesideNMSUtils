@@ -5,12 +5,16 @@ import org.bukkit.plugin.Plugin;
 
 public class VersionedNMS implements de.cubeside.nmsutils.NMSUtils.VersionedNMS {
     @Override
-    public NMSUtils createNMSUtils(Plugin plugin) {
+    public NMSUtils createNMSUtils(Plugin plugin) throws ReflectiveOperationException {
         String serverVersion = NMSUtils.getServerVersion();
+        Class<?> pluginClass = null;
         if (serverVersion.equals("1.17")) {
-            return new de.cubeside.nmsutils.v1_17_R1_0.NMSUtilsImpl(plugin);
+            pluginClass = Class.forName("de.cubeside.nmsutils.v1_17_R1_0.NMSUtilsImpl");
         } else if (serverVersion.equals("1.17.1")) {
-            return new de.cubeside.nmsutils.v1_17_R1_1.NMSUtilsImpl(plugin);
+            pluginClass = Class.forName("de.cubeside.nmsutils.v1_17_R1_1.NMSUtilsImpl");
+        }
+        if (pluginClass != null) {
+            return (NMSUtils) pluginClass.getConstructor(Plugin.class).newInstance(plugin);
         }
         return null;
     }

@@ -7,11 +7,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>nmsutils-core</module>
-        <module>nmsutils-v1_16_R2</module>
-        <module>nmsutils-v1_16_R3</module>
-        <module>nmsutils-v1_17_R1</module>
-        <module>nmsutils-v1_17_R1_0</module>
-        <module>nmsutils-v1_17_R1_1</module>
         <module>nmsutils</module>
         <module>nmsutils-plugin</module>
     </modules>
@@ -20,10 +15,63 @@
     </properties>
     <repositories>
         <repository>
+            <id>papermc</id>
+            <url>https://papermc.io/repo/repository/maven-public/</url>
+        </repository>
+        <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
         </repository>
     </repositories>
+    <profiles>
+        <profile>
+            <id>v1_17_1</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>all</name>
+                </property>
+            </activation>
+            <modules>
+                <module>nmsutils-v1_17_R1</module>
+                <module>nmsutils-v1_17_R1_1</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>v1_17</id>
+            <activation>
+                <property>
+                    <name>all</name>
+                </property>
+            </activation>
+            <modules>
+                <module>nmsutils-v1_17_R1</module>
+                <module>nmsutils-v1_17_R1_0</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>v1_16_5</id>
+            <activation>
+                <property>
+                    <name>all</name>
+                </property>
+            </activation>
+            <modules>
+                <module>nmsutils-v1_16_R3</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>v1_16_3</id>
+            <activation>
+                <property>
+                    <name>all</name>
+                </property>
+            </activation>
+            <modules>
+                <module>nmsutils-v1_16_R2</module>
+            </modules>
+        </profile>
+    </profiles>
     <build>
         <plugins>
             <plugin>
