@@ -25,9 +25,20 @@
     </repositories>
     <profiles>
         <profile>
-            <id>v1_17_1</id>
+            <id>v1_18</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>all</name>
+                </property>
+            </activation>
+            <modules>
+                <module>nmsutils-v1_18_R1</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>v1_17_1</id>
+            <activation>
                 <property>
                     <name>all</name>
                 </property>
