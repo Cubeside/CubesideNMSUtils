@@ -232,16 +232,16 @@ public class EntityUtilsImpl implements EntityUtils {
     @Override
     public void setEntityLeftHanded(org.bukkit.entity.Entity ent, boolean left) {
         Entity nmsEntity = ((CraftEntity) ent).getHandle();
-        if (nmsEntity instanceof net.minecraft.world.entity.Mob) {
-            ((net.minecraft.world.entity.Mob) nmsEntity).setLeftHanded(left);
+        if (nmsEntity instanceof net.minecraft.world.entity.Mob mob) {
+            mob.setLeftHanded(left);
         }
     }
 
     @Override
     public boolean isEntityLeftHanded(org.bukkit.entity.Entity ent) {
         Entity nmsEntity = ((CraftEntity) ent).getHandle();
-        if (nmsEntity instanceof net.minecraft.world.entity.Mob) {
-            return ((net.minecraft.world.entity.Mob) nmsEntity).isLeftHanded();
+        if (nmsEntity instanceof net.minecraft.world.entity.Mob mob) {
+            return mob.isLeftHanded();
         }
         return false;
     }
