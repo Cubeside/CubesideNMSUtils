@@ -3,6 +3,7 @@ package de.cubeside.nmsutils.v1_18_R1;
 import com.destroystokyo.paper.entity.ai.VanillaGoal;
 import de.cubeside.nmsutils.EntityUtils;
 import de.cubeside.nmsutils.NMSUtils;
+import de.cubeside.nmsutils.util.ReobfHelper;
 import java.lang.reflect.Field;
 import java.util.function.Function;
 import java.util.logging.Level;

@@ -1,6 +1,5 @@
-package de.cubeside.nmsutils.v1_18_R1;
+package de.cubeside.nmsutils.util;
 
-import io.papermc.paper.util.ObfHelper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -17,26 +16,23 @@ import net.fabricmc.mappingio.format.MappingFormat;
 import net.fabricmc.mappingio.tree.MappingTree;
 import net.fabricmc.mappingio.tree.MappingTree.FieldMapping;
 import net.fabricmc.mappingio.tree.MemoryMappingTree;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.checkerframework.framework.qual.DefaultQualifier;
+import org.bukkit.Bukkit;
 
 /**
  * Modified from https://github.com/PaperMC/Paper/blob/675d1e3f58ab86d5a3b1bc8bbcf2beefc9696078/patches/server/0420-Deobfuscate-stacktraces-in-log-messages-crash-report.patch
  * see there for the license
  */
-@DefaultQualifier(NonNull.class)
 public enum ReobfHelper {
     INSTANCE;
 
     public static final String MOJANG_PLUS_YARN_NAMESPACE = "mojang+yarn";
     public static final String SPIGOT_NAMESPACE = "spigot";
 
-    private final @Nullable Map<String, ClassMapping> mappingsByObfName;
-    private final @Nullable Map<String, ClassMapping> mappingsByMojangName;
+    private final Map<String, ClassMapping> mappingsByObfName;
+    private final Map<String, ClassMapping> mappingsByMojangName;
 
     ReobfHelper() {
-        final @Nullable Set<ClassMapping> maps = loadMappingsIfPresent();
+        final Set<ClassMapping> maps = loadMappingsIfPresent();
         if (maps != null) {
             this.mappingsByObfName = maps.stream().collect(Collectors.toUnmodifiableMap(ClassMapping::obfName, map -> map));
             this.mappingsByMojangName = maps.stream().collect(Collectors.toUnmodifiableMap(ClassMapping::mojangName, map -> map));
@@ -46,11 +42,11 @@ public enum ReobfHelper {
         }
     }
 
-    public @Nullable Map<String, ClassMapping> mappingsByObfName() {
+    public Map<String, ClassMapping> mappingsByObfName() {
         return this.mappingsByObfName;
     }
 
-    public @Nullable Map<String, ClassMapping> mappingsByMojangName() {
+    public Map<String, ClassMapping> mappingsByMojangName() {
         return this.mappingsByMojangName;
     }
 
@@ -96,8 +92,8 @@ public enum ReobfHelper {
         return map.mojangName();
     }
 
-    private static @Nullable Set<ClassMapping> loadMappingsIfPresent() {
-        try (final @Nullable InputStream mappingsInputStream = ObfHelper.class.getClassLoader().getResourceAsStream("META-INF/mappings/reobf.tiny")) {
+    private static Set<ClassMapping> loadMappingsIfPresent() {
+        try (final InputStream mappingsInputStream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/mappings/reobf.tiny")) {
             if (mappingsInputStream == null) {
                 return null;
             }
@@ -175,9 +171,7 @@ public enum ReobfHelper {
     public static Field getFieldByMojangName(Class<?> clazz, String fieldName) {
         try {
             Field field = clazz.getField(getObfuscatedFieldName(clazz, fieldName));
-            if (field != null) {
-                field.setAccessible(true);
-            }
+            field.setAccessible(true);
             return field;
         } catch (NoSuchFieldException | SecurityException e) {
             throw new RuntimeException(e);
