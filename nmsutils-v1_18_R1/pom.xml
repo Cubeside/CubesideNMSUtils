@@ -27,6 +27,12 @@
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>net.fabricmc</groupId>
+            <artifactId>mapping-io</artifactId>
+            <version>0.3.0</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
     <repositories>
         <repository>
@@ -36,6 +42,10 @@
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>fabric-repo</id>
+            <url>https://maven.fabricmc.net/</url>
         </repository>
     </repositories>
     <build>

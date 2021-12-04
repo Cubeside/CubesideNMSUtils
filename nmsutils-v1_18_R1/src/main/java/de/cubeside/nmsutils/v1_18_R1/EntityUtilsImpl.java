@@ -38,12 +38,10 @@ import org.bukkit.entity.Vex;
 import org.bukkit.util.Vector;
 
 public class EntityUtilsImpl implements EntityUtils {
-    private static final String FIELD_BAT_TARGET_NAME = "bW";
+    private static final Field FIELD_BAT_TARGET = ReobfHelper.getFieldByMojangName(net.minecraft.world.entity.ambient.Bat.class, "targetPosition"); // "bW";
+    private static final Field FIELD_ENTITY_TRACKER = ReobfHelper.getFieldByMojangName(Entity.class, "tracker"); // "tracker";
 
     private final NMSUtilsImpl nmsUtils;
-
-    private Field fieldEntityTracker;
-    private Field fieldBatTarget;
 
     public EntityUtilsImpl(NMSUtilsImpl nmsUtils) {
         this.nmsUtils = nmsUtils;
@@ -133,23 +131,15 @@ public class EntityUtilsImpl implements EntityUtils {
     @Override
     public void sendEntityPositionUpdate(org.bukkit.entity.Entity entity) {
         Entity handle = ((CraftEntity) entity).getHandle();
-        if (fieldEntityTracker == null) {
-            try {
-                fieldEntityTracker = Entity.class.getDeclaredField("tracker");
-                fieldEntityTracker.setAccessible(true);
-            } catch (Exception e) {
-                nmsUtils.getPlugin().getLogger().log(Level.SEVERE, "Could not get tracker field", e);
-            }
-        }
         try {
-            ChunkMap.TrackedEntity ete = (ChunkMap.TrackedEntity) fieldEntityTracker.get(handle);
+            ChunkMap.TrackedEntity ete = (ChunkMap.TrackedEntity) FIELD_ENTITY_TRACKER.get(handle);
             if (ete != null) {
                 ClientboundTeleportEntityPacket positionPacket = new ClientboundTeleportEntityPacket(handle);
                 ete.seenBy.stream().forEach(viewer -> {
                     viewer.send(positionPacket);
                 });
             }
-        } catch (Exception e) {
+        } catch (ReflectiveOperationException e) {
             nmsUtils.getPlugin().getLogger().log(Level.SEVERE, "Could not send teleport packet", e);
         }
     }
@@ -210,12 +200,8 @@ public class EntityUtilsImpl implements EntityUtils {
     public void setEntityNavigationTarget(org.bukkit.entity.Entity entity, Location target, double speed) {
         if (entity instanceof Bat) {
             try {
-                if (fieldBatTarget == null) {
-                    fieldBatTarget = net.minecraft.world.entity.ambient.Bat.class.getDeclaredField(FIELD_BAT_TARGET_NAME);
-                    fieldBatTarget.setAccessible(true);
-                }
-                fieldBatTarget.set(((CraftBat) entity).getHandle(), new BlockPos(target.getX(), target.getY(), target.getZ()));
-            } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
+                FIELD_BAT_TARGET.set(((CraftBat) entity).getHandle(), new BlockPos(target.getX(), target.getY(), target.getZ()));
+            } catch (ReflectiveOperationException e) {
                 nmsUtils.getPlugin().getLogger().log(Level.SEVERE, "could not set field", e);
             }
         } else if (entity instanceof Vex) {

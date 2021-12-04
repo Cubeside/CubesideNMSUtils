@@ -17,6 +17,7 @@ public class NMSUtilsImpl implements NMSUtils {
         this.entityUtilsImpl = new EntityUtilsImpl(this);
         this.worldUtilsImpl = new WorldUtilsImpl(this);
         this.miscUtilsImpl = new MiscUtilsImpl(this);
+        // Remapper.foo(net.minecraft.world.entity.ambient.Bat.class);
     }
 
     @Override
