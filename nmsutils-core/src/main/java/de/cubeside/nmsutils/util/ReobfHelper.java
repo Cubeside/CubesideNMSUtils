@@ -170,7 +170,7 @@ public enum ReobfHelper {
 
     public static Field getFieldByMojangName(Class<?> clazz, String fieldName) {
         try {
-            Field field = clazz.getField(getObfuscatedFieldName(clazz, fieldName));
+            Field field = clazz.getDeclaredField(getObfuscatedFieldName(clazz, fieldName));
             field.setAccessible(true);
             return field;
         } catch (NoSuchFieldException | SecurityException e) {

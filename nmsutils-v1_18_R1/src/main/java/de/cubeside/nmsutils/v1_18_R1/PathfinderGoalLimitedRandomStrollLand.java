@@ -12,7 +12,7 @@ public class PathfinderGoalLimitedRandomStrollLand extends RandomStrollGoal {
     // private EntityCreature entity;
 
     public PathfinderGoalLimitedRandomStrollLand(PathfinderMob entity, double velocity, Function<Vector, Boolean> checkVectorFunction) {
-        super(entity, velocity);
+        super(entity, velocity, 1, false);
         // this.entity = entity;
         this.checkVectorFunction = checkVectorFunction;
     }
