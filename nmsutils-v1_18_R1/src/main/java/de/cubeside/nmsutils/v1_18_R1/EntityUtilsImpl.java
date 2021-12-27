@@ -211,8 +211,10 @@ public class EntityUtilsImpl implements EntityUtils {
             if (entityVex.getTarget() == null) {
                 entityVex.getLookControl().setLookAt(target.getX(), target.getY(), target.getZ(), 180, 20);
             }
+        } else if (entity instanceof CraftMob) {
+            ((CraftMob) entity).getHandle().getNavigation().moveTo(target.getX(), target.getY(), target.getZ(), speed);
         } else {
-            ((CraftCreature) entity).getHandle().getNavigation().moveTo(target.getX(), target.getY(), target.getZ(), speed);
+            throw new IllegalArgumentException("Cannot set the navigation target for this mob");
         }
     }
 
