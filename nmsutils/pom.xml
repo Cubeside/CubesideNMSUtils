@@ -16,9 +16,24 @@
     </dependencies>
     <profiles>
         <profile>
-            <id>v1_18</id>
+            <id>v1_18_2</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>all</name>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>nmsutils-v1_18_R2</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>v1_18</id>
+            <activation>
                 <property>
                     <name>all</name>
                 </property>
