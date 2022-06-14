@@ -19,6 +19,8 @@ import net.minecraft.server.v1_16_R3.PlayerChunkMap;
 import net.minecraft.server.v1_16_R3.Vec3D;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.craftbukkit.v1_16_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftBat;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftCreature;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftEntity;
@@ -265,5 +267,11 @@ public class EntityUtilsImpl implements EntityUtils {
     public void setOnGround(org.bukkit.entity.Entity entity, boolean onGround) {
         Entity nmsEntity = ((CraftEntity) entity).getHandle();
         nmsEntity.setOnGround(onGround);
+    }
+
+    @Override
+    public org.bukkit.entity.Entity getEntityById(World world, int id) {
+        Entity entity = ((CraftWorld) world).getHandle().getEntity(id);
+        return entity == null ? null : entity.getBukkitEntity();
     }
 }

@@ -307,4 +307,10 @@ public class EntityUtilsImpl implements EntityUtils {
         Entity nmsEntity = ((CraftEntity) entity).getHandle();
         nmsEntity.setOnGround(onGround);
     }
+
+    @Override
+    public org.bukkit.entity.Entity getEntityById(World world, int id) {
+        Entity entity = ((CraftWorld) world).getHandle().getEntity(id);
+        return entity == null ? null : entity.getBukkitEntity();
+    }
 }

@@ -3,6 +3,7 @@ package de.cubeside.nmsutils;
 import java.util.function.Function;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
@@ -90,5 +91,24 @@ public interface EntityUtils {
         c.getWorld().loadChunk(c); // in minecraft pre 1.17 this will load the entities
     }
 
+    /**
+     * Updates the on ground state of an entity
+     *
+     * @param ent
+     *            the entity to modify
+     * @param onGround
+     *            the new on ground state
+     */
     void setOnGround(Entity ent, boolean onGround);
+
+    /**
+     * Gets an entity that is loaded in some world by its internal id.
+     *
+     * @param world
+     *            the world the entity is in
+     * @param id
+     *            the id of the entity
+     * @return the entity or null if no entitiy with the given id is found in that world
+     */
+    Entity getEntityById(World world, int id);
 }
