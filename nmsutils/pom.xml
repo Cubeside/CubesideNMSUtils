@@ -34,7 +34,6 @@
         <profile>
             <id>v1_18_2</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
                 <property>
                     <name>all</name>
                 </property>
