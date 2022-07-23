@@ -7,6 +7,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
+import org.bukkit.entity.Pose;
 import org.bukkit.util.Vector;
 
 public interface EntityUtils {
@@ -111,4 +112,14 @@ public interface EntityUtils {
      * @return the entity or null if no entitiy with the given id is found in that world
      */
     Entity getEntityById(World world, int id);
+
+    /**
+     * Sets the pose of the Entity
+     *
+     * @param end
+     *            The entity
+     * @param pose
+     *            The new pose of the entity
+     */
+    void setPose(Entity ent, Pose pose);
 }

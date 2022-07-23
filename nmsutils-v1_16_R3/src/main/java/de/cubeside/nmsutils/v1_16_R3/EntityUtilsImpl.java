@@ -11,6 +11,7 @@ import net.minecraft.server.v1_16_R3.Entity;
 import net.minecraft.server.v1_16_R3.EntityBat;
 import net.minecraft.server.v1_16_R3.EntityCreature;
 import net.minecraft.server.v1_16_R3.EntityInsentient;
+import net.minecraft.server.v1_16_R3.EntityPose;
 import net.minecraft.server.v1_16_R3.EntityVex;
 import net.minecraft.server.v1_16_R3.EnumMoveType;
 import net.minecraft.server.v1_16_R3.PacketPlayOutEntityTeleport;
@@ -32,6 +33,7 @@ import org.bukkit.entity.Bat;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
+import org.bukkit.entity.Pose;
 import org.bukkit.entity.Vex;
 import org.bukkit.util.Vector;
 
@@ -273,5 +275,11 @@ public class EntityUtilsImpl implements EntityUtils {
     public org.bukkit.entity.Entity getEntityById(World world, int id) {
         Entity entity = ((CraftWorld) world).getHandle().getEntity(id);
         return entity == null ? null : entity.getBukkitEntity();
+    }
+
+    @Override
+    public void setPose(org.bukkit.entity.Entity entity, Pose pose) {
+        Entity nmsEntity = ((CraftEntity) entity).getHandle();
+        nmsEntity.setPose(EntityPose.values()[pose.ordinal()]);
     }
 }

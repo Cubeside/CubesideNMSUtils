@@ -34,6 +34,7 @@ import org.bukkit.entity.Bat;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
+import org.bukkit.entity.Pose;
 import org.bukkit.entity.Vex;
 import org.bukkit.util.Vector;
 
@@ -312,5 +313,11 @@ public class EntityUtilsImpl implements EntityUtils {
     public org.bukkit.entity.Entity getEntityById(World world, int id) {
         Entity entity = ((CraftWorld) world).getHandle().getEntity(id);
         return entity == null ? null : entity.getBukkitEntity();
+    }
+
+    @Override
+    public void setPose(org.bukkit.entity.Entity entity, Pose pose) {
+        Entity nmsEntity = ((CraftEntity) entity).getHandle();
+        nmsEntity.setPose(net.minecraft.world.entity.Pose.values()[pose.ordinal()]);
     }
 }
