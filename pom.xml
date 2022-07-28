@@ -34,6 +34,8 @@
             </activation>
             <modules>
                 <module>nmsutils-v1_19_R1</module>
+                <module>nmsutils-v1_19_R1_0</module>
+                <module>nmsutils-v1_19_R1_1</module>
             </modules>
         </profile>
         <profile>

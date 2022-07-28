@@ -1,4 +1,4 @@
-package de.cubeside.nmsutils.v1_19_R1;
+package de.cubeside.nmsutils.v1_19_R1_1;
 
 import de.cubeside.nmsutils.MiscUtils;
 import de.cubeside.nmsutils.NMSUtils;

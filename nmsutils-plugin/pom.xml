@@ -52,6 +52,8 @@
                                     <exclude>de.cubeside.nmsutils:nmsutils-v1_18_R1</exclude>
                                     <exclude>de.cubeside.nmsutils:nmsutils-v1_18_R2</exclude>
                                     <exclude>de.cubeside.nmsutils:nmsutils-v1_19_R1</exclude>
+                                    <exclude>de.cubeside.nmsutils:nmsutils-v1_19_R1_0</exclude>
+                                    <exclude>de.cubeside.nmsutils:nmsutils-v1_19_R1_1</exclude>
                                 </excludes>
                             </artifactSet>
                         </configuration>

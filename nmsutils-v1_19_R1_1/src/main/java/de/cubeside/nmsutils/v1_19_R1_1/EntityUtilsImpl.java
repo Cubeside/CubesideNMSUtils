@@ -1,4 +1,4 @@
-package de.cubeside.nmsutils.v1_19_R1;
+package de.cubeside.nmsutils.v1_19_R1_1;
 
 import com.destroystokyo.paper.entity.ai.VanillaGoal;
 import de.cubeside.nmsutils.EntityUtils;
