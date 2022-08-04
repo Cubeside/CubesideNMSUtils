@@ -8,6 +8,7 @@ import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Pose;
+import org.bukkit.entity.Wolf;
 import org.bukkit.util.Vector;
 
 public interface EntityUtils {
@@ -122,4 +123,14 @@ public interface EntityUtils {
      *            The new pose of the entity
      */
     void setPose(Entity ent, Pose pose);
+
+    /**
+     * Sets the remaining anger time of a wolf
+     *
+     * @param entity
+     *            a wolf
+     * @param timeInTicks
+     *            the remaining time after that the angry status is reset
+     */
+    void setWolfAngerTime(Wolf entity, int timeInTicks);
 }

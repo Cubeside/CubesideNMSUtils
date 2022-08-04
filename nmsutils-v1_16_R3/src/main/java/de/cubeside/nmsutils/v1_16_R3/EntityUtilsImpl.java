@@ -13,6 +13,7 @@ import net.minecraft.server.v1_16_R3.EntityCreature;
 import net.minecraft.server.v1_16_R3.EntityInsentient;
 import net.minecraft.server.v1_16_R3.EntityPose;
 import net.minecraft.server.v1_16_R3.EntityVex;
+import net.minecraft.server.v1_16_R3.EntityWolf;
 import net.minecraft.server.v1_16_R3.EnumMoveType;
 import net.minecraft.server.v1_16_R3.PacketPlayOutEntityTeleport;
 import net.minecraft.server.v1_16_R3.PathfinderGoalFloat;
@@ -29,6 +30,7 @@ import org.bukkit.craftbukkit.v1_16_R3.entity.CraftMob;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPiglin;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftShulker;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftVex;
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftWolf;
 import org.bukkit.entity.Bat;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.EntityType;
@@ -281,5 +283,11 @@ public class EntityUtilsImpl implements EntityUtils {
     public void setPose(org.bukkit.entity.Entity entity, Pose pose) {
         Entity nmsEntity = ((CraftEntity) entity).getHandle();
         nmsEntity.setPose(EntityPose.values()[pose.ordinal()]);
+    }
+
+    @Override
+    public void setWolfAngerTime(org.bukkit.entity.Wolf entity, int timeInTicks) {
+        EntityWolf nmsEntity = ((CraftWolf) entity).getHandle();
+        nmsEntity.setAnger(timeInTicks);
     }
 }

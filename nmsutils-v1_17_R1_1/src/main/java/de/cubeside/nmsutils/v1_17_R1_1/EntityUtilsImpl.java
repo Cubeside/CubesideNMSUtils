@@ -15,6 +15,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.animal.Wolf;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.entity.Visibility;
 import net.minecraft.world.phys.Vec3;
@@ -30,6 +31,7 @@ import org.bukkit.craftbukkit.v1_17_R1.entity.CraftMob;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPiglin;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftShulker;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftVex;
+import org.bukkit.craftbukkit.v1_17_R1.entity.CraftWolf;
 import org.bukkit.entity.Bat;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.EntityType;
@@ -319,5 +321,11 @@ public class EntityUtilsImpl implements EntityUtils {
     public void setPose(org.bukkit.entity.Entity entity, Pose pose) {
         Entity nmsEntity = ((CraftEntity) entity).getHandle();
         nmsEntity.setPose(net.minecraft.world.entity.Pose.values()[pose.ordinal()]);
+    }
+
+    @Override
+    public void setWolfAngerTime(org.bukkit.entity.Wolf entity, int timeInTicks) {
+        Wolf nmsEntity = ((CraftWolf) entity).getHandle();
+        nmsEntity.setRemainingPersistentAngerTime(timeInTicks);
     }
 }
