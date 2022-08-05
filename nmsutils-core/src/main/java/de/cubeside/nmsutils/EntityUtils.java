@@ -8,6 +8,7 @@ import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Pose;
+import org.bukkit.entity.Raider;
 import org.bukkit.entity.Wolf;
 import org.bukkit.util.Vector;
 
@@ -133,4 +134,42 @@ public interface EntityUtils {
      *            the remaining time after that the angry status is reset
      */
     void setWolfAngerTime(Wolf entity, int timeInTicks);
+
+    /**
+     * Checks wether a mob is currenty aggressive. This may change behaviour and optics.
+     *
+     * @param entity
+     *            the mob to check
+     * @return is this mob is agressive
+     */
+    boolean isAggressive(Mob entity);
+
+    /**
+     * Sets if a mob is aggressive. This may change behaviour and optics.
+     *
+     * @param entity
+     *            the mob
+     * @param aggressive
+     *            the new aggressivity
+     */
+    void setAggressive(Mob entity, boolean aggressive);
+
+    /**
+     * Checks if raider is currently celebrating.
+     *
+     * @param entity
+     *            the raider to check
+     * @return is he is celebrating
+     */
+    boolean isCelebrating(Raider entity);
+
+    /**
+     * Sets is a raider is celebrating
+     *
+     * @param entity
+     *            the raider
+     * @param celebrating
+     *            the new celebrating status
+     */
+    void setCelebrating(Raider entity, boolean celebrating);
 }

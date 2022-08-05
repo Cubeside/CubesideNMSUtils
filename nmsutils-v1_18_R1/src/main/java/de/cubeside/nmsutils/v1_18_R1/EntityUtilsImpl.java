@@ -30,6 +30,7 @@ import org.bukkit.craftbukkit.v1_18_R1.entity.CraftCreature;
 import org.bukkit.craftbukkit.v1_18_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_18_R1.entity.CraftMob;
 import org.bukkit.craftbukkit.v1_18_R1.entity.CraftPiglin;
+import org.bukkit.craftbukkit.v1_18_R1.entity.CraftRaider;
 import org.bukkit.craftbukkit.v1_18_R1.entity.CraftShulker;
 import org.bukkit.craftbukkit.v1_18_R1.entity.CraftVex;
 import org.bukkit.craftbukkit.v1_18_R1.entity.CraftWolf;
@@ -316,5 +317,29 @@ public class EntityUtilsImpl implements EntityUtils {
     public void setWolfAngerTime(org.bukkit.entity.Wolf entity, int timeInTicks) {
         Wolf nmsEntity = ((CraftWolf) entity).getHandle();
         nmsEntity.setRemainingPersistentAngerTime(timeInTicks);
+    }
+
+    @Override
+    public void setAggressive(org.bukkit.entity.Mob entity, boolean aggressive) {
+        net.minecraft.world.entity.Mob nmsEntity = ((CraftMob) entity).getHandle();
+        nmsEntity.setAggressive(aggressive);
+    }
+
+    @Override
+    public boolean isAggressive(org.bukkit.entity.Mob entity) {
+        net.minecraft.world.entity.Mob nmsEntity = ((CraftMob) entity).getHandle();
+        return nmsEntity.isAggressive();
+    }
+
+    @Override
+    public boolean isCelebrating(org.bukkit.entity.Raider entity) {
+        net.minecraft.world.entity.raid.Raider nmsEntity = ((CraftRaider) entity).getHandle();
+        return nmsEntity.isCelebrating();
+    }
+
+    @Override
+    public void setCelebrating(org.bukkit.entity.Raider entity, boolean celebrating) {
+        net.minecraft.world.entity.raid.Raider nmsEntity = ((CraftRaider) entity).getHandle();
+        nmsEntity.setCelebrating(celebrating);
     }
 }

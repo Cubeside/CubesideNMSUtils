@@ -28,6 +28,7 @@ import org.bukkit.craftbukkit.v1_16_R3.entity.CraftCreature;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftMob;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPiglin;
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftRaider;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftShulker;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftVex;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftWolf;
@@ -289,5 +290,28 @@ public class EntityUtilsImpl implements EntityUtils {
     public void setWolfAngerTime(org.bukkit.entity.Wolf entity, int timeInTicks) {
         EntityWolf nmsEntity = ((CraftWolf) entity).getHandle();
         nmsEntity.setAnger(timeInTicks);
+    }
+
+    @Override
+    public void setAggressive(org.bukkit.entity.Mob entity, boolean aggressive) {
+        net.minecraft.server.v1_16_R3.EntityInsentient nmsEntity = ((CraftMob) entity).getHandle();
+        nmsEntity.setAggressive(aggressive);
+    }
+
+    @Override
+    public boolean isAggressive(org.bukkit.entity.Mob entity) {
+        net.minecraft.server.v1_16_R3.EntityInsentient nmsEntity = ((CraftMob) entity).getHandle();
+        return nmsEntity.isAggressive();
+    }
+
+    @Override
+    public boolean isCelebrating(org.bukkit.entity.Raider entity) {
+        throw new UnsupportedOperationException("This feature is not available in this version");
+    }
+
+    @Override
+    public void setCelebrating(org.bukkit.entity.Raider entity, boolean celebrating) {
+        net.minecraft.server.v1_16_R3.EntityRaider nmsEntity = ((CraftRaider) entity).getHandle();
+        nmsEntity.x(celebrating);
     }
 }
