@@ -10,7 +10,7 @@ public class VersionedNMS implements de.cubeside.nmsutils.NMSUtils.VersionedNMS 
         Class<?> pluginClass = null;
         if (serverVersion.equals("1.19")) {
             pluginClass = Class.forName("de.cubeside.nmsutils.v1_19_R1_0.NMSUtilsImpl");
-        } else if (serverVersion.equals("1.19.1")) {
+        } else if (serverVersion.equals("1.19.1") || serverVersion.equals("1.19.2")) {
             pluginClass = Class.forName("de.cubeside.nmsutils.v1_19_R1_1.NMSUtilsImpl");
         }
         if (pluginClass != null) {
