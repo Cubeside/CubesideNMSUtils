@@ -218,7 +218,7 @@ public class EntityUtilsImpl implements EntityUtils {
         } else if (entity instanceof CraftMob) {
             ((CraftMob) entity).getHandle().getNavigation().moveTo(target.getX(), target.getY(), target.getZ(), speed);
         } else {
-            throw new IllegalArgumentException("Cannot set the navigation target for this mob");
+            throw new IllegalArgumentException("Cannot set the navigation target for this mob: " + (entity == null ? "null" : entity.getType()));
         }
     }
 
