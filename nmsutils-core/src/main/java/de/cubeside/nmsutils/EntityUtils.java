@@ -89,7 +89,9 @@ public interface EntityUtils {
      *
      * @param c
      *            The chunk
+     * @deprecated Not possible to implement in 1.19.3
      */
+    @Deprecated(forRemoval = true)
     default void loadChunkEntities(Chunk c) {
         c.getWorld().loadChunk(c); // in minecraft pre 1.17 this will load the entities
     }

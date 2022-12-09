@@ -39,6 +39,11 @@
                     <artifactId>nmsutils-v1_19_R1_1</artifactId>
                     <version>${project.version}</version>
                 </dependency>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>nmsutils-v1_19_R2</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
             </dependencies>
         </profile>
         <profile>
