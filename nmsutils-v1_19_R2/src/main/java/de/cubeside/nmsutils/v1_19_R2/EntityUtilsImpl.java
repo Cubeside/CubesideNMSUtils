@@ -16,6 +16,7 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.animal.Wolf;
+import net.minecraft.world.entity.animal.camel.Camel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
@@ -24,6 +25,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_19_R2.CraftWorld;
 import org.bukkit.craftbukkit.v1_19_R2.entity.CraftBat;
+import org.bukkit.craftbukkit.v1_19_R2.entity.CraftCamel;
 import org.bukkit.craftbukkit.v1_19_R2.entity.CraftCreature;
 import org.bukkit.craftbukkit.v1_19_R2.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_19_R2.entity.CraftMob;
@@ -340,5 +342,17 @@ public class EntityUtilsImpl implements EntityUtils {
     public void setCelebrating(org.bukkit.entity.Raider entity, boolean celebrating) {
         net.minecraft.world.entity.raid.Raider nmsEntity = ((CraftRaider) entity).getHandle();
         nmsEntity.setCelebrating(celebrating);
+    }
+
+    @Override
+    public void setCamelLastPoseChange(org.bukkit.entity.Camel entity, long tick) {
+        Camel nmsEntity = ((CraftCamel) entity).getHandle();
+        nmsEntity.resetLastPoseChangeTick(nmsEntity.getLevel().getGameTime() - tick);
+    }
+
+    @Override
+    public long getCamelLastPoseChange(org.bukkit.entity.Camel entity) {
+        Camel nmsEntity = ((CraftCamel) entity).getHandle();
+        return nmsEntity.getPoseTime();
     }
 }

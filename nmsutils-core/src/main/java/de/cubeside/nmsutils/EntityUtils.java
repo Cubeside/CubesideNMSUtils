@@ -1,9 +1,11 @@
 package de.cubeside.nmsutils;
 
 import java.util.function.Function;
+import java.util.logging.Level;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Camel;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
@@ -174,4 +176,29 @@ public interface EntityUtils {
      *            the new celebrating status
      */
     void setCelebrating(Raider entity, boolean celebrating);
+
+    /**
+     * Set how many ticks ago the last pose change of the camel was
+     *
+     * @param entity
+     *            the camel
+     * @param tick
+     *            number of ticks since the last pose change
+     */
+    default void setCamelLastPoseChange(Camel entity, long tick) {
+        getNMSUtils().getPlugin().getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
+    }
+
+    /**
+     * Get how many ticks ago the last pose change of a camel happened
+     *
+     * @param entity
+     *            the camel
+     * @return
+     *         number of ticks since the last pose change
+     */
+    default long getCamelLastPoseChange(Camel entity) {
+        getNMSUtils().getPlugin().getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
+        return 0L;
+    }
 }
