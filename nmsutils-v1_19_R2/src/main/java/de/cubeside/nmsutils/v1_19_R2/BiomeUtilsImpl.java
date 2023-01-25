@@ -57,7 +57,7 @@ public class BiomeUtilsImpl implements BiomeUtils {
     }
 
     @Override
-    public CustomBiome registerCustomBiome(NamespacedKey id, float downfall, float temperature, de.cubeside.nmsutils.biome.Precipitation precipitation, int fogColor, int waterColor, int waterFogColor, int skyColor, Integer foliageColor, Integer grassColor) {
+    public CustomBiome registerCustomBiome(NamespacedKey id, float downfall, float temperature, de.cubeside.nmsutils.biome.Precipitation precipitation, Integer fogColor, Integer waterColor, Integer waterFogColor, Integer skyColor, Integer foliageColor, Integer grassColor) {
         nmsUtils.getPlugin().getLogger().warning("Injecting biome " + id + "!");
         Server server = nmsUtils.getPlugin().getServer();
         CraftServer craftserver = (CraftServer) server;
@@ -74,23 +74,6 @@ public class BiomeUtilsImpl implements BiomeUtils {
         } catch (IllegalArgumentException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-        // Field unregisteredIntrusiveHoldersField = null;
-        // boolean nextIsUnregisteredIntrusiveHoldersField = false;
-        // for (Field f : MappedRegistry.class.getDeclaredFields()) {
-        // if (f.getType() == boolean.class) {
-        // nextIsUnregisteredIntrusiveHoldersField = true;
-        // f.setAccessible(true);
-        // } else if (nextIsUnregisteredIntrusiveHoldersField) {
-        // nextIsUnregisteredIntrusiveHoldersField = false;
-        // unregisteredIntrusiveHoldersField = f;
-        // unregisteredIntrusiveHoldersField.setAccessible(true);
-        // }
-        // }
-        // try {
-        // unregisteredIntrusiveHoldersField.set(registrywritable, new IdentityHashMap<>());
-        // } catch (IllegalArgumentException | IllegalAccessException e) {
-        // throw new RuntimeException(e);
-        // }
 
         Biome forestbiome = registrywritable.get(oldKey);
 
@@ -108,7 +91,10 @@ public class BiomeUtilsImpl implements BiomeUtils {
         builder.generationSettings(forestbiome.getGenerationSettings());
         builder.temperatureAdjustment(TemperatureModifier.NONE);
         Builder effects = new BiomeSpecialEffects.Builder();
-        effects.waterColor(waterColor).waterFogColor(waterFogColor).fogColor(fogColor).skyColor(skyColor);
+        effects.waterColor(waterColor == null ? forestbiome.getWaterColor() : waterColor);
+        effects.waterFogColor(waterFogColor == null ? forestbiome.getWaterFogColor() : waterFogColor);
+        effects.fogColor(fogColor == null ? forestbiome.getFogColor() : fogColor);
+        effects.skyColor(skyColor == null ? forestbiome.getSkyColor() : skyColor);
         if (foliageColor != null) {
             effects.foliageColorOverride(foliageColor);
         }
@@ -125,7 +111,6 @@ public class BiomeUtilsImpl implements BiomeUtils {
 
         try {
             FIELD_MAPPED_REGISTRY_UNREGISTERED_INTRUSIVE_HOLDERS.set(registrywritable, null);
-            // unregisteredIntrusiveHoldersField.set(registrywritable, null);
         } catch (IllegalArgumentException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }

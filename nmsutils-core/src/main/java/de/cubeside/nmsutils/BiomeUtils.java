@@ -7,7 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 
 public interface BiomeUtils {
-    CustomBiome registerCustomBiome(NamespacedKey id, float downfall, float temperature, Precipitation precipitation, int fogColor, int waterColor, int waterFogColor, int skyColor, Integer foliageColor, Integer grassColor);
+    CustomBiome registerCustomBiome(NamespacedKey id, float downfall, float temperature, Precipitation precipitation, Integer fogColor, Integer waterColor, Integer waterFogColor, Integer skyColor, Integer foliageColor, Integer grassColor);
 
     CustomBiome getCustomBiome(NamespacedKey id);
 

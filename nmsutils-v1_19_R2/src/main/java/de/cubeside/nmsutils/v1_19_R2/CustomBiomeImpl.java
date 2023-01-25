@@ -20,10 +20,12 @@ public class CustomBiomeImpl implements CustomBiome {
         this.biomeHolder = biomeHolder;
     }
 
-    public NamespacedKey getBukkitKey() {
+    @Override
+    public NamespacedKey getId() {
         return bukkitKey;
     }
 
+    @Override
     public boolean setBiome(Location location) {
         location.getWorld().getChunkAt(location);
         Level level = ((CraftWorld) location.getWorld()).getHandle();
