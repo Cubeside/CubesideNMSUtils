@@ -8,10 +8,14 @@ public class NMSUtilsPlugin extends JavaPlugin {
     private NMSUtils nmsUtils;
 
     @Override
-    public void onEnable() {
+    public void onLoad() {
         nmsUtils = NMSUtils.createInstance(this);
         getLogger().info("Using implementation: " + nmsUtils.getClass().getName());
         getServer().getServicesManager().register(NMSUtils.class, nmsUtils, this, ServicePriority.Normal);
+    }
+
+    @Override
+    public void onEnable() {
     }
 
     public NMSUtils getNmsUtils() {

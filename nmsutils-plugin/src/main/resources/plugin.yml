@@ -3,3 +3,4 @@ version: 1.0.0
 api-version: 1.16
 author: Brokkonaut
 main: de.cubeside.nmsutils.plugin.NMSUtilsPlugin
+load: STARTUP
