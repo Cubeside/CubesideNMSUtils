@@ -1,5 +1,6 @@
 package de.cubeside.nmsutils.v1_19_R2;
 
+import de.cubeside.nmsutils.BiomeUtils;
 import de.cubeside.nmsutils.EntityUtils;
 import de.cubeside.nmsutils.MiscUtils;
 import de.cubeside.nmsutils.NMSUtils;
@@ -11,13 +12,14 @@ public class NMSUtilsImpl implements NMSUtils {
     private EntityUtils entityUtilsImpl;
     private WorldUtilsImpl worldUtilsImpl;
     private MiscUtilsImpl miscUtilsImpl;
+    private BiomeUtilsImpl biomeUtils;
 
     public NMSUtilsImpl(Plugin plugin) {
         this.plugin = plugin;
         this.entityUtilsImpl = new EntityUtilsImpl(this);
         this.worldUtilsImpl = new WorldUtilsImpl(this);
         this.miscUtilsImpl = new MiscUtilsImpl(this);
-        // Remapper.foo(net.minecraft.world.entity.ambient.Bat.class);
+        this.biomeUtils = new BiomeUtilsImpl(this);
     }
 
     @Override
@@ -38,5 +40,10 @@ public class NMSUtilsImpl implements NMSUtils {
     @Override
     public MiscUtils getMiscUtils() {
         return miscUtilsImpl;
+    }
+
+    @Override
+    public BiomeUtils getBiomeUtils() {
+        return biomeUtils;
     }
 }

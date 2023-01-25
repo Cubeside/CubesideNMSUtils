@@ -27,6 +27,15 @@ public interface NMSUtils {
     public WorldUtils getWorldUtils();
 
     /**
+     * Gets an instance of BiomeUtils for manipulating custom biomes.
+     *
+     * @return the BiomeUtils
+     */
+    public default BiomeUtils getBiomeUtils() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
      * Gets an instance of MiscUtils for various features.
      *
      * @return the MiscUtils
