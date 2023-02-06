@@ -58,14 +58,12 @@ public class BiomeUtilsImpl implements BiomeUtils {
 
     @Override
     public CustomBiome registerCustomBiome(NamespacedKey id, float downfall, float temperature, de.cubeside.nmsutils.biome.Precipitation precipitation, Integer fogColor, Integer waterColor, Integer waterFogColor, Integer skyColor, Integer foliageColor, Integer grassColor) {
-        nmsUtils.getPlugin().getLogger().warning("Injecting biome " + id + "!");
         Server server = nmsUtils.getPlugin().getServer();
         CraftServer craftserver = (CraftServer) server;
         DedicatedServer dedicatedserver = craftserver.getServer();
         ResourceKey<Biome> newKey = ResourceKey.create(Registries.BIOME, new ResourceLocation(id.getNamespace(), id.getKey()));
 
         ResourceKey<Biome> oldKey = Biomes.FOREST;
-        //
         WritableRegistry<Biome> registrywritable = (WritableRegistry<Biome>) dedicatedserver.registryAccess().registryOrThrow(Registries.BIOME);
 
         try {
@@ -117,8 +115,6 @@ public class BiomeUtilsImpl implements BiomeUtils {
         CustomBiomeImpl impl = new CustomBiomeImpl(id, newKey, newbiome, biomeHolder);
         customBiomes.put(id, impl);
         customBiomesByBiome.put(newbiome, impl);
-
-        nmsUtils.getPlugin().getLogger().warning("Done injecting biome!");
 
         return new CustomBiomeImpl(id, newKey, newbiome, biomeHolder);
     }
