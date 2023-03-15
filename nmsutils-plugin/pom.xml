@@ -55,6 +55,7 @@
                                     <exclude>de.cubeside.nmsutils:nmsutils-v1_19_R1_0</exclude>
                                     <exclude>de.cubeside.nmsutils:nmsutils-v1_19_R1_1</exclude>
                                     <exclude>de.cubeside.nmsutils:nmsutils-v1_19_R2</exclude>
+                                    <exclude>de.cubeside.nmsutils:nmsutils-v1_19_R3</exclude>
                                 </excludes>
                             </artifactSet>
                         </configuration>
