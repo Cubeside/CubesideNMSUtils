@@ -1,13 +1,17 @@
 package de.cubeside.nmsutils.v1_19_R3;
 
 import de.cubeside.nmsutils.WorldUtils;
+import io.papermc.paper.chunk.system.io.RegionFileIOThread;
+import io.papermc.paper.chunk.system.scheduling.NewChunkHolder;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.craftbukkit.v1_19_R3.CraftChunk;
 import org.bukkit.craftbukkit.v1_19_R3.CraftWorld;
 import org.bukkit.entity.Player;
 
@@ -69,6 +73,18 @@ public class WorldUtilsImpl implements WorldUtils {
 
         // long t = System.currentTimeMillis();
         // nmsUtils.getPlugin().getLogger().info("Unloading world " + worldName + " completed in " + (t - t0) + "ms.");
+    }
+
+    @Override
+    public void saveChunkNow(Chunk chunk) {
+        CraftChunk craftChunk = (CraftChunk) chunk;
+        NewChunkHolder holder = craftChunk.getHandle().getChunkHolder();
+        holder.save(false, false);
+    }
+
+    @Override
+    public void flushChunkSaves() {
+        RegionFileIOThread.flush();
     }
 
     @SuppressWarnings("deprecation")

@@ -1,7 +1,11 @@
 package de.cubeside.nmsutils;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
+
+import java.util.logging.Level;
 
 public interface WorldUtils {
     /**
@@ -21,4 +25,12 @@ public interface WorldUtils {
      *            The target location for the players currently in this world
      */
     public void forceUnloadWorldWithoutSaving(World world, Location playerTarget);
+
+    default void saveChunkNow(Chunk chunk) {
+        Bukkit.getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
+    }
+
+    default void flushChunkSaves() {
+        Bukkit.getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
+    }
 }
