@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.chunk.ChunkStatus;
+import net.minecraft.world.level.chunk.LevelChunk;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -78,8 +80,10 @@ public class WorldUtilsImpl implements WorldUtils {
     @Override
     public void saveChunkNow(Chunk chunk) {
         CraftChunk craftChunk = (CraftChunk) chunk;
-        NewChunkHolder holder = craftChunk.getHandle().getChunkHolder();
-        holder.save(false, false);
+        if (craftChunk.getHandle(ChunkStatus.FULL) instanceof LevelChunk levelChunk) {
+            NewChunkHolder holder = levelChunk.getChunkHolder();
+            holder.save(false, false);
+        }
     }
 
     @Override
