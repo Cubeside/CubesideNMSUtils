@@ -201,4 +201,17 @@ public interface EntityUtils {
         getNMSUtils().getPlugin().getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
         return 0L;
     }
+
+    /**
+     * Returns if a camel is sitting, this is different to the bukkit isSitting, because it does not check the pose but the post change tick
+     *
+     * @param camel
+     *            a camel
+     * @return
+     *         if the camel is sitting
+     */
+    default public boolean isCamelSitting(Camel camel) {
+        getNMSUtils().getPlugin().getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
+        return false;
+    }
 }

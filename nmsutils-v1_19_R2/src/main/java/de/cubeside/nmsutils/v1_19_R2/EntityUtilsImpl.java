@@ -355,4 +355,9 @@ public class EntityUtilsImpl implements EntityUtils {
         Camel nmsEntity = ((CraftCamel) entity).getHandle();
         return nmsEntity.getPoseTime();
     }
+
+    @Override
+    public boolean isCamelSitting(org.bukkit.entity.Camel entity) {
+        return entity.isSitting();
+    }
 }
