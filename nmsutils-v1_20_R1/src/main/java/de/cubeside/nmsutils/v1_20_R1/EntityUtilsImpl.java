@@ -373,11 +373,11 @@ public class EntityUtilsImpl implements EntityUtils {
         net.minecraft.nbt.CompoundTag nativeNbt = nmsUtils.getNbtUtils().toNativeCompound(nbt);
         Entity nmsEntity = ((CraftEntity) entity).getHandle();
 
-        net.minecraft.nbt.CompoundTag compoundTag = nmsEntity.saveWithoutId(new net.minecraft.nbt.CompoundTag());
-        net.minecraft.nbt.CompoundTag compoundTag2 = compoundTag.copy().merge(nativeNbt);
-        if (!compoundTag.equals(compoundTag2)) {
+        net.minecraft.nbt.CompoundTag oldNbt = nmsEntity.saveWithoutId(new net.minecraft.nbt.CompoundTag());
+        net.minecraft.nbt.CompoundTag newNbt = oldNbt.copy().merge(nativeNbt);
+        if (!oldNbt.equals(newNbt)) {
             UUID uuid = nmsEntity.getUUID();
-            nmsEntity.load(compoundTag2);
+            nmsEntity.load(newNbt);
             nmsEntity.setUUID(uuid);
         }
     }
