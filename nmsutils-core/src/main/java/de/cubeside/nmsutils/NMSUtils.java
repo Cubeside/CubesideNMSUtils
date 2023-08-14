@@ -1,5 +1,6 @@
 package de.cubeside.nmsutils;
 
+import de.cubeside.nmsutils.nbt.NbtUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
@@ -32,6 +33,15 @@ public interface NMSUtils {
      * @return the BiomeUtils
      */
     public default BiomeUtils getBiomeUtils() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Gets an instance of NbtUtils for manipulating nbt.
+     *
+     * @return the NbtUtils
+     */
+    public default NbtUtils getNbtUtils() {
         throw new UnsupportedOperationException();
     }
 
