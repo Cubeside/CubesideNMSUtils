@@ -1,5 +1,6 @@
 package de.cubeside.nmsutils;
 
+import de.cubeside.nmsutils.nbt.CompoundTag;
 import java.util.function.Function;
 import java.util.logging.Level;
 import org.bukkit.Chunk;
@@ -213,5 +214,41 @@ public interface EntityUtils {
     default public boolean isCamelSitting(Camel camel) {
         getNMSUtils().getPlugin().getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
         return false;
+    }
+
+    /**
+     * Gets a copy of the current nbt data of an entity
+     *
+     * @param entity
+     *            the entity
+     * @return the entities nbt data
+     */
+    default public CompoundTag getNbt(Entity entity) {
+        getNMSUtils().getPlugin().getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
+        return new CompoundTag();
+    }
+
+    /**
+     * Overwrites the nbt data of an entity, deleting all values that are not in the new nbt
+     *
+     * @param entity
+     *            the entity
+     * @param nbt
+     *            the new nbt data for the entity
+     */
+    default public void setNbt(Entity entity, CompoundTag nbt) {
+        getNMSUtils().getPlugin().getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
+    }
+
+    /**
+     * Merges the new nbt data to the entities nbt. All values that are not specified are kept unchanged
+     *
+     * @param entity
+     *            the entity
+     * @param nbt
+     *            the nbt data to merge in
+     */
+    default public void mergeNbt(Entity entity, CompoundTag nbt) {
+        getNMSUtils().getPlugin().getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
     }
 }

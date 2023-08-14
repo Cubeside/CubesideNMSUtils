@@ -351,12 +351,14 @@ public class EntityUtilsImpl implements EntityUtils {
         return nmsEntity.isCamelSitting();
     }
 
+    @Override
     public CompoundTag getNbt(org.bukkit.entity.Entity entity) {
         Entity nmsEntity = ((CraftEntity) entity).getHandle();
         net.minecraft.nbt.CompoundTag compoundTag = nmsEntity.saveWithoutId(new net.minecraft.nbt.CompoundTag());
         return nmsUtils.getNbtUtils().fromNativeCompound(compoundTag);
     }
 
+    @Override
     public void setNbt(org.bukkit.entity.Entity entity, CompoundTag nbt) {
         net.minecraft.nbt.CompoundTag nativeNbt = nmsUtils.getNbtUtils().toNativeCompound(nbt);
         Entity nmsEntity = ((CraftEntity) entity).getHandle();
@@ -366,6 +368,7 @@ public class EntityUtilsImpl implements EntityUtils {
         nmsEntity.setUUID(uuid);
     }
 
+    @Override
     public void mergeNbt(org.bukkit.entity.Entity entity, CompoundTag nbt) {
         net.minecraft.nbt.CompoundTag nativeNbt = nmsUtils.getNbtUtils().toNativeCompound(nbt);
         Entity nmsEntity = ((CraftEntity) entity).getHandle();
