@@ -1,4 +1,6 @@
-package de.cubeside.nmsutils.nbt;
+package de.cubeside.nmsutils;
+
+import de.cubeside.nmsutils.nbt.CompoundTag;
 
 public interface NbtUtils {
     public CompoundTag parseBinary(byte[] in);

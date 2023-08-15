@@ -1,6 +1,5 @@
 package de.cubeside.nmsutils;
 
-import de.cubeside.nmsutils.nbt.NbtUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;

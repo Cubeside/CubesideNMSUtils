@@ -1,96 +1,85 @@
 package de.cubeside.nmsutils.nbt;
 
-import com.google.common.base.Preconditions;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+public interface ListTag {
+    int size();
 
-public final class ListTag extends Tag {
-    private final ArrayList<Tag> value = new ArrayList<>();
-    private List<Tag> unmodifiableValue;
+    boolean isEmpty();
 
-    public ListTag() {
-    }
+    TagType getElementType();
 
-    public ListTag(Tag[] value) {
-        if (value.length > 0) {
-            TagType type = value[0].getType();
-            this.value.add(value[0]);
-            for (int i = 1; i < value.length; i++) {
-                if (value[i].getType() != type) {
-                    throw new IllegalArgumentException("All list elements must have the same type.");
-                }
-                this.value.add(value[i]);
-            }
-        }
-    }
+    CompoundTag getCompound(int index);
 
-    public int size() {
-        return value.size();
-    }
+    CompoundTag addCompound();
 
-    public boolean isEmpty() {
-        return value.isEmpty();
-    }
+    CompoundTag addCompound(int index);
 
-    public List<Tag> getValue() {
-        if (unmodifiableValue == null) {
-            unmodifiableValue = Collections.unmodifiableList(value);
-        }
-        return unmodifiableValue;
-    }
+    CompoundTag setCompound(int index);
 
-    public TagType getListType() {
-        return value.isEmpty() ? null : value.get(0).getType();
-    }
+    ListTag getList(int index);
 
-    public Tag getElement(int i) {
-        return value.get(i);
-    }
+    ListTag addList();
 
-    public Tag setElement(int i, Tag tag) {
-        if (tag.getType() != getListType()) {
-            throw new IllegalArgumentException("All list elements must have the same type.");
-        }
-        return value.set(i, tag);
-    }
+    ListTag addList(int index);
 
-    public void addElement(Tag tag) {
-        Preconditions.checkNotNull(tag);
-        if (!isEmpty() && tag.getType() != getListType()) {
-            throw new IllegalArgumentException("All list elements must have the same type.");
-        }
-        value.add(tag);
-    }
+    ListTag setList(int index);
 
-    public void addElement(int i, Tag tag) {
-        Preconditions.checkNotNull(tag);
-        if (!isEmpty() && (i != 0 || size() != 1) && tag.getType() != getListType()) {
-            throw new IllegalArgumentException("All list elements must have the same type.");
-        }
-        value.add(i, tag);
-    }
+    byte getByte(int index);
 
-    public Tag removeElement(int i) {
-        return value.remove(i);
-    }
+    byte getByte(int index, byte defaultValue);
 
-    public void clearElements() {
-        value.clear();
-    }
+    boolean addByte(byte v);
 
-    @Override
-    public TagType getType() {
-        return TagType.LIST;
-    }
+    boolean addByte(int index, byte v);
 
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
+    boolean setByte(int index, byte v);
 
-    @Override
-    public boolean equals(Object obj) {
-        return obj instanceof ListTag o && value.equals(o.value);
-    }
+    short getShort(int index);
+
+    short getShort(int index, short defaultValue);
+
+    boolean addShort(short v);
+
+    boolean addShort(int index, short v);
+
+    boolean setShort(int index, short v);
+
+    int getInt(int index);
+
+    int getInt(int index, int defaultValue);
+
+    boolean addInt(int v);
+
+    boolean addInt(int index, int v);
+
+    boolean setInt(int index, int v);
+
+    long getLong(int index);
+
+    long getLong(int index, long defaultValue);
+
+    boolean addLong(long v);
+
+    boolean addLong(int index, long v);
+
+    boolean setLong(int index, long v);
+
+    float getFloat(int index);
+
+    float getFloat(int index, float defaultValue);
+
+    boolean addFloat(float v);
+
+    boolean addFloat(int index, float v);
+
+    boolean setFloat(int index, float v);
+
+    double getDouble(int index);
+
+    double getDouble(int index, double defaultValue);
+
+    boolean addDouble(double v);
+
+    boolean addDouble(int index, double v);
+
+    boolean setDouble(int index, double v);
 }

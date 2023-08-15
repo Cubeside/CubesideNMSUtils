@@ -355,12 +355,12 @@ public class EntityUtilsImpl implements EntityUtils {
     public CompoundTag getNbt(org.bukkit.entity.Entity entity) {
         Entity nmsEntity = ((CraftEntity) entity).getHandle();
         net.minecraft.nbt.CompoundTag compoundTag = nmsEntity.saveWithoutId(new net.minecraft.nbt.CompoundTag());
-        return nmsUtils.getNbtUtils().fromNativeCompound(compoundTag);
+        return new CompoundTagImpl(compoundTag);
     }
 
     @Override
     public void setNbt(org.bukkit.entity.Entity entity, CompoundTag nbt) {
-        net.minecraft.nbt.CompoundTag nativeNbt = nmsUtils.getNbtUtils().toNativeCompound(nbt);
+        net.minecraft.nbt.CompoundTag nativeNbt = ((CompoundTagImpl) nbt).handle;
         Entity nmsEntity = ((CraftEntity) entity).getHandle();
 
         UUID uuid = nmsEntity.getUUID();
@@ -370,7 +370,7 @@ public class EntityUtilsImpl implements EntityUtils {
 
     @Override
     public void mergeNbt(org.bukkit.entity.Entity entity, CompoundTag nbt) {
-        net.minecraft.nbt.CompoundTag nativeNbt = nmsUtils.getNbtUtils().toNativeCompound(nbt);
+        net.minecraft.nbt.CompoundTag nativeNbt = ((CompoundTagImpl) nbt).handle;
         Entity nmsEntity = ((CraftEntity) entity).getHandle();
 
         net.minecraft.nbt.CompoundTag oldNbt = nmsEntity.saveWithoutId(new net.minecraft.nbt.CompoundTag());

@@ -225,7 +225,7 @@ public interface EntityUtils {
      */
     default public CompoundTag getNbt(Entity entity) {
         getNMSUtils().getPlugin().getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
-        return new CompoundTag();
+        return null;
     }
 
     /**
