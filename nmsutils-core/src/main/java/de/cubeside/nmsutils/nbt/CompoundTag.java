@@ -5,13 +5,13 @@ import java.util.UUID;
 
 public interface CompoundTag {
 
-    boolean containsKey(String key);
+    boolean containsKey(String name);
 
-    boolean containsKey(String key, TagType type);
+    boolean containsKey(String name, TagType type);
 
     void clear();
 
-    void remove(String string);
+    void remove(String name);
 
     Set<String> getAllKeys();
 
@@ -85,6 +85,8 @@ public interface CompoundTag {
 
     void setString(String name, String v);
 
+    boolean containsUUID(String name);
+
     UUID getUUID(String name);
 
     void setUUID(String name, UUID value);
@@ -94,5 +96,4 @@ public interface CompoundTag {
 
     @Override
     boolean equals(Object obj);
-
 }

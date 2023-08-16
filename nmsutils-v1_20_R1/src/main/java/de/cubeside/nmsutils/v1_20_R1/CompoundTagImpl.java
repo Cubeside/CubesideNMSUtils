@@ -22,16 +22,13 @@ public final class CompoundTagImpl implements de.cubeside.nmsutils.nbt.CompoundT
     }
 
     @Override
-    public boolean containsKey(String key) {
-        return handle.contains(key);
+    public boolean containsKey(String name) {
+        return handle.contains(name);
     }
 
     @Override
-    public boolean containsKey(String key, TagType type) {
-        if (type == TagType.UUID) {
-            return handle.hasUUID(key);
-        }
-        return handle.contains(key, type.internalId());
+    public boolean containsKey(String name, TagType type) {
+        return handle.contains(name, type.internalId());
     }
 
     @Override
@@ -40,8 +37,8 @@ public final class CompoundTagImpl implements de.cubeside.nmsutils.nbt.CompoundT
     }
 
     @Override
-    public void remove(String string) {
-        handle.remove(string);
+    public void remove(String name) {
+        handle.remove(name);
     }
 
     @Override
@@ -289,6 +286,11 @@ public final class CompoundTagImpl implements de.cubeside.nmsutils.nbt.CompoundT
     @Override
     public UUID getUUID(String name) {
         return handle.hasUUID(name) ? handle.getUUID(name) : null;
+    }
+
+    @Override
+    public boolean containsUUID(String name) {
+        return handle.hasUUID(name);
     }
 
     @Override

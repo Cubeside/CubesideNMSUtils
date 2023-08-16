@@ -13,8 +13,7 @@ public enum TagType {
     COMPOUND(10),
     INT_ARRAY(11),
     LONG_ARRAY(12),
-    ANY_NUMERIC(99),
-    UUID(-1);
+    ANY_NUMERIC(99);
 
     private final int internalId;
     private static final TagType[] byInternal = new TagType[12];

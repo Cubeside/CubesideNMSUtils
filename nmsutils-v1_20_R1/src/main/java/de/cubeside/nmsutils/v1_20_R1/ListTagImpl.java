@@ -1,15 +1,21 @@
 package de.cubeside.nmsutils.v1_20_R1;
 
 import de.cubeside.nmsutils.nbt.TagType;
+import java.util.UUID;
+import net.minecraft.nbt.ByteArrayTag;
 import net.minecraft.nbt.ByteTag;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.DoubleTag;
 import net.minecraft.nbt.FloatTag;
+import net.minecraft.nbt.IntArrayTag;
 import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.LongArrayTag;
 import net.minecraft.nbt.LongTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.NumericTag;
 import net.minecraft.nbt.ShortTag;
+import net.minecraft.nbt.StringTag;
 
 public final class ListTagImpl implements de.cubeside.nmsutils.nbt.ListTag {
     final ListTag handle;
@@ -249,6 +255,146 @@ public final class ListTagImpl implements de.cubeside.nmsutils.nbt.ListTag {
     @Override
     public boolean setDouble(int index, double v) {
         return handle.setTag(index, DoubleTag.valueOf(v));
+    }
+
+    @Override
+    public byte[] getByteArray(int index) {
+        return getByteArray(index, null);
+    }
+
+    @Override
+    public byte[] getByteArray(int index, byte[] defaultValue) {
+        if (index >= 0 && index < handle.size() && handle.get(index) instanceof ByteArrayTag t) {
+            return t.getAsByteArray();
+        }
+        return defaultValue;
+    }
+
+    @Override
+    public boolean addByteArray(byte[] v) {
+        return addByteArray(size(), v);
+    }
+
+    @Override
+    public boolean addByteArray(int index, byte[] v) {
+        return handle.addTag(index, new ByteArrayTag(v));
+    }
+
+    @Override
+    public boolean setByteArray(int index, byte[] v) {
+        return handle.setTag(index, new ByteArrayTag(v));
+    }
+
+    @Override
+    public int[] getIntArray(int index) {
+        return getIntArray(index, null);
+    }
+
+    @Override
+    public int[] getIntArray(int index, int[] defaultValue) {
+        if (index >= 0 && index < handle.size() && handle.get(index) instanceof IntArrayTag t) {
+            return t.getAsIntArray();
+        }
+        return defaultValue;
+    }
+
+    @Override
+    public boolean addIntArray(int[] v) {
+        return addIntArray(size(), v);
+    }
+
+    @Override
+    public boolean addIntArray(int index, int[] v) {
+        return handle.addTag(index, new IntArrayTag(v));
+    }
+
+    @Override
+    public boolean setIntArray(int index, int[] v) {
+        return handle.setTag(index, new IntArrayTag(v));
+    }
+
+    @Override
+    public long[] getLongArray(int index) {
+        return getLongArray(index, null);
+    }
+
+    @Override
+    public long[] getLongArray(int index, long[] defaultValue) {
+        if (index >= 0 && index < handle.size() && handle.get(index) instanceof LongArrayTag t) {
+            return t.getAsLongArray();
+        }
+        return defaultValue;
+    }
+
+    @Override
+    public boolean addLongArray(long[] v) {
+        return addLongArray(size(), v);
+    }
+
+    @Override
+    public boolean addLongArray(int index, long[] v) {
+        return handle.addTag(index, new LongArrayTag(v));
+    }
+
+    @Override
+    public boolean setLongArray(int index, long[] v) {
+        return handle.setTag(index, new LongArrayTag(v));
+    }
+
+    @Override
+    public String getString(int index) {
+        return getString(index, null);
+    }
+
+    @Override
+    public String getString(int index, String defaultValue) {
+        if (index >= 0 && index < handle.size() && handle.get(index) instanceof StringTag t) {
+            return t.getAsString();
+        }
+        return defaultValue;
+    }
+
+    @Override
+    public boolean addString(String v) {
+        return addString(size(), v);
+    }
+
+    @Override
+    public boolean addString(int index, String v) {
+        return handle.addTag(index, StringTag.valueOf(v));
+    }
+
+    @Override
+    public boolean setString(int index, String v) {
+        return handle.setTag(index, StringTag.valueOf(v));
+    }
+
+    @Override
+    public UUID getUUID(int index) {
+        return getUUID(index, null);
+    }
+
+    @Override
+    public UUID getUUID(int index, UUID defaultValue) {
+        if (index >= 0 && index < handle.size() && handle.get(index) instanceof IntArrayTag t && t.size() == 4) {
+            return NbtUtils.loadUUID(t);
+        }
+        return defaultValue;
+    }
+
+    @Override
+    public boolean addUUID(UUID v) {
+        return addUUID(size(), v);
+    }
+
+    @Override
+    public boolean addUUID(int index, UUID v) {
+        return handle.addTag(index, NbtUtils.createUUID(v));
+    }
+
+    @Override
+    public boolean setUUID(int index, UUID v) {
+        return handle.setTag(index, NbtUtils.createUUID(v));
     }
 
     public void remove(int i) {
