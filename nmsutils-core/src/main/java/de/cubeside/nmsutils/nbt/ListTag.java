@@ -2,7 +2,7 @@ package de.cubeside.nmsutils.nbt;
 
 import java.util.UUID;
 
-public interface ListTag {
+public interface ListTag extends Cloneable {
     int size();
 
     boolean isEmpty();
@@ -134,4 +134,6 @@ public interface ListTag {
     boolean addUUID(int index, UUID v);
 
     boolean setUUID(int index, UUID v);
+
+    public ListTag clone();
 }

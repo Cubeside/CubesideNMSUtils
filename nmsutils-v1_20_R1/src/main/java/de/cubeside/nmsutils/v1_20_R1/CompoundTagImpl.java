@@ -52,6 +52,11 @@ public final class CompoundTagImpl implements de.cubeside.nmsutils.nbt.CompoundT
     }
 
     @Override
+    public void merge(de.cubeside.nmsutils.nbt.CompoundTag source) {
+        handle.merge(((CompoundTagImpl) source).handle);
+    }
+
+    @Override
     public CompoundTagImpl getCompound(String name) {
         return getCompound(name, false);
     }
@@ -308,5 +313,10 @@ public final class CompoundTagImpl implements de.cubeside.nmsutils.nbt.CompoundT
     @Override
     public boolean equals(Object obj) {
         return obj instanceof CompoundTagImpl o && handle.equals(o.handle);
+    }
+
+    @Override
+    public CompoundTagImpl clone() {
+        return new CompoundTagImpl(handle.copy());
     }
 }

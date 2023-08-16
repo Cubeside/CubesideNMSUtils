@@ -414,4 +414,9 @@ public final class ListTagImpl implements de.cubeside.nmsutils.nbt.ListTag {
     public boolean equals(Object obj) {
         return obj instanceof ListTagImpl o && handle.equals(o.handle);
     }
+
+    @Override
+    public ListTagImpl clone() {
+        return new ListTagImpl(handle.copy());
+    }
 }

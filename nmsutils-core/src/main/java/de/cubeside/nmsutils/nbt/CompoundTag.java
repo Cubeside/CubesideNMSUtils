@@ -3,7 +3,7 @@ package de.cubeside.nmsutils.nbt;
 import java.util.Set;
 import java.util.UUID;
 
-public interface CompoundTag {
+public interface CompoundTag extends Cloneable {
 
     boolean containsKey(String name);
 
@@ -16,6 +16,8 @@ public interface CompoundTag {
     Set<String> getAllKeys();
 
     void size();
+
+    void merge(CompoundTag source);
 
     CompoundTag getCompound(String name);
 
@@ -96,4 +98,6 @@ public interface CompoundTag {
 
     @Override
     boolean equals(Object obj);
+
+    public CompoundTag clone();
 }
