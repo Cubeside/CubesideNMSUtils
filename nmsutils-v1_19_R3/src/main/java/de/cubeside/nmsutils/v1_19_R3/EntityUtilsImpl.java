@@ -3,6 +3,8 @@ package de.cubeside.nmsutils.v1_19_R3;
 import com.destroystokyo.paper.entity.ai.VanillaGoal;
 import de.cubeside.nmsutils.EntityUtils;
 import de.cubeside.nmsutils.NMSUtils;
+import de.cubeside.nmsutils.nbt.CompoundTag;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.logging.Level;
 import net.minecraft.core.BlockPos;
@@ -347,5 +349,36 @@ public class EntityUtilsImpl implements EntityUtils {
     public boolean isCamelSitting(org.bukkit.entity.Camel entity) {
         Camel nmsEntity = ((CraftCamel) entity).getHandle();
         return nmsEntity.isCamelSitting();
+    }
+
+    @Override
+    public CompoundTag getNbt(org.bukkit.entity.Entity entity) {
+        Entity nmsEntity = ((CraftEntity) entity).getHandle();
+        net.minecraft.nbt.CompoundTag compoundTag = nmsEntity.saveWithoutId(new net.minecraft.nbt.CompoundTag());
+        return new CompoundTagImpl(compoundTag);
+    }
+
+    @Override
+    public void setNbt(org.bukkit.entity.Entity entity, CompoundTag nbt) {
+        net.minecraft.nbt.CompoundTag nativeNbt = ((CompoundTagImpl) nbt).handle;
+        Entity nmsEntity = ((CraftEntity) entity).getHandle();
+
+        UUID uuid = nmsEntity.getUUID();
+        nmsEntity.load(nativeNbt);
+        nmsEntity.setUUID(uuid);
+    }
+
+    @Override
+    public void mergeNbt(org.bukkit.entity.Entity entity, CompoundTag nbt) {
+        net.minecraft.nbt.CompoundTag nativeNbt = ((CompoundTagImpl) nbt).handle;
+        Entity nmsEntity = ((CraftEntity) entity).getHandle();
+
+        net.minecraft.nbt.CompoundTag oldNbt = nmsEntity.saveWithoutId(new net.minecraft.nbt.CompoundTag());
+        net.minecraft.nbt.CompoundTag newNbt = oldNbt.copy().merge(nativeNbt);
+        if (!oldNbt.equals(newNbt)) {
+            UUID uuid = nmsEntity.getUUID();
+            nmsEntity.load(newNbt);
+            nmsEntity.setUUID(uuid);
+        }
     }
 }

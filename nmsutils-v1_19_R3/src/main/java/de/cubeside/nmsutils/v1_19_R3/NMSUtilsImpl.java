@@ -13,6 +13,7 @@ public class NMSUtilsImpl implements NMSUtils {
     private WorldUtilsImpl worldUtilsImpl;
     private MiscUtilsImpl miscUtilsImpl;
     private BiomeUtilsImpl biomeUtils;
+    private NbtUtilsImpl nbtUtils;
 
     public NMSUtilsImpl(Plugin plugin) {
         this.plugin = plugin;
@@ -20,6 +21,7 @@ public class NMSUtilsImpl implements NMSUtils {
         this.worldUtilsImpl = new WorldUtilsImpl(this);
         this.miscUtilsImpl = new MiscUtilsImpl(this);
         this.biomeUtils = new BiomeUtilsImpl(this);
+        this.nbtUtils = new NbtUtilsImpl(this);
     }
 
     @Override
@@ -45,5 +47,10 @@ public class NMSUtilsImpl implements NMSUtils {
     @Override
     public BiomeUtils getBiomeUtils() {
         return biomeUtils;
+    }
+
+    @Override
+    public NbtUtilsImpl getNbtUtils() {
+        return nbtUtils;
     }
 }
