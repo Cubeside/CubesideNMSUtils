@@ -29,12 +29,16 @@
                     <artifactId>nmsutils-v1_20_R1</artifactId>
                     <version>${project.version}</version>
                 </dependency>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>nmsutils-v1_20_R2</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
             </dependencies>
         </profile>
         <profile>
             <id>v1_19_4</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
                 <property>
                     <name>all</name>
                 </property>

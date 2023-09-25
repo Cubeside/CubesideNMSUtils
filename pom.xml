@@ -34,12 +34,12 @@
             </activation>
             <modules>
                 <module>nmsutils-v1_20_R1</module>
+                <module>nmsutils-v1_20_R2</module>
             </modules>
         </profile>
         <profile>
             <id>v1_19_4</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
                 <property>
                     <name>all</name>
                 </property>
