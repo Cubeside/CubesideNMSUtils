@@ -1,4 +1,4 @@
-package de.cubeside.nmsutils.v1_20_R1;
+package de.cubeside.nmsutils.v1_20_R2;
 
 import de.cubeside.nmsutils.biome.CustomBiome;
 import net.minecraft.core.BlockPos.MutableBlockPos;

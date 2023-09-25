@@ -1,4 +1,4 @@
-package de.cubeside.nmsutils.v1_20_R1;
+package de.cubeside.nmsutils.v1_20_R2;
 
 import de.cubeside.nmsutils.WorldUtils;
 import io.papermc.paper.chunk.system.io.RegionFileIOThread;
