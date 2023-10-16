@@ -1,6 +1,9 @@
 package de.cubeside.nmsutils;
 
+import net.md_5.bungee.api.chat.BaseComponent;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.scoreboard.Team.OptionStatus;
 
 public interface MiscUtils {
 
@@ -14,4 +17,7 @@ public interface MiscUtils {
      */
     void setBlockMapColorTransparent(Material m);
 
+    default Object createTeamParametersPacketObject(BaseComponent displayName, BaseComponent prefix, BaseComponent suffix, OptionStatus nameTagDisplay, OptionStatus collisionRule, ChatColor color, boolean seeFriendlyInvisibles, boolean allowFriendlyFire) {
+        throw new IllegalStateException("not implemented in this version");
+    }
 }

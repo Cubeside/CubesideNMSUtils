@@ -7,7 +7,17 @@ import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 
 public interface BiomeUtils {
-    CustomBiome registerCustomBiome(NamespacedKey id, float downfall, float temperature, Precipitation precipitation, Integer fogColor, Integer waterColor, Integer waterFogColor, Integer skyColor, Integer foliageColor, Integer grassColor);
+    public enum GrassColorModifier {
+        NONE,
+        DARK_FOREST,
+        SWAMP,
+    }
+
+    default CustomBiome registerCustomBiome(NamespacedKey id, float downfall, float temperature, Precipitation precipitation, Integer fogColor, Integer waterColor, Integer waterFogColor, Integer skyColor, Integer foliageColor, Integer grassColor) {
+        return registerCustomBiome(id, downfall, temperature, precipitation, fogColor, waterColor, waterFogColor, skyColor, foliageColor, grassColor, GrassColorModifier.NONE);
+    }
+
+    CustomBiome registerCustomBiome(NamespacedKey id, float downfall, float temperature, Precipitation precipitation, Integer fogColor, Integer waterColor, Integer waterFogColor, Integer skyColor, Integer foliageColor, Integer grassColor, GrassColorModifier grassColorModifier);
 
     CustomBiome getCustomBiome(NamespacedKey id);
 

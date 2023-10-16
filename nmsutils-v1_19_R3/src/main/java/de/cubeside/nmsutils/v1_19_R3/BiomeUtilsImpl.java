@@ -56,7 +56,8 @@ public class BiomeUtilsImpl implements BiomeUtils {
     }
 
     @Override
-    public CustomBiome registerCustomBiome(NamespacedKey id, float downfall, float temperature, de.cubeside.nmsutils.biome.Precipitation precipitation, Integer fogColor, Integer waterColor, Integer waterFogColor, Integer skyColor, Integer foliageColor, Integer grassColor) {
+    public CustomBiome registerCustomBiome(NamespacedKey id, float downfall, float temperature, de.cubeside.nmsutils.biome.Precipitation precipitation, Integer fogColor, Integer waterColor, Integer waterFogColor, Integer skyColor, Integer foliageColor, Integer grassColor,
+            GrassColorModifier grassColorModifier) {
         Server server = nmsUtils.getPlugin().getServer();
         CraftServer craftserver = (CraftServer) server;
         DedicatedServer dedicatedserver = craftserver.getServer();
@@ -99,6 +100,12 @@ public class BiomeUtilsImpl implements BiomeUtils {
         if (grassColor != null) {
             effects.grassColorOverride(grassColor);
         }
+        net.minecraft.world.level.biome.BiomeSpecialEffects.GrassColorModifier nativeGrassColorModifier = switch (grassColorModifier) {
+            case DARK_FOREST -> net.minecraft.world.level.biome.BiomeSpecialEffects.GrassColorModifier.DARK_FOREST;
+            case SWAMP -> net.minecraft.world.level.biome.BiomeSpecialEffects.GrassColorModifier.SWAMP;
+            default -> net.minecraft.world.level.biome.BiomeSpecialEffects.GrassColorModifier.NONE;
+        };
+        effects.grassColorModifier(nativeGrassColorModifier);
         effects.ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS);
         builder.specialEffects(effects.build());
 

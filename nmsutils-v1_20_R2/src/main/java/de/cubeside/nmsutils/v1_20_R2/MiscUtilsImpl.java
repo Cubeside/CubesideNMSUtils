@@ -2,16 +2,26 @@ package de.cubeside.nmsutils.v1_20_R2;
 
 import de.cubeside.nmsutils.MiscUtils;
 import de.cubeside.nmsutils.NMSUtils;
+import io.papermc.paper.adventure.PaperAdventure;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundSetPlayerTeamPacket;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockBehaviour.BlockStateBase;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.scores.PlayerTeam;
+import net.minecraft.world.scores.Scoreboard;
+import net.minecraft.world.scores.Team.Visibility;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_20_R2.util.CraftChatMessage;
 import org.bukkit.craftbukkit.v1_20_R2.util.CraftMagicNumbers;
+import org.bukkit.scoreboard.Team.OptionStatus;
 
 public class MiscUtilsImpl implements MiscUtils {
     private final NMSUtilsImpl nmsUtils;
@@ -78,5 +88,28 @@ public class MiscUtilsImpl implements MiscUtils {
         } catch (IllegalAccessException e) {
             throw new IllegalStateException("Could not set the MaterialColor!");
         }
+    }
+
+    @Override
+    public Object createTeamParametersPacketObject(BaseComponent displayName, BaseComponent prefix, BaseComponent suffix, OptionStatus nameTagDisplay, OptionStatus collisionRule, @SuppressWarnings("deprecation") org.bukkit.ChatColor color, boolean seeFriendlyInvisibles, boolean allowFriendlyFire) {
+        Scoreboard scoreboard = new Scoreboard();
+        PlayerTeam team = new PlayerTeam(scoreboard, BaseComponent.toPlainText(displayName));
+        team.setDisplayName(baseComponentToComponent(displayName));
+        team.setPlayerPrefix(baseComponentToComponent(prefix));
+        team.setPlayerSuffix(baseComponentToComponent(suffix));
+        team.setNameTagVisibility(Visibility.values()[nameTagDisplay.ordinal()]);
+        team.setCollisionRule(net.minecraft.world.scores.Team.CollisionRule.values()[collisionRule.ordinal()]);
+        team.setColor(color == null ? ChatFormatting.RESET : CraftChatMessage.getColor(color));
+        team.setSeeFriendlyInvisibles(seeFriendlyInvisibles);
+        team.setAllowFriendlyFire(allowFriendlyFire);
+        return new ClientboundSetPlayerTeamPacket.Parameters(team);
+    }
+
+    private static Component baseComponentToComponent(BaseComponent c) {
+        if (c == null) {
+            return PaperAdventure.asVanilla(net.kyori.adventure.text.Component.empty());
+        }
+        String json = net.md_5.bungee.chat.ComponentSerializer.toString(c);
+        return PaperAdventure.asVanilla(net.kyori.adventure.text.serializer.gson.GsonComponentSerializer.gson().deserialize(json));
     }
 }
