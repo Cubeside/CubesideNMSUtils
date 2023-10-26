@@ -17,6 +17,7 @@ import net.minecraft.server.v1_16_R2.EntityWolf;
 import net.minecraft.server.v1_16_R2.EnumMoveType;
 import net.minecraft.server.v1_16_R2.PacketPlayOutEntityTeleport;
 import net.minecraft.server.v1_16_R2.PathfinderGoalFloat;
+import net.minecraft.server.v1_16_R2.PathfinderGoalWrapped;
 import net.minecraft.server.v1_16_R2.PlayerChunkMap;
 import net.minecraft.server.v1_16_R2.Vec3D;
 import org.bukkit.Bukkit;
@@ -81,7 +82,13 @@ public class EntityUtilsImpl implements EntityUtils {
     @Override
     public void removeGoalLimitedStrollLand(Creature mob) {
         EntityCreature h = ((CraftCreature) mob).getHandle();
-        h.goalSelector.getTasks().removeIf(wg -> wg.getGoal() instanceof PathfinderGoalLimitedRandomStrollLand);
+        for (PathfinderGoalWrapped wrappedGoal : h.goalSelector.getTasks()) {
+            if (wrappedGoal.getGoal() instanceof PathfinderGoalLimitedRandomStrollLand) {
+                wrappedGoal.d();
+                h.goalSelector.removeGoal(wrappedGoal.getGoal());
+                break;
+            }
+        }
     }
 
     @Override
