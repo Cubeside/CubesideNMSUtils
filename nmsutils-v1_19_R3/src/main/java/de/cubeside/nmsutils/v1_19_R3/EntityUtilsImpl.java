@@ -76,6 +76,12 @@ public class EntityUtilsImpl implements EntityUtils {
     }
 
     @Override
+    public void removeGoalLimitedStrollLand(Creature mob) {
+        PathfinderMob h = ((CraftCreature) mob).getHandle();
+        h.goalSelector.removeAllGoals(g -> g instanceof PathfinderGoalLimitedRandomStrollLand);
+    }
+
+    @Override
     public int getShulkerOpenState(org.bukkit.entity.Entity shulker) {
         try {
             if (shulker.getType() != EntityType.SHULKER) {

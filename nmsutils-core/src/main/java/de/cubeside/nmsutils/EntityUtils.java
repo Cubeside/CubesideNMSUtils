@@ -56,6 +56,8 @@ public interface EntityUtils {
 
     void addGoalLimitedStrollLand(Creature mob, double velocity, Function<Vector, Boolean> checkTargetFunction);
 
+    void removeGoalLimitedStrollLand(Creature mob);
+
     boolean isEntityInvisible(Entity entity);
 
     /**
