@@ -1,6 +1,5 @@
 package de.cubeside.nmsutils.util;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
@@ -98,7 +97,13 @@ public enum ReobfHelper {
                 return null;
             }
             final MemoryMappingTree tree = new MemoryMappingTree();
-            MappingReader.read(new InputStreamReader(mappingsInputStream, StandardCharsets.UTF_8), MappingFormat.TINY_2, tree);
+            MappingFormat format;
+            try {
+                format = MappingFormat.valueOf("TINY_2_FILE");
+            } catch (IllegalArgumentException e) {
+                format = MappingFormat.valueOf("TINY_2");
+            }
+            MappingReader.read(new InputStreamReader(mappingsInputStream, StandardCharsets.UTF_8), format, tree);
             final Set<ClassMapping> classes = new HashSet<>();
 
             final StringPool pool = new StringPool();
@@ -127,8 +132,9 @@ public enum ReobfHelper {
             }
 
             return Set.copyOf(classes);
-        } catch (final IOException ex) {
+        } catch (final Error | Exception ex) {
             System.err.println("Failed to load mappings for stacktrace deobfuscation.");
+            System.err.println(ex.toString());
             ex.printStackTrace();
             return null;
         }
