@@ -20,4 +20,12 @@ public interface MiscUtils {
     default Object createTeamParametersPacketObject(BaseComponent displayName, BaseComponent prefix, BaseComponent suffix, OptionStatus nameTagDisplay, OptionStatus collisionRule, ChatColor color, boolean seeFriendlyInvisibles, boolean allowFriendlyFire) {
         throw new IllegalStateException("not implemented in this version");
     }
+
+    default Class<? extends Object> getNumberFormatClass() {
+        throw new IllegalStateException("not implemented in this version");
+    }
+
+    default Object getBlankNumberFormatInstance() {
+        throw new IllegalStateException("not implemented in this version");
+    }
 }

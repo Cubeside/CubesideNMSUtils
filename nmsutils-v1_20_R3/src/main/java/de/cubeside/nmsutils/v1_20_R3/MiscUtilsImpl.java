@@ -8,6 +8,8 @@ import java.lang.reflect.Field;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.numbers.BlankFormat;
+import net.minecraft.network.chat.numbers.NumberFormat;
 import net.minecraft.network.protocol.game.ClientboundSetPlayerTeamPacket;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -111,5 +113,15 @@ public class MiscUtilsImpl implements MiscUtils {
         }
         String json = net.md_5.bungee.chat.ComponentSerializer.toString(c);
         return PaperAdventure.asVanilla(net.kyori.adventure.text.serializer.gson.GsonComponentSerializer.gson().deserialize(json));
+    }
+
+    @Override
+    public Class<? extends Object> getNumberFormatClass() {
+        return NumberFormat.class;
+    }
+
+    @Override
+    public Object getBlankNumberFormatInstance() {
+        return BlankFormat.INSTANCE;
     }
 }
