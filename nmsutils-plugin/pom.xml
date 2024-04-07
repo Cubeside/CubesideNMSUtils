@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>nmsutils-plugin</artifactId>
@@ -25,7 +26,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.13.0</version>
                 <configuration>
                     <release>11</release>
                 </configuration>
@@ -33,7 +34,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.3</version>
+                <version>3.5.2</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -44,23 +45,52 @@
                             <artifactSet>
                                 <excludes>
                                     <exclude>de.cubeside.nmsutils:nmsutils-core</exclude>
-                                    <exclude>de.cubeside.nmsutils:nmsutils-v1_16_R2</exclude>
-                                    <exclude>de.cubeside.nmsutils:nmsutils-v1_16_R3</exclude>
-                                    <exclude>de.cubeside.nmsutils:nmsutils-v1_17_R1</exclude>
-                                    <exclude>de.cubeside.nmsutils:nmsutils-v1_17_R1_0</exclude>
-                                    <exclude>de.cubeside.nmsutils:nmsutils-v1_17_R1_1</exclude>
-                                    <exclude>de.cubeside.nmsutils:nmsutils-v1_18_R1</exclude>
-                                    <exclude>de.cubeside.nmsutils:nmsutils-v1_18_R2</exclude>
-                                    <exclude>de.cubeside.nmsutils:nmsutils-v1_19_R1</exclude>
-                                    <exclude>de.cubeside.nmsutils:nmsutils-v1_19_R1_0</exclude>
-                                    <exclude>de.cubeside.nmsutils:nmsutils-v1_19_R1_1</exclude>
-                                    <exclude>de.cubeside.nmsutils:nmsutils-v1_19_R2</exclude>
-                                    <exclude>de.cubeside.nmsutils:nmsutils-v1_19_R3</exclude>
-                                    <exclude>de.cubeside.nmsutils:nmsutils-v1_20_R1</exclude>
-                                    <exclude>de.cubeside.nmsutils:nmsutils-v1_20_R2</exclude>
-                                    <exclude>de.cubeside.nmsutils:nmsutils-v1_20_R3</exclude>
+                                    <exclude>
+                                        de.cubeside.nmsutils:nmsutils-v1_16_R2</exclude>
+                                    <exclude>
+                                        de.cubeside.nmsutils:nmsutils-v1_16_R3</exclude>
+                                    <exclude>
+                                        de.cubeside.nmsutils:nmsutils-v1_17_R1</exclude>
+                                    <exclude>
+                                        de.cubeside.nmsutils:nmsutils-v1_17_R1_0</exclude>
+                                    <exclude>
+                                        de.cubeside.nmsutils:nmsutils-v1_17_R1_1</exclude>
+                                    <exclude>
+                                        de.cubeside.nmsutils:nmsutils-v1_18_R1</exclude>
+                                    <exclude>
+                                        de.cubeside.nmsutils:nmsutils-v1_18_R2</exclude>
+                                    <exclude>
+                                        de.cubeside.nmsutils:nmsutils-v1_19_R1</exclude>
+                                    <exclude>
+                                        de.cubeside.nmsutils:nmsutils-v1_19_R1_0</exclude>
+                                    <exclude>
+                                        de.cubeside.nmsutils:nmsutils-v1_19_R1_1</exclude>
+                                    <exclude>
+                                        de.cubeside.nmsutils:nmsutils-v1_19_R2</exclude>
+                                    <exclude>
+                                        de.cubeside.nmsutils:nmsutils-v1_19_R3</exclude>
+                                    <exclude>
+                                        de.cubeside.nmsutils:nmsutils-v1_20_R1</exclude>
+                                    <exclude>
+                                        de.cubeside.nmsutils:nmsutils-v1_20_R2</exclude>
+                                    <exclude>
+                                        de.cubeside.nmsutils:nmsutils-v1_20_R3</exclude>
+                                    <exclude>
+                                        de.cubeside.nmsutils:nmsutils-paper1_20_4</exclude>
                                 </excludes>
                             </artifactSet>
+                            <relocations>
+                                <relocation>
+                                    <pattern>net.fabricmc</pattern>
+                                    <shadedPattern>
+                                        de.cubeside.nmsutils.libs.net.fabricmc</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.objectweb</pattern>
+                                    <shadedPattern>
+                                        de.cubeside.nmsutils.libs.org.objectweb</shadedPattern>
+                                </relocation>
+                            </relocations>
                         </configuration>
                     </execution>
                 </executions>

@@ -100,7 +100,12 @@ public interface NMSUtils {
         if (i == -1) {
             throwUnsupportedVersion(plugin);
         }
-        return packageName.substring(i + 1);
+        String packageLastPart = packageName.substring(i + 1);
+        if (packageLastPart.startsWith("v1_")) {
+            return packageLastPart;
+        }
+        String minecraftVersion = Bukkit.getServer().getMinecraftVersion();
+        return "paper" + minecraftVersion.replace('.', '_');
     }
 
     private static void throwUnsupportedVersion(Plugin plugin) {
@@ -108,7 +113,7 @@ public interface NMSUtils {
     }
 
     private static void throwUnsupportedVersion(Plugin plugin, Exception ex) {
-        String msg = "Unsupported CraftBukkit version: " + plugin.getServer().getBukkitVersion();
+        String msg = "Unsupported CraftBukkit version: " + plugin.getServer().getBukkitVersion() + " (" + getNmsVersion(plugin) + ")";
         plugin.getLogger().severe(msg);
         throw new UnsupportedOperationException(msg, ex);
     }

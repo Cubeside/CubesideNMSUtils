@@ -53,6 +53,22 @@
             </dependencies>
         </profile>
         <profile>
+            <id>paper1_20_4</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>all</name>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>nmsutils-paper1_20_4</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
             <id>v1_19_4</id>
             <activation>
                 <property>
@@ -207,7 +223,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.13.0</version>
                 <configuration>
                     <release>11</release>
                 </configuration>
@@ -215,7 +231,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.3</version>
+                <version>3.5.2</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -227,6 +243,18 @@
                                 <excludes>
                                 </excludes>
                             </artifactSet>
+                            <relocations>
+                                <relocation>
+                                    <pattern>net.fabricmc</pattern>
+                                    <shadedPattern>
+                                        de.cubeside.nmsutils.libs.net.fabricmc</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.objectweb</pattern>
+                                    <shadedPattern>
+                                        de.cubeside.nmsutils.libs.org.objectweb</shadedPattern>
+                                </relocation>
+                            </relocations>
                         </configuration>
                     </execution>
                 </executions>
