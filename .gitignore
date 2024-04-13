@@ -6,3 +6,8 @@ dependency-reduced-pom.xml
 
 #IntelliJ
 .idea
+
+#Gradle
+.gradle
+classes
+build
