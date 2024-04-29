@@ -1,7 +1,7 @@
 plugins {
   `maven-publish`
   `java-library`
-  id("io.papermc.paperweight.userdev") version "1.5.13"
+  id("io.papermc.paperweight.userdev") version "1.6.0"
 }
 
 group = "de.cubeside.nmsutils"

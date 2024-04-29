@@ -1,3 +1,3 @@
 plugins {
-    id("io.papermc.paperweight.userdev") version "1.5.13" apply false
+    id("io.papermc.paperweight.userdev") version "1.6.0" apply false
 }
