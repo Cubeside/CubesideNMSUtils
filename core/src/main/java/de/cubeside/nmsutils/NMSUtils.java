@@ -78,6 +78,18 @@ public interface NMSUtils {
                 return ((NMSUtils) numUtilsType.getDeclaredConstructor(Plugin.class).newInstance(plugin));
             }
         } catch (ClassNotFoundException ex) {
+            version = getNmsVersion(plugin, true);
+            try {
+                String className = NMSUtils.class.getPackage().getName() + '.' + version + ".NMSUtilsImpl";
+                Class<?> numUtilsType = Class.forName(className);
+                if (NMSUtils.class.isAssignableFrom(numUtilsType)) {
+                    return ((NMSUtils) numUtilsType.getDeclaredConstructor(Plugin.class).newInstance(plugin));
+                }
+            } catch (ClassNotFoundException ex2) {
+                throwUnsupportedVersion(plugin);
+            } catch (ReflectiveOperationException ex2) {
+                throwUnsupportedVersion(plugin, ex2);
+            }
             throwUnsupportedVersion(plugin);
         } catch (ReflectiveOperationException ex) {
             throwUnsupportedVersion(plugin, ex);
@@ -87,22 +99,28 @@ public interface NMSUtils {
     }
 
     private static String getNmsVersion(Plugin plugin) {
-        Server server = plugin.getServer();
-        Class<?> serverClass = server.getClass();
-        while (!serverClass.getPackage().getName().startsWith(CRAFTBUKKIT_PACKAGE)) {
-            serverClass = serverClass.getSuperclass();
-            if (serverClass == null) {
+        return getNmsVersion(plugin, false);
+    }
+
+    private static String getNmsVersion(Plugin plugin, boolean forcePaper) {
+        if (!forcePaper) {
+            Server server = plugin.getServer();
+            Class<?> serverClass = server.getClass();
+            while (!serverClass.getPackage().getName().startsWith(CRAFTBUKKIT_PACKAGE)) {
+                serverClass = serverClass.getSuperclass();
+                if (serverClass == null) {
+                    throwUnsupportedVersion(plugin);
+                }
+            }
+            String packageName = serverClass.getPackage().getName();
+            int i = packageName.lastIndexOf(".");
+            if (i == -1) {
                 throwUnsupportedVersion(plugin);
             }
-        }
-        String packageName = serverClass.getPackage().getName();
-        int i = packageName.lastIndexOf(".");
-        if (i == -1) {
-            throwUnsupportedVersion(plugin);
-        }
-        String packageLastPart = packageName.substring(i + 1);
-        if (packageLastPart.startsWith("v1_")) {
-            return packageLastPart;
+            String packageLastPart = packageName.substring(i + 1);
+            if (packageLastPart.startsWith("v1_")) {
+                return packageLastPart;
+            }
         }
         String minecraftVersion = Bukkit.getServer().getMinecraftVersion();
         return "paper" + minecraftVersion.replace('.', '_');
