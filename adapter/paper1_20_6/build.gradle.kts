@@ -20,7 +20,7 @@ java {
 dependencies {
   implementation(project(":core"))
   // implementation("de.cubeside.nmsutils:nmsutils-core:0.0.1-SNAPSHOT")
-  paperweight.paperDevBundle("1.20.5-R0.1-SNAPSHOT")
+  paperweight.paperDevBundle("1.20.6-R0.1-SNAPSHOT")
   // paperweight.foliaDevBundle("1.20.4-R0.1-SNAPSHOT")
   // paperweight.devBundle("com.example.paperfork", "1.20.4-R0.1-SNAPSHOT")
 }
@@ -56,7 +56,7 @@ publishing {
         create<MavenPublication>("maven") {
             artifact(tasks.reobfJar)
             groupId = "de.cubeside.nmsutils"
-            artifactId = "nmsutils-paper1_20_5"
+            artifactId = "nmsutils-paper1_20_6"
             version = "0.0.1-SNAPSHOT"
 
             from(components["java"])

@@ -1,4 +1,4 @@
-package de.cubeside.nmsutils.paper1_20_5;
+package de.cubeside.nmsutils.paper1_20_6;
 
 import de.cubeside.nmsutils.BiomeUtils;
 import de.cubeside.nmsutils.EntityUtils;

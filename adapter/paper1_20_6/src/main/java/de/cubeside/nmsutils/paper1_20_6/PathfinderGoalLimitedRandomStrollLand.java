@@ -1,4 +1,4 @@
-package de.cubeside.nmsutils.paper1_20_5;
+package de.cubeside.nmsutils.paper1_20_6;
 
 import java.util.function.Function;
 import net.minecraft.world.entity.PathfinderMob;
