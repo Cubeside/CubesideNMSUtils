@@ -45,8 +45,8 @@ publishing {
         maven {
             url = uri("https://www.iani.de/nexus/content/repositories/snapshots")
             credentials {
-                username = System.getenv('NEXUS_USR')
-                password = System.getenv('NEXUS_PSW')
+                username = System.getenv("NEXUS_USR")
+                password = System.getenv("NEXUS_PSW")
             }
         }
     }
