@@ -43,6 +43,7 @@ publishing {
     }
     repositories {
         maven {
+            name = "nexus"
             url = uri("https://www.iani.de/nexus/content/repositories/snapshots")
         }
     }
