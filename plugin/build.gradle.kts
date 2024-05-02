@@ -41,4 +41,9 @@ publishing {
             artifactId = "nmsutils-plugin"
         }
     }
+    repositories {
+        maven {
+            url = uri("https://www.iani.de/nexus/content/repositories/snapshots")
+        }
+    }
 }
