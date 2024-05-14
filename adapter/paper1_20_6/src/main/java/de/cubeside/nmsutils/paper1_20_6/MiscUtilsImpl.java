@@ -7,11 +7,15 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.numbers.BlankFormat;
 import net.minecraft.network.chat.numbers.NumberFormat;
 import net.minecraft.network.protocol.game.ClientboundSetPlayerTeamPacket;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockBehaviour.BlockStateBase;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
@@ -21,8 +25,13 @@ import net.minecraft.world.scores.PlayerTeam;
 import net.minecraft.world.scores.Scoreboard;
 import net.minecraft.world.scores.Team.Visibility;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.CraftRegistry;
+import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.block.CraftBlock;
+import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.craftbukkit.util.CraftChatMessage;
 import org.bukkit.craftbukkit.util.CraftMagicNumbers;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.Team.OptionStatus;
 
 public class MiscUtilsImpl implements MiscUtils {
@@ -123,5 +132,32 @@ public class MiscUtilsImpl implements MiscUtils {
     @Override
     public Object getBlankNumberFormatInstance() {
         return BlankFormat.INSTANCE;
+    }
+
+    @Override
+    public de.cubeside.nmsutils.nbt.CompoundTag getItemStackNbt(ItemStack stack) {
+        if (stack.isEmpty()) {
+            return null;
+        }
+        Tag tag = CraftItemStack.asNMSCopy(stack).save(CraftRegistry.getMinecraftRegistry());
+        if (tag instanceof CompoundTag compoundTag) {
+            return new CompoundTagImpl(compoundTag);
+        }
+        return null;
+    }
+
+    @Override
+    public de.cubeside.nmsutils.nbt.CompoundTag getTileEntityNbt(org.bukkit.block.Block block) {
+        CraftBlock craftBlock = (CraftBlock) block;
+        CraftWorld world = (CraftWorld) block.getWorld();
+        BlockPos blockPosition = craftBlock.getPosition();
+        net.minecraft.world.level.block.state.BlockState blockData = craftBlock.getNMS();
+        BlockEntity tileEntity = craftBlock.getHandle().getBlockEntity(blockPosition);
+        if (tileEntity == null) {
+            return null;
+        }
+        net.minecraft.nbt.CompoundTag tag = new net.minecraft.nbt.CompoundTag();
+        tag = tileEntity.saveWithFullMetadata(CraftRegistry.getMinecraftRegistry());
+        return new CompoundTagImpl(tag);
     }
 }
