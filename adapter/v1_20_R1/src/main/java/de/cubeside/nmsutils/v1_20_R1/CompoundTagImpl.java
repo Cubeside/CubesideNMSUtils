@@ -47,8 +47,8 @@ public final class CompoundTagImpl implements de.cubeside.nmsutils.nbt.CompoundT
     }
 
     @Override
-    public void size() {
-        handle.size();
+    public int size() {
+        return handle.size();
     }
 
     @Override

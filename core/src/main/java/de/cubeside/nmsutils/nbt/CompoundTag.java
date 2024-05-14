@@ -15,7 +15,7 @@ public interface CompoundTag extends Cloneable {
 
     Set<String> getAllKeys();
 
-    void size();
+    int size();
 
     void merge(CompoundTag source);
 
