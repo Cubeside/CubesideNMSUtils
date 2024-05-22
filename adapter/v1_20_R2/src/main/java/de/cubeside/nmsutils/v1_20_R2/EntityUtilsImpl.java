@@ -28,6 +28,7 @@ import org.bukkit.craftbukkit.v1_20_R2.CraftWorld;
 import org.bukkit.craftbukkit.v1_20_R2.entity.CraftBat;
 import org.bukkit.craftbukkit.v1_20_R2.entity.CraftCamel;
 import org.bukkit.craftbukkit.v1_20_R2.entity.CraftCreature;
+import org.bukkit.craftbukkit.v1_20_R2.entity.CraftCreeper;
 import org.bukkit.craftbukkit.v1_20_R2.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_20_R2.entity.CraftMob;
 import org.bukkit.craftbukkit.v1_20_R2.entity.CraftPiglin;
@@ -37,6 +38,7 @@ import org.bukkit.craftbukkit.v1_20_R2.entity.CraftVex;
 import org.bukkit.craftbukkit.v1_20_R2.entity.CraftWolf;
 import org.bukkit.entity.Bat;
 import org.bukkit.entity.Creature;
+import org.bukkit.entity.Creeper;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Pose;
@@ -393,5 +395,11 @@ public class EntityUtilsImpl implements EntityUtils {
             nmsEntity.load(newNbt);
             nmsEntity.setUUID(uuid);
         }
+    }
+
+    @Override
+    public void setSwellDir(Creeper creeper, int swellDir) {
+        net.minecraft.world.entity.monster.Creeper mcCreeper = ((CraftCreeper) creeper).getHandle();
+        mcCreeper.setSwellDir(swellDir);
     }
 }

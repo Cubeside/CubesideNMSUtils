@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Camel;
 import org.bukkit.entity.Creature;
+import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Pose;
@@ -251,6 +252,18 @@ public interface EntityUtils {
      *            the nbt data to merge in
      */
     default public void mergeNbt(Entity entity, CompoundTag nbt) {
+        getNMSUtils().getPlugin().getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
+    }
+
+    /**
+     * Set the LivingEntity Size
+     *
+     * @param creeper
+     *            the Creeper
+     * @param swellDir
+     *            creeper swellDir
+     */
+    default void setSwellDir(Creeper creeper, int swellDir) {
         getNMSUtils().getPlugin().getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
     }
 }
