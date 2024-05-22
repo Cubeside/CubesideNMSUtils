@@ -25,6 +25,10 @@ public interface NbtUtils {
         return in;
     }
 
+    public default CompoundTag updateItem(CompoundTag in, int oldDataVersion) {
+        return in;
+    }
+
     public default String updateItemTypeName(String in, int oldDataVersion) {
         return in;
     }
