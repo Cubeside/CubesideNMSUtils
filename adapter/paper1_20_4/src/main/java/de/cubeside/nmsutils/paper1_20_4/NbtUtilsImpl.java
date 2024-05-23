@@ -10,11 +10,16 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import net.minecraft.SharedConstants;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.util.datafix.DataFixers;
 import net.minecraft.util.datafix.fixes.References;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import org.bukkit.craftbukkit.v1_20_R3.block.CraftBlock;
+import org.bukkit.craftbukkit.v1_20_R3.inventory.CraftItemStack;
+import org.bukkit.inventory.ItemStack;
 
 public class NbtUtilsImpl implements NbtUtils {
     // private final NMSUtilsImpl nmsUtils;
@@ -105,5 +110,34 @@ public class NbtUtilsImpl implements NbtUtils {
     @Override
     public String updateBlockTypeName(String in, int oldVersion) {
         return updateName(References.BLOCK_NAME, in, oldVersion);
+    }
+
+    @Override
+    public CompoundTag getItemStackNbt(ItemStack stack) {
+        if (stack.isEmpty()) {
+            return null;
+        }
+        net.minecraft.nbt.CompoundTag tag = new net.minecraft.nbt.CompoundTag();
+        CraftItemStack.asNMSCopy(stack).save(tag);
+        return new CompoundTagImpl(tag);
+    }
+
+    @Override
+    public ItemStack createItemStack(CompoundTag tag) {
+        net.minecraft.world.item.ItemStack nmsStack = net.minecraft.world.item.ItemStack.of(((CompoundTagImpl) tag).handle);
+        return nmsStack != null ? CraftItemStack.asBukkitCopy(nmsStack) : null;
+    }
+
+    @Override
+    public CompoundTag getTileEntityNbt(org.bukkit.block.Block block) {
+        CraftBlock craftBlock = (CraftBlock) block;
+        BlockPos blockPosition = craftBlock.getPosition();
+        BlockEntity tileEntity = craftBlock.getHandle().getBlockEntity(blockPosition);
+        if (tileEntity == null) {
+            return null;
+        }
+        net.minecraft.nbt.CompoundTag tag = new net.minecraft.nbt.CompoundTag();
+        tag = tileEntity.saveWithFullMetadata();
+        return new CompoundTagImpl(tag);
     }
 }

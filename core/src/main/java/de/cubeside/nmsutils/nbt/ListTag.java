@@ -135,5 +135,9 @@ public interface ListTag extends Cloneable {
 
     boolean setUUID(int index, UUID v);
 
+    public void remove(int index);
+
+    public void clear();
+
     public ListTag clone();
 }

@@ -10,11 +10,17 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import net.minecraft.SharedConstants;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.util.datafix.DataFixers;
 import net.minecraft.util.datafix.fixes.References;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import org.bukkit.craftbukkit.CraftRegistry;
+import org.bukkit.craftbukkit.block.CraftBlock;
+import org.bukkit.craftbukkit.inventory.CraftItemStack;
+import org.bukkit.inventory.ItemStack;
 
 public class NbtUtilsImpl implements NbtUtils {
     // private final NMSUtilsImpl nmsUtils;
@@ -105,5 +111,36 @@ public class NbtUtilsImpl implements NbtUtils {
     @Override
     public String updateBlockTypeName(String in, int oldVersion) {
         return updateName(References.BLOCK_NAME, in, oldVersion);
+    }
+
+    @Override
+    public CompoundTag getItemStackNbt(ItemStack stack) {
+        if (stack.isEmpty()) {
+            return null;
+        }
+        Tag tag = CraftItemStack.asNMSCopy(stack).save(CraftRegistry.getMinecraftRegistry());
+        if (tag instanceof net.minecraft.nbt.CompoundTag compoundTag) {
+            return new CompoundTagImpl(compoundTag);
+        }
+        return null;
+    }
+
+    @Override
+    public ItemStack createItemStack(CompoundTag tag) {
+        net.minecraft.world.item.ItemStack nmsStack = net.minecraft.world.item.ItemStack.parse(CraftRegistry.getMinecraftRegistry(), ((CompoundTagImpl) tag).handle).orElse(null);
+        return nmsStack != null ? CraftItemStack.asBukkitCopy(nmsStack) : null;
+    }
+
+    @Override
+    public CompoundTag getTileEntityNbt(org.bukkit.block.Block block) {
+        CraftBlock craftBlock = (CraftBlock) block;
+        BlockPos blockPosition = craftBlock.getPosition();
+        BlockEntity tileEntity = craftBlock.getHandle().getBlockEntity(blockPosition);
+        if (tileEntity == null) {
+            return null;
+        }
+        net.minecraft.nbt.CompoundTag tag = new net.minecraft.nbt.CompoundTag();
+        tag = tileEntity.saveWithFullMetadata(CraftRegistry.getMinecraftRegistry());
+        return new CompoundTagImpl(tag);
     }
 }
