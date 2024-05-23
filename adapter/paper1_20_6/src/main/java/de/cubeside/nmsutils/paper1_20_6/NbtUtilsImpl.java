@@ -99,6 +99,11 @@ public class NbtUtilsImpl implements NbtUtils {
     }
 
     @Override
+    public CompoundTag updateItem(CompoundTag in, int oldVersion) {
+        return updateNbt(References.ITEM_STACK, in, oldVersion);
+    }
+
+    @Override
     public CompoundTag updateBlockState(CompoundTag in, int oldVersion) {
         return updateNbt(References.BLOCK_ENTITY, in, oldVersion);
     }
