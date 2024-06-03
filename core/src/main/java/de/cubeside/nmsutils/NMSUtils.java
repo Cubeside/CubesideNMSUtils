@@ -27,6 +27,15 @@ public interface NMSUtils {
     public WorldUtils getWorldUtils();
 
     /**
+     * Gets an instance of BlockUtils for manipulating blocks.
+     *
+     * @return the BlockUtils
+     */
+    public default BlockUtils getBlockUtils() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
      * Gets an instance of BiomeUtils for manipulating custom biomes.
      *
      * @return the BiomeUtils
