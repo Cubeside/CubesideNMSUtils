@@ -1,10 +1,12 @@
 package de.cubeside.nmsutils.paper1_21;
 
+import ca.spottedleaf.moonrise.patches.chunk_system.scheduling.NewChunkHolder;
 import de.cubeside.nmsutils.WorldUtils;
-import io.papermc.paper.chunk.system.io.RegionFileIOThread;
-import io.papermc.paper.chunk.system.scheduling.NewChunkHolder;
+
 import java.util.ArrayList;
 import java.util.logging.Level;
+
+import net.minecraft.server.level.ChunkHolder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.chunk.LevelChunk;
@@ -81,14 +83,14 @@ public class WorldUtilsImpl implements WorldUtils {
     public void saveChunkNow(Chunk chunk) {
         CraftChunk craftChunk = (CraftChunk) chunk;
         if (craftChunk.getHandle(ChunkStatus.FULL) instanceof LevelChunk levelChunk) {
-            NewChunkHolder holder = levelChunk.getChunkHolder();
-            holder.save(false, false);
+            ChunkHolder holder = levelChunk.playerChunk;
+            if (holder != null) {
+                NewChunkHolder newChunkHolder = holder.moonrise$getRealChunkHolder();
+                newChunkHolder.save(false);
+            } else {
+                throw new IllegalStateException("ChunkHolder is null");
+            }
         }
-    }
-
-    @Override
-    public void flushChunkSaves() {
-        RegionFileIOThread.flush();
     }
 
     @SuppressWarnings("deprecation")
