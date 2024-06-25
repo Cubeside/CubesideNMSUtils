@@ -1,9 +1,12 @@
 package de.cubeside.nmsutils.paper1_21;
 
+import ca.spottedleaf.moonrise.patches.chunk_system.level.ChunkSystemServerLevel;
 import ca.spottedleaf.moonrise.patches.chunk_system.scheduling.NewChunkHolder;
 import de.cubeside.nmsutils.WorldUtils;
+
 import java.util.ArrayList;
 import java.util.logging.Level;
+
 import net.minecraft.server.level.ChunkHolder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -80,14 +83,11 @@ public class WorldUtilsImpl implements WorldUtils {
     @Override
     public void saveChunkNow(Chunk chunk) {
         CraftChunk craftChunk = (CraftChunk) chunk;
-        if (craftChunk.getHandle(ChunkStatus.FULL) instanceof LevelChunk levelChunk) {
-            ChunkHolder holder = levelChunk.playerChunk;
-            if (holder != null) {
-                NewChunkHolder newChunkHolder = holder.moonrise$getRealChunkHolder();
-                newChunkHolder.save(false);
-            } else {
-                throw new IllegalStateException("ChunkHolder is null");
-            }
+        NewChunkHolder chunkHolder = ((ChunkSystemServerLevel) craftChunk.getCraftWorld()).moonrise$getChunkTaskScheduler().chunkHolderManager.getChunkHolder(chunk.getX(), chunk.getZ());
+        if (chunkHolder != null) {
+            chunkHolder.save(false);
+        } else {
+            throw new IllegalStateException("ChunkHolder is null");
         }
     }
 
