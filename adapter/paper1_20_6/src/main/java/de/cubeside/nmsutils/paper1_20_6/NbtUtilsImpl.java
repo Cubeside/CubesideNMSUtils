@@ -4,6 +4,7 @@ import com.mojang.datafixers.DSL;
 import com.mojang.serialization.Dynamic;
 import de.cubeside.nmsutils.NbtUtils;
 import de.cubeside.nmsutils.nbt.CompoundTag;
+import de.cubeside.nmsutils.nbt.ListTag;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -27,6 +28,16 @@ public class NbtUtilsImpl implements NbtUtils {
 
     public NbtUtilsImpl(NMSUtilsImpl nmsUtils) {
         // this.nmsUtils = nmsUtils;
+    }
+
+    @Override
+    public CompoundTag createEmptyCompound() {
+        return new CompoundTagImpl(new net.minecraft.nbt.CompoundTag());
+    }
+
+    @Override
+    public ListTag createEmptyList() {
+        return new ListTagImpl(new net.minecraft.nbt.ListTag());
     }
 
     @Override
@@ -104,7 +115,7 @@ public class NbtUtilsImpl implements NbtUtils {
     }
 
     @Override
-    public CompoundTag updateBlockState(CompoundTag in, int oldVersion) {
+    public CompoundTag updateBlockEntity(CompoundTag in, int oldVersion) {
         return updateNbt(References.BLOCK_ENTITY, in, oldVersion);
     }
 
@@ -137,7 +148,7 @@ public class NbtUtilsImpl implements NbtUtils {
     }
 
     @Override
-    public CompoundTag getTileEntityNbt(org.bukkit.block.Block block) {
+    public CompoundTag getBlockEntityNbt(org.bukkit.block.Block block) {
         CraftBlock craftBlock = (CraftBlock) block;
         BlockPos blockPosition = craftBlock.getPosition();
         BlockEntity tileEntity = craftBlock.getHandle().getBlockEntity(blockPosition);
@@ -147,5 +158,16 @@ public class NbtUtilsImpl implements NbtUtils {
         net.minecraft.nbt.CompoundTag tag = new net.minecraft.nbt.CompoundTag();
         tag = tileEntity.saveWithFullMetadata(CraftRegistry.getMinecraftRegistry());
         return new CompoundTagImpl(tag);
+    }
+
+    @Override
+    public void setBlockEntityNbt(org.bukkit.block.Block block, CompoundTag tag) {
+        CraftBlock craftBlock = (CraftBlock) block;
+        BlockPos blockPosition = craftBlock.getPosition();
+        BlockEntity tileEntity = craftBlock.getHandle().getBlockEntity(blockPosition);
+        if (tileEntity == null) {
+            return;
+        }
+        tileEntity.loadWithComponents(((CompoundTagImpl) tag).handle, CraftRegistry.getMinecraftRegistry());
     }
 }

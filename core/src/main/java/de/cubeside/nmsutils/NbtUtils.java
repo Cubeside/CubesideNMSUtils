@@ -1,6 +1,7 @@
 package de.cubeside.nmsutils;
 
 import de.cubeside.nmsutils.nbt.CompoundTag;
+import de.cubeside.nmsutils.nbt.ListTag;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
@@ -23,7 +24,7 @@ public interface NbtUtils {
         return in;
     }
 
-    public default CompoundTag updateBlockState(CompoundTag in, int oldDataVersion) {
+    public default CompoundTag updateBlockEntity(CompoundTag in, int oldDataVersion) {
         return in;
     }
 
@@ -47,7 +48,24 @@ public interface NbtUtils {
         throw new IllegalStateException("not implemented in this version");
     }
 
+    @Deprecated(forRemoval = true)
     default CompoundTag getTileEntityNbt(Block block) {
+        return getBlockEntityNbt(block);
+    }
+
+    default CompoundTag getBlockEntityNbt(Block block) {
+        throw new IllegalStateException("not implemented in this version");
+    }
+
+    default void setBlockEntityNbt(Block block, CompoundTag tag) {
+        throw new IllegalStateException("not implemented in this version");
+    }
+
+    default CompoundTag createEmptyCompound() {
+        throw new IllegalStateException("not implemented in this version");
+    }
+
+    default ListTag createEmptyList() {
         throw new IllegalStateException("not implemented in this version");
     }
 }

@@ -103,7 +103,7 @@ public class NbtUtilsImpl implements NbtUtils {
     }
 
     @Override
-    public CompoundTag updateBlockState(CompoundTag in, int oldVersion) {
+    public CompoundTag updateBlockEntity(CompoundTag in, int oldVersion) {
         return updateNbt(References.BLOCK_ENTITY, in, oldVersion);
     }
 
@@ -134,7 +134,7 @@ public class NbtUtilsImpl implements NbtUtils {
     }
 
     @Override
-    public CompoundTag getTileEntityNbt(org.bukkit.block.Block block) {
+    public CompoundTag getBlockEntityNbt(org.bukkit.block.Block block) {
         CraftBlock craftBlock = (CraftBlock) block;
         BlockPos blockPosition = craftBlock.getPosition();
         BlockEntity tileEntity = craftBlock.getHandle().getBlockEntity(blockPosition);
