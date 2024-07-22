@@ -12,8 +12,10 @@ import net.minecraft.world.level.block.entity.vault.VaultBlockEntity;
 import net.minecraft.world.level.block.entity.vault.VaultServerData;
 import net.minecraft.world.phys.BlockHitResult;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.block.CraftBlock;
+import org.bukkit.craftbukkit.block.data.CraftBlockData;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
@@ -68,5 +70,10 @@ public class BlockUtilsImpl implements BlockUtils {
             }
         }
         throw new IllegalArgumentException("This block is not a vault");
+    }
+
+    @Override
+    public int getNetworkBlockDataId(BlockData block) {
+        return net.minecraft.world.level.block.Block.getId(((CraftBlockData) block).getState());
     }
 }

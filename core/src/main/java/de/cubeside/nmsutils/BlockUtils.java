@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 
 public interface BlockUtils {
@@ -34,5 +35,10 @@ public interface BlockUtils {
     public default Set<UUID> getVaultRewardedPlayers(Block block) {
         getNMSUtils().getPlugin().getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
         return Set.of();
+    }
+
+    public default int getNetworkBlockDataId(BlockData block) {
+        getNMSUtils().getPlugin().getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
+        return -1;
     }
 }
