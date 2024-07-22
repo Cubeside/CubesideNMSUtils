@@ -266,4 +266,8 @@ public interface EntityUtils {
     default void setSwellDir(Creeper creeper, int swellDir) {
         getNMSUtils().getPlugin().getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
     }
+
+    default void resyncEntityPosition(Entity entity) {
+        getNMSUtils().getPlugin().getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
+    }
 }

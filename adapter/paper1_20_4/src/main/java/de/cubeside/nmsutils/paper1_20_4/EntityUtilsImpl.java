@@ -402,4 +402,10 @@ public class EntityUtilsImpl implements EntityUtils {
         net.minecraft.world.entity.monster.Creeper mcCreeper = ((CraftCreeper) creeper).getHandle();
         mcCreeper.setSwellDir(swellDir);
     }
+
+    @Override
+    public void resyncEntityPosition(org.bukkit.entity.Entity entity) {
+        Entity nmsEntity = ((CraftEntity) entity).getHandle();
+        nmsEntity.hasImpulse = true;
+    }
 }
