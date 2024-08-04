@@ -8,10 +8,16 @@ include("core")
 val adapterDirName = "adapter";
 // Get all directories inside the adapters directory
 
+val filter = extra.has("adapter").let { if (it) extra.get("adapter") as String else ""};
+println("Adapter Pattern: " + filter);
 val subprojectDirs = File(settings.settingsDir, adapterDirName).listFiles().filter { it.isDirectory && !it.name.startsWith(".")}
 // Add them as subprojects
-subprojectDirs.forEach { subprojectDir ->
-    include(adapterDirName + ":" + subprojectDir.name)
+subprojectDirs.forEach { subprojectDir -> run {
+        if (subprojectDir.name.contains(filter)) {
+            println("Including Adapter: " + subprojectDir.name);
+            include(adapterDirName + ":" + subprojectDir.name);
+        }
+    }
 }
 
 include("standalone")
