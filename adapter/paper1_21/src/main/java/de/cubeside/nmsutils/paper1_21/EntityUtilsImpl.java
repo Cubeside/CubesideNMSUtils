@@ -148,7 +148,7 @@ public class EntityUtilsImpl implements EntityUtils {
     @Override
     public void sendEntityPositionUpdate(org.bukkit.entity.Entity entity) {
         Entity handle = ((CraftEntity) entity).getHandle();
-        ChunkMap.TrackedEntity ete = handle.tracker;
+        ChunkMap.TrackedEntity ete = handle.moonrise$getTrackedEntity();
         if (ete != null) {
             ClientboundTeleportEntityPacket positionPacket = new ClientboundTeleportEntityPacket(handle);
             ete.seenBy.stream().forEach(viewer -> {
@@ -406,7 +406,7 @@ public class EntityUtilsImpl implements EntityUtils {
     @Override
     public void resyncEntityPosition(org.bukkit.entity.Entity entity) {
         Entity nmsEntity = ((CraftEntity) entity).getHandle();
-        nmsEntity.tracker.serverEntity.onPlayerAdd();
+        nmsEntity.moonrise$getTrackedEntity().serverEntity.onPlayerAdd();
         nmsEntity.hasImpulse = true;
     }
 }
