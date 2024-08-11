@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
 import net.minecraft.server.level.ChunkMap;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
@@ -32,6 +33,7 @@ import org.bukkit.craftbukkit.entity.CraftCreeper;
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.craftbukkit.entity.CraftMob;
 import org.bukkit.craftbukkit.entity.CraftPiglin;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.craftbukkit.entity.CraftRaider;
 import org.bukkit.craftbukkit.entity.CraftShulker;
 import org.bukkit.craftbukkit.entity.CraftVex;
@@ -408,5 +410,19 @@ public class EntityUtilsImpl implements EntityUtils {
         Entity nmsEntity = ((CraftEntity) entity).getHandle();
         nmsEntity.moonrise$getTrackedEntity().serverEntity.onPlayerAdd();
         nmsEntity.hasImpulse = true;
+    }
+
+    @Override
+    public void setCanInstaBuild(org.bukkit.entity.Player player, boolean instabuild) {
+        ServerPlayer serverPlayer = ((CraftPlayer) player).getHandle();
+        if (serverPlayer.getAbilities().instabuild != instabuild) {
+            serverPlayer.getAbilities().instabuild = instabuild;
+            serverPlayer.onUpdateAbilities();
+        }
+    }
+
+    @Override
+    public boolean canInstaBuild(org.bukkit.entity.Player player) {
+        return ((CraftPlayer) player).getHandle().getAbilities().instabuild;
     }
 }

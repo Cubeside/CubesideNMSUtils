@@ -4,6 +4,7 @@ import de.cubeside.nmsutils.nbt.CompoundTag;
 import java.util.function.Function;
 import java.util.logging.Level;
 import org.bukkit.Chunk;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Camel;
@@ -11,6 +12,7 @@ import org.bukkit.entity.Creature;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Pose;
 import org.bukkit.entity.Raider;
 import org.bukkit.entity.Wolf;
@@ -269,5 +271,27 @@ public interface EntityUtils {
 
     default void resyncEntityPosition(Entity entity) {
         getNMSUtils().getPlugin().getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
+    }
+
+    /**
+     * Sets if the player can build like in creative mode
+     * 
+     * @param player
+     *            a player
+     * @param instabuild
+     *            true if the player should be able to build as in creative mode
+     */
+    default void setCanInstaBuild(Player player, boolean instabuild) {
+        getNMSUtils().getPlugin().getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
+    }
+
+    /**
+     * Checks if the player can build like in creative mode
+     *
+     * @return true if the player is able to build as in creative mode
+     */
+    default boolean canInstaBuild(Player player) {
+        getNMSUtils().getPlugin().getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
+        return player.getGameMode() == GameMode.CREATIVE;
     }
 }
