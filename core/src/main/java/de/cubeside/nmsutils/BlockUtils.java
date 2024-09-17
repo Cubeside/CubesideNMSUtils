@@ -41,4 +41,8 @@ public interface BlockUtils {
         getNMSUtils().getPlugin().getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
         return -1;
     }
+
+    public default void setTrialSpawnerCooldown(Block block, int ticks) {
+        getNMSUtils().getPlugin().getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
+    }
 }
