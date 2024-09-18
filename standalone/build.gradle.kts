@@ -2,8 +2,7 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
     `maven-publish`
-    // id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("io.github.goooler.shadow") version "8.1.7"
+    id("com.gradleup.shadow") version "8.3.1"
     `java-library`
 }
 
@@ -31,7 +30,11 @@ java {
 }
 
 tasks {
+    jar {
+        archiveClassifier = "noshadow"
+    }
    shadowJar {
+       archiveClassifier = ""
        relocate("net.fabricmc.mappingio", "de.cubeside.nmsutils.libs.net.fabricmc.mappingio")
        relocate("org.objectweb.asm", "de.cubeside.nmsutils.libs.org.objectweb.asm")
    }
