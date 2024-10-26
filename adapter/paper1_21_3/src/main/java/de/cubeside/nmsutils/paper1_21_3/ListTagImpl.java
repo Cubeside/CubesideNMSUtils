@@ -3,7 +3,6 @@ package de.cubeside.nmsutils.paper1_21_3;
 import de.cubeside.nmsutils.nbt.TagType;
 import java.util.UUID;
 
-import de.cubeside.nmsutils.paper1_21.CompoundTagImpl;
 import net.minecraft.nbt.ByteArrayTag;
 import net.minecraft.nbt.ByteTag;
 import net.minecraft.nbt.CompoundTag;
@@ -399,10 +398,12 @@ public final class ListTagImpl implements de.cubeside.nmsutils.nbt.ListTag {
         return handle.setTag(index, NbtUtils.createUUID(v));
     }
 
+    @Override
     public void remove(int i) {
         handle.remove(i);
     }
 
+    @Override
     public void clear() {
         handle.clear();
     }

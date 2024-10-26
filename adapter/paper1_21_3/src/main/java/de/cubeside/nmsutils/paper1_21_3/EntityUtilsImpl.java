@@ -4,11 +4,11 @@ import com.destroystokyo.paper.entity.ai.VanillaGoal;
 import de.cubeside.nmsutils.EntityUtils;
 import de.cubeside.nmsutils.NMSUtils;
 import de.cubeside.nmsutils.nbt.CompoundTag;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.logging.Level;
 
-import de.cubeside.nmsutils.paper1_21.CompoundTagImpl;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
 import net.minecraft.server.level.ChunkMap;
@@ -17,6 +17,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.PositionMoveRotation;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.WrappedGoal;
 import net.minecraft.world.entity.animal.Wolf;
@@ -154,7 +155,7 @@ public class EntityUtilsImpl implements EntityUtils {
         Entity handle = ((CraftEntity) entity).getHandle();
         ChunkMap.TrackedEntity ete = handle.moonrise$getTrackedEntity();
         if (ete != null) {
-            ClientboundTeleportEntityPacket positionPacket = new ClientboundTeleportEntityPacket(handle);
+            ClientboundTeleportEntityPacket positionPacket = new ClientboundTeleportEntityPacket(handle.getId(), PositionMoveRotation.of(handle), Set.of(), handle.onGround);
             ete.seenBy.stream().forEach(viewer -> {
                 viewer.send(positionPacket);
             });
@@ -410,7 +411,7 @@ public class EntityUtilsImpl implements EntityUtils {
     @Override
     public void resyncEntityPosition(org.bukkit.entity.Entity entity) {
         Entity nmsEntity = ((CraftEntity) entity).getHandle();
-        nmsEntity.moonrise$getTrackedEntity().serverEntity.onPlayerAdd();
+        // FIXME nmsEntity.moonrise$getTrackedEntity().serverEntity.onPlayerAdd();
         nmsEntity.hasImpulse = true;
     }
 

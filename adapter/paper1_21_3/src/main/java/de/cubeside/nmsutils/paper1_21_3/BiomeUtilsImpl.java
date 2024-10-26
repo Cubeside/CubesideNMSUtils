@@ -3,7 +3,6 @@ package de.cubeside.nmsutils.paper1_21_3;
 import de.cubeside.nmsutils.BiomeUtils;
 import de.cubeside.nmsutils.NMSUtils;
 import de.cubeside.nmsutils.biome.CustomBiome;
-import de.cubeside.nmsutils.paper1_21.CustomBiomeImpl;
 import de.cubeside.nmsutils.util.ReobfHelper;
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -65,7 +64,7 @@ public class BiomeUtilsImpl implements BiomeUtils {
         ResourceKey<Biome> newKey = ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(id.getNamespace(), id.getKey()));
 
         ResourceKey<Biome> oldKey = Biomes.FOREST;
-        WritableRegistry<Biome> registrywritable = (WritableRegistry<Biome>) dedicatedserver.registryAccess().registryOrThrow(Registries.BIOME);
+        WritableRegistry<Biome> registrywritable = (WritableRegistry<Biome>) dedicatedserver.registryAccess().lookupOrThrow(Registries.BIOME);
 
         try {
             FIELD_MAPPED_REGISTRY_FROZEN.set(registrywritable, false);
@@ -74,7 +73,7 @@ public class BiomeUtilsImpl implements BiomeUtils {
             throw new RuntimeException(e);
         }
 
-        Biome forestbiome = registrywritable.get(oldKey);
+        Biome forestbiome = registrywritable.getValue(oldKey);
 
         BiomeBuilder builder = new Biome.BiomeBuilder();
         builder.downfall(downfall);
