@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
+import java.util.Set;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Holder.Reference;
@@ -43,6 +44,7 @@ public class BiomeUtilsImpl implements BiomeUtils {
 
     private static final Field FIELD_MAPPED_REGISTRY_FROZEN = ReobfHelper.getFieldByMojangName(MappedRegistry.class, "frozen");
     private static final Field FIELD_MAPPED_REGISTRY_UNREGISTERED_INTRUSIVE_HOLDERS = ReobfHelper.getFieldByMojangName(MappedRegistry.class, "unregisteredIntrusiveHolders");
+    private static final Field FIELD_MAPPED_HOLDER_REFERENCE_TAGS = ReobfHelper.getFieldByMojangName(Holder.Reference.class, "tags");
 
     public BiomeUtilsImpl(NMSUtilsImpl nmsUtils) {
         this.nmsUtils = nmsUtils;
@@ -115,7 +117,9 @@ public class BiomeUtilsImpl implements BiomeUtils {
         Reference<Biome> biomeHolder = registrywritable.register(newKey, newbiome, RegistrationInfo.BUILT_IN);
 
         try {
+            FIELD_MAPPED_HOLDER_REFERENCE_TAGS.set(biomeHolder, Set.of());
             FIELD_MAPPED_REGISTRY_UNREGISTERED_INTRUSIVE_HOLDERS.set(registrywritable, null);
+            FIELD_MAPPED_REGISTRY_FROZEN.set(registrywritable, true);
         } catch (IllegalArgumentException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
