@@ -411,7 +411,7 @@ public class EntityUtilsImpl implements EntityUtils {
     @Override
     public void resyncEntityPosition(org.bukkit.entity.Entity entity) {
         Entity nmsEntity = ((CraftEntity) entity).getHandle();
-        // FIXME nmsEntity.moonrise$getTrackedEntity().serverEntity.onPlayerAdd();
+        nmsEntity.moonrise$getTrackedEntity().serverEntity.onPlayerAdd();
         nmsEntity.hasImpulse = true;
     }
 
