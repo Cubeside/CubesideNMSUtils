@@ -3,14 +3,14 @@ package de.cubeside.nmsutils.paper1_21_3;
 import de.cubeside.nmsutils.BiomeUtils;
 import de.cubeside.nmsutils.NMSUtils;
 import de.cubeside.nmsutils.biome.CustomBiome;
+import de.cubeside.nmsutils.biome.Precipitation;
 import de.cubeside.nmsutils.util.ReobfHelper;
+import io.papermc.paper.registry.RegistryAccess;
+import io.papermc.paper.registry.RegistryKey;
 import java.lang.reflect.Field;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.Set;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Holder.Reference;
 import net.minecraft.core.MappedRegistry;
@@ -20,7 +20,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.dedicated.DedicatedServer;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.AmbientMoodSettings;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biome.BiomeBuilder;
@@ -28,19 +27,13 @@ import net.minecraft.world.level.biome.Biome.TemperatureModifier;
 import net.minecraft.world.level.biome.BiomeSpecialEffects;
 import net.minecraft.world.level.biome.BiomeSpecialEffects.Builder;
 import net.minecraft.world.level.biome.Biomes;
-import net.minecraft.world.level.chunk.LevelChunk;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Server;
 import org.bukkit.craftbukkit.CraftServer;
-import org.bukkit.craftbukkit.CraftWorld;
 
 public class BiomeUtilsImpl implements BiomeUtils {
     private final NMSUtilsImpl nmsUtils;
-
-    private HashMap<NamespacedKey, CustomBiomeImpl> customBiomes;
-    private HashMap<Biome, CustomBiomeImpl> customBiomesByBiome;
-    private Collection<? extends CustomBiome> unmodifiableCustomBiomes;
 
     private static final Field FIELD_MAPPED_REGISTRY_FROZEN = ReobfHelper.getFieldByMojangName(MappedRegistry.class, "frozen");
     private static final Field FIELD_MAPPED_REGISTRY_UNREGISTERED_INTRUSIVE_HOLDERS = ReobfHelper.getFieldByMojangName(MappedRegistry.class, "unregisteredIntrusiveHolders");
@@ -48,9 +41,6 @@ public class BiomeUtilsImpl implements BiomeUtils {
 
     public BiomeUtilsImpl(NMSUtilsImpl nmsUtils) {
         this.nmsUtils = nmsUtils;
-        this.customBiomes = new HashMap<>();
-        this.customBiomesByBiome = new HashMap<>();
-        this.unmodifiableCustomBiomes = Collections.unmodifiableCollection(customBiomes.values());
     }
 
     public NMSUtils getNMSUtils() {
@@ -58,7 +48,7 @@ public class BiomeUtilsImpl implements BiomeUtils {
     }
 
     @Override
-    public CustomBiome registerCustomBiome(NamespacedKey id, float downfall, float temperature, de.cubeside.nmsutils.biome.Precipitation precipitation, Integer fogColor, Integer waterColor, Integer waterFogColor, Integer skyColor, Integer foliageColor, Integer grassColor,
+    public org.bukkit.block.Biome registerBiome(NamespacedKey id, float downfall, float temperature, de.cubeside.nmsutils.biome.Precipitation precipitation, Integer fogColor, Integer waterColor, Integer waterFogColor, Integer skyColor, Integer foliageColor, Integer grassColor,
             GrassColorModifier grassColorModifier) {
         Server server = nmsUtils.getPlugin().getServer();
         CraftServer craftserver = (CraftServer) server;
@@ -123,43 +113,28 @@ public class BiomeUtilsImpl implements BiomeUtils {
         } catch (IllegalArgumentException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-        CustomBiomeImpl impl = new CustomBiomeImpl(id, newKey, newbiome, biomeHolder);
-        customBiomes.put(id, impl);
-        customBiomesByBiome.put(newbiome, impl);
 
-        return new CustomBiomeImpl(id, newKey, newbiome, biomeHolder);
+        return RegistryAccess.registryAccess().getRegistry(RegistryKey.BIOME).get(id);
+    }
+
+    @Override
+    public CustomBiome registerCustomBiome(NamespacedKey id, float downfall, float temperature, Precipitation precipitation, Integer fogColor, Integer waterColor, Integer waterFogColor, Integer skyColor, Integer foliageColor, Integer grassColor, GrassColorModifier grassColorModifier) {
+        registerBiome(id, downfall, temperature, precipitation, fogColor, waterColor, waterFogColor, skyColor, foliageColor, grassColor, grassColorModifier);
+        return null;
     }
 
     @Override
     public Collection<? extends CustomBiome> getAllCustomBiomes() {
-        return unmodifiableCustomBiomes;
-    }
-
-    @Override
-    public CustomBiome getCustomBiome(NamespacedKey id) {
-        return customBiomes.get(id);
+        throw new IllegalStateException("not implemented");
     }
 
     @Override
     public CustomBiome getCustomBiomeAt(Location location) {
-        location.getWorld().getChunkAt(location);
-        Level level = ((CraftWorld) location.getWorld()).getHandle();
-        int x = location.getBlockX();
-        int y = location.getBlockY();
-        int z = location.getBlockZ();
+        throw new IllegalStateException("not implemented");
+    }
 
-        BlockPos pos = new BlockPos(x, 0, z);
-        if (level.isLoaded(pos)) {
-            LevelChunk chunk = level.getChunkAt(pos);
-            if (chunk != null) {
-
-                Holder<Biome> biomeHolder = chunk.getNoiseBiome(x >> 2, y >> 2, z >> 2);
-                if (biomeHolder.isBound()) {
-                    Biome biome = biomeHolder.value();
-                    return customBiomesByBiome.get(biome);
-                }
-            }
-        }
-        return null;
+    @Override
+    public CustomBiome getCustomBiome(NamespacedKey id) {
+        throw new IllegalStateException("not implemented");
     }
 }
