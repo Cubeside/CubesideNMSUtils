@@ -92,6 +92,9 @@ public enum ReobfHelper {
     }
 
     private static Set<ClassMapping> loadMappingsIfPresent() {
+        if (!Bukkit.getServer().getClass().getName().contains("craftbukkit.v")) {
+            return null; // mojang mapped, so no remapping needed
+        }
         try (final InputStream mappingsInputStream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/mappings/reobf.tiny")) {
             if (mappingsInputStream == null) {
                 return null;
