@@ -50,15 +50,3 @@ tasks {
   }
    */
 }
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            artifact(tasks.reobfJar)
-            groupId = "de.cubeside.nmsutils"
-            artifactId = "nmsutils-" + project.name
-            version = "0.0.1-SNAPSHOT"
-
-            from(components["java"])
-        }
-    }
-}
