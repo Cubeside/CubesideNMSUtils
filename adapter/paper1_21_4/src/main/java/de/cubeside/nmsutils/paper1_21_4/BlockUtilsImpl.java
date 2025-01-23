@@ -98,7 +98,7 @@ public class BlockUtilsImpl implements BlockUtils {
                 throw new IllegalStateException("trialSpawnerDataCooldownEndsAtField not found!");
             }
         }
-        trialSpawnerBlock.trialSpawner.getData().reset(trialSpawnerBlock.trialSpawner);
+        trialSpawnerBlock.trialSpawner.getData().reset();
         long cooldownEnd = world.getHandle().getGameTime() + ticks;
         try {
             trialSpawnerDataCooldownEndsAtField.set(trialSpawnerBlock.trialSpawner.getData(), cooldownEnd);
