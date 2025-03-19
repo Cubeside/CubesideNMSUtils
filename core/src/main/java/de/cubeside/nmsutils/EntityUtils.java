@@ -30,7 +30,6 @@ public interface EntityUtils {
     @Deprecated(forRemoval = true)
     public boolean isPiglinDancing(Entity piglin);
 
-    @Deprecated(forRemoval = true)
     public void setPiglinDancing(Entity piglin, boolean dancing);
 
     public void sendEntityPositionUpdate(Entity entity);
