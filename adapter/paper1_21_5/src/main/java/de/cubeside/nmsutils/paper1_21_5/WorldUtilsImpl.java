@@ -1,4 +1,4 @@
-package de.cubeside.nmsutils.paper1_21_4;
+package de.cubeside.nmsutils.paper1_21_5;
 
 import ca.spottedleaf.moonrise.patches.chunk_system.level.ChunkSystemServerLevel;
 import ca.spottedleaf.moonrise.patches.chunk_system.scheduling.NewChunkHolder;

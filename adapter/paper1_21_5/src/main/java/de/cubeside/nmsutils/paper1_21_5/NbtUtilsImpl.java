@@ -1,4 +1,4 @@
-package de.cubeside.nmsutils.paper1_21_4;
+package de.cubeside.nmsutils.paper1_21_5;
 
 import com.mojang.datafixers.DSL;
 import com.mojang.serialization.Dynamic;

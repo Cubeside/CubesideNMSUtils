@@ -20,7 +20,7 @@ java {
 dependencies {
   implementation(project(":core"))
   // implementation("de.cubeside.nmsutils:nmsutils-core:0.0.1-SNAPSHOT")
-  paperweight.paperDevBundle("1.21.5-no-moonrise-SNAPSHOT")
+  paperweight.paperDevBundle("1.21.5-R0.1-SNAPSHOT")
   // paperweight.foliaDevBundle("1.20.4-R0.1-SNAPSHOT")
   // paperweight.devBundle("com.example.paperfork", "1.20.4-R0.1-SNAPSHOT")
 }
