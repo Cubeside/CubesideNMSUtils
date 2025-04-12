@@ -4,6 +4,7 @@ import ca.spottedleaf.moonrise.patches.chunk_system.scheduling.NewChunkHolder;
 import de.cubeside.nmsutils.WorldUtils;
 import java.util.ArrayList;
 import java.util.logging.Level;
+import net.kyori.adventure.text.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.Bukkit;
@@ -60,7 +61,7 @@ public class WorldUtilsImpl implements WorldUtils {
         ServerLevel handle = craftWorld.getHandle();
         if (!handle.players().isEmpty()) {
             for (ServerPlayer human : new ArrayList<>(handle.players())) {
-                kickPlayer((human.getBukkitEntity()), "Connection lost");
+                human.getBukkitEntity().kick(Component.text("Connection lost"));
             }
             handle.players().clear();
         }
@@ -82,10 +83,5 @@ public class WorldUtilsImpl implements WorldUtils {
         } else {
             throw new IllegalStateException("ChunkHolder is null");
         }
-    }
-
-    @SuppressWarnings("deprecation")
-    private void kickPlayer(Player player, String message) {
-        player.kickPlayer(message);
     }
 }
