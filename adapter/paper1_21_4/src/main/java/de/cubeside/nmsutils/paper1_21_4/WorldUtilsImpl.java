@@ -1,6 +1,5 @@
 package de.cubeside.nmsutils.paper1_21_4;
 
-import ca.spottedleaf.moonrise.patches.chunk_system.level.ChunkSystemServerLevel;
 import ca.spottedleaf.moonrise.patches.chunk_system.scheduling.NewChunkHolder;
 import de.cubeside.nmsutils.WorldUtils;
 import java.util.ArrayList;
@@ -11,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.craftbukkit.CraftChunk;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.Player;
 
@@ -76,7 +76,7 @@ public class WorldUtilsImpl implements WorldUtils {
 
     @Override
     public void saveChunkNow(Chunk chunk) {
-        NewChunkHolder chunkHolder = ((ChunkSystemServerLevel) chunk.getWorld()).moonrise$getChunkTaskScheduler().chunkHolderManager.getChunkHolder(chunk.getX(), chunk.getZ());
+        NewChunkHolder chunkHolder = ((CraftChunk) chunk).getCraftWorld().getHandle().moonrise$getChunkTaskScheduler().chunkHolderManager.getChunkHolder(chunk.getX(), chunk.getZ());
         if (chunkHolder != null) {
             chunkHolder.save(false);
         } else {
