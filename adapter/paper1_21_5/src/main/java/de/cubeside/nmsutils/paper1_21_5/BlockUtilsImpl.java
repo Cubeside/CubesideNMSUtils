@@ -4,15 +4,24 @@ import de.cubeside.nmsutils.BlockUtils;
 import de.cubeside.nmsutils.NMSUtils;
 import java.lang.reflect.Field;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder.Reference;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity;
+import net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerConfig;
 import net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerData;
 import net.minecraft.world.level.block.entity.vault.VaultBlockEntity;
 import net.minecraft.world.level.block.entity.vault.VaultServerData;
 import net.minecraft.world.phys.BlockHitResult;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.type.TrialSpawner;
@@ -108,6 +117,43 @@ public class BlockUtilsImpl implements BlockUtils {
 
         spawnerData.setTrialSpawnerState(TrialSpawner.State.COOLDOWN);
         block.setBlockData(spawnerData);
+    }
+
+    @Override
+    public void setTrialSpawnerConfig(Block block, NamespacedKey key) {
+        CraftBlock craftBlock = ((CraftBlock) block);
+        CraftWorld world = ((CraftWorld) block.getWorld());
+
+        BlockEntity blockEntity = world.getHandle().getBlockEntity(craftBlock.getPosition());
+        if (!(blockEntity instanceof TrialSpawnerBlockEntity trialSpawnerBlock)) {
+            throw new IllegalArgumentException("This block is not a trial spawner");
+        }
+        Registry<TrialSpawnerConfig> trialSpawnerConfigRegistry = MinecraftServer.getServer().registryAccess().get(Registries.TRIAL_SPAWNER_CONFIG).get().value();
+
+        ResourceLocation normal = ResourceLocation.fromNamespaceAndPath(key.namespace(), key.value() + "/normal");
+        ResourceLocation ominous = ResourceLocation.fromNamespaceAndPath(key.namespace(), key.value() + "/ominous");
+
+        Optional<Reference<TrialSpawnerConfig>> normalConfig = trialSpawnerConfigRegistry.get(normal);
+        Optional<Reference<TrialSpawnerConfig>> ominousConfig = trialSpawnerConfigRegistry.get(ominous);
+        if (normalConfig.isEmpty() || ominousConfig.isEmpty()) {
+            throw new IllegalArgumentException("Config does not exist: " + key);
+        }
+
+        trialSpawnerBlock.trialSpawner.normalConfig = normalConfig.get();
+        trialSpawnerBlock.trialSpawner.ominousConfig = ominousConfig.get();
+    }
+
+    @Override
+    public Set<NamespacedKey> getTrialSpawnerConfigs() {
+        HashSet<NamespacedKey> result = new HashSet<>();
+        Registry<TrialSpawnerConfig> trialSpawnerConfigRegistry = MinecraftServer.getServer().registryAccess().get(Registries.TRIAL_SPAWNER_CONFIG).get().value();
+        for (ResourceLocation loc : trialSpawnerConfigRegistry.keySet()) {
+            if (loc.getPath().endsWith("/normal")) {
+                String path = loc.getPath().substring(0, loc.getPath().length() - 7);
+                result.add(new NamespacedKey(loc.getNamespace(), path));
+            }
+        }
+        return result;
     }
 
     @Override

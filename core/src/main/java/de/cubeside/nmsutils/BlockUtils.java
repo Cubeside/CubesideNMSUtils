@@ -3,6 +3,7 @@ package de.cubeside.nmsutils;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
@@ -44,5 +45,14 @@ public interface BlockUtils {
 
     public default void setTrialSpawnerCooldown(Block block, int ticks) {
         getNMSUtils().getPlugin().getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
+    }
+
+    public default void setTrialSpawnerConfig(Block block, NamespacedKey key) {
+        getNMSUtils().getPlugin().getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
+    }
+
+    public default Set<NamespacedKey> getTrialSpawnerConfigs() {
+        getNMSUtils().getPlugin().getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
+        return Set.of();
     }
 }
