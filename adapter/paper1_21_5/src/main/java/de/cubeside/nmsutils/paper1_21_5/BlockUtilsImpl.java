@@ -128,7 +128,7 @@ public class BlockUtilsImpl implements BlockUtils {
         if (!(blockEntity instanceof TrialSpawnerBlockEntity trialSpawnerBlock)) {
             throw new IllegalArgumentException("This block is not a trial spawner");
         }
-        Registry<TrialSpawnerConfig> trialSpawnerConfigRegistry = MinecraftServer.getServer().registryAccess().get(Registries.TRIAL_SPAWNER_CONFIG).get().value();
+        Registry<TrialSpawnerConfig> trialSpawnerConfigRegistry = MinecraftServer.getServer().registryAccess().lookup(Registries.TRIAL_SPAWNER_CONFIG).get();
 
         ResourceLocation normal = ResourceLocation.fromNamespaceAndPath(key.namespace(), key.value() + "/normal");
         ResourceLocation ominous = ResourceLocation.fromNamespaceAndPath(key.namespace(), key.value() + "/ominous");
@@ -146,7 +146,7 @@ public class BlockUtilsImpl implements BlockUtils {
     @Override
     public Set<NamespacedKey> getTrialSpawnerConfigs() {
         HashSet<NamespacedKey> result = new HashSet<>();
-        Registry<TrialSpawnerConfig> trialSpawnerConfigRegistry = MinecraftServer.getServer().registryAccess().get(Registries.TRIAL_SPAWNER_CONFIG).get().value();
+        Registry<TrialSpawnerConfig> trialSpawnerConfigRegistry = MinecraftServer.getServer().registryAccess().lookup(Registries.TRIAL_SPAWNER_CONFIG).get();
         for (ResourceLocation loc : trialSpawnerConfigRegistry.keySet()) {
             if (loc.getPath().endsWith("/normal")) {
                 String path = loc.getPath().substring(0, loc.getPath().length() - 7);
