@@ -2,8 +2,6 @@ package de.cubeside.nmsutils.paper1_21_5;
 
 import de.cubeside.nmsutils.BlockUtils;
 import de.cubeside.nmsutils.NMSUtils;
-import java.lang.reflect.Field;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -17,12 +15,10 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity;
 import net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerConfig;
-import net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerData;
-import net.minecraft.world.level.block.entity.vault.VaultBlockEntity;
-import net.minecraft.world.level.block.entity.vault.VaultServerData;
 import net.minecraft.world.phys.BlockHitResult;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
+import org.bukkit.block.Vault;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.type.TrialSpawner;
 import org.bukkit.craftbukkit.CraftWorld;
@@ -33,9 +29,6 @@ import org.bukkit.entity.Player;
 
 public class BlockUtilsImpl implements BlockUtils {
     private final NMSUtilsImpl nmsUtils;
-
-    private Field vaultRewardedPlayersField;
-    private Field trialSpawnerDataCooldownEndsAtField;
 
     public BlockUtilsImpl(NMSUtilsImpl nmsUtils) {
         this.nmsUtils = nmsUtils;
@@ -57,32 +50,10 @@ public class BlockUtilsImpl implements BlockUtils {
 
     @Override
     public Set<UUID> getVaultRewardedPlayers(Block block) {
-        CraftBlock craftBlock = ((CraftBlock) block);
-        CraftWorld world = ((CraftWorld) block.getWorld());
-
-        BlockEntity blockEntity = world.getHandle().getBlockEntity(craftBlock.getPosition());
-        if (!(blockEntity instanceof VaultBlockEntity vaultBlock)) {
+        if (!(block.getState() instanceof Vault vault)) {
             throw new IllegalArgumentException("This block is not a vault");
         }
-        VaultServerData serverData = vaultBlock.getServerData();
-        if (vaultRewardedPlayersField == null) {
-            for (Field field : serverData.getClass().getDeclaredFields()) {
-                if (Set.class.isAssignableFrom(field.getType())) {
-                    vaultRewardedPlayersField = field;
-                    field.setAccessible(true);
-                }
-            }
-            if (vaultRewardedPlayersField == null) {
-                throw new IllegalStateException("vaultRewardedPlayersField not found!");
-            }
-        }
-        try {
-            @SuppressWarnings("unchecked")
-            Set<UUID> playersSet = (Set<UUID>) vaultRewardedPlayersField.get(serverData);
-            return Collections.unmodifiableSet(playersSet);
-        } catch (IllegalArgumentException | IllegalAccessException e) {
-            throw new RuntimeException("Could not access vault rewardedPlayers field", e);
-        }
+        return new HashSet<>(vault.getRewardedPlayers());
     }
 
     @Override
@@ -94,26 +65,8 @@ public class BlockUtilsImpl implements BlockUtils {
         if (!(blockEntity instanceof TrialSpawnerBlockEntity trialSpawnerBlock) || !(block.getBlockData() instanceof TrialSpawner spawnerData)) {
             throw new IllegalArgumentException("This block is not a trial spawner");
         }
-        if (trialSpawnerDataCooldownEndsAtField == null) {
-            // first long field
-            for (Field field : TrialSpawnerData.class.getDeclaredFields()) {
-                if (long.class.isAssignableFrom(field.getType())) {
-                    trialSpawnerDataCooldownEndsAtField = field;
-                    field.setAccessible(true);
-                    break;
-                }
-            }
-            if (trialSpawnerDataCooldownEndsAtField == null) {
-                throw new IllegalStateException("trialSpawnerDataCooldownEndsAtField not found!");
-            }
-        }
         trialSpawnerBlock.trialSpawner.getData().reset();
-        long cooldownEnd = world.getHandle().getGameTime() + ticks;
-        try {
-            trialSpawnerDataCooldownEndsAtField.set(trialSpawnerBlock.trialSpawner.getData(), cooldownEnd);
-        } catch (IllegalArgumentException | IllegalAccessException e) {
-            throw new RuntimeException("Could not access trialSpawnerData cooldownEndsAt field", e);
-        }
+        trialSpawnerBlock.trialSpawner.getData().cooldownEndsAt = world.getHandle().getGameTime() + ticks;
 
         spawnerData.setTrialSpawnerState(TrialSpawner.State.COOLDOWN);
         block.setBlockData(spawnerData);

@@ -32,7 +32,9 @@ public interface BlockUtils {
      * @param block
      *            a block that contains a vault
      * @return a set of players who have accessed this vault
+     * @deprecated Bukkit api is now available
      */
+    @Deprecated(forRemoval = true)
     public default Set<UUID> getVaultRewardedPlayers(Block block) {
         getNMSUtils().getPlugin().getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
         return Set.of();
