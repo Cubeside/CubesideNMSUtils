@@ -428,4 +428,9 @@ public class EntityUtilsImpl implements EntityUtils {
     public boolean canInstaBuild(org.bukkit.entity.Player player) {
         return ((CraftPlayer) player).getHandle().getAbilities().instabuild;
     }
+
+    @Override
+    public void setOriginWorld(org.bukkit.entity.Entity entity, World world) {
+        ((CraftEntity) entity).getHandle().originWorld = world == null ? null : world.getUID();
+    }
 }

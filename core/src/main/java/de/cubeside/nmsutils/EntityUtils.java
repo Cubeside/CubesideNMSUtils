@@ -275,6 +275,17 @@ public interface EntityUtils {
     }
 
     /**
+     * Sets the world that is stored as origin for this entity
+     * @param entity
+     * the entitiy
+     * @param world
+     * a world
+     */
+    default void setOriginWorld(Entity entity, World world) {
+        getNMSUtils().getPlugin().getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
+    }
+
+    /**
      * Sets if the player can build like in creative mode
      * 
      * @param player
