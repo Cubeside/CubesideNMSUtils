@@ -132,6 +132,10 @@ public interface NMSUtils {
             }
         }
         String minecraftVersion = Bukkit.getServer().getMinecraftVersion();
+        int firstSpace = minecraftVersion.indexOf(' ');
+        if (firstSpace >= 0) {
+            minecraftVersion = minecraftVersion.substring(0, firstSpace);
+        }
         return "paper" + minecraftVersion.replace('.', '_');
     }
 

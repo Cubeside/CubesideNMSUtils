@@ -21,7 +21,7 @@ dependencies {
     implementation("net.fabricmc:mapping-io:0.3.0")
     implementation(project(":core"))
     project.project(":adapter").subprojects.forEach {
-        implementation(project(it.path, "reobf"))
+        implementation(project(it.path))
     }
 }
 
