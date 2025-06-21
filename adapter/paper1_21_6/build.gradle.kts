@@ -17,8 +17,6 @@ java {
   toolchain.languageVersion = JavaLanguageVersion.of(21)
 }
 
-paperweight.reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArtifactConfiguration.MOJANG_PRODUCTION
-
 dependencies {
   implementation(project(":core"))
   // implementation("de.cubeside.nmsutils:nmsutils-core:0.0.1-SNAPSHOT")
@@ -30,7 +28,7 @@ dependencies {
 tasks {
   // Configure reobfJar to run when invoking the build task
   assemble {
-    // dependsOn(reobfJar)
+    dependsOn(reobfJar)
   }
 
   compileJava {
