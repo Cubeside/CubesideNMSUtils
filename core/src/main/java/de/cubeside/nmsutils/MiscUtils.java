@@ -3,6 +3,7 @@ package de.cubeside.nmsutils;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team.OptionStatus;
 
 public interface MiscUtils {
@@ -27,5 +28,14 @@ public interface MiscUtils {
 
     default Object getBlankNumberFormatInstance() {
         throw new IllegalStateException("not implemented in this version");
+    }
+
+    /**
+     * Get the player relevant for the current context if known
+     * 
+     * @return a player or null
+     */
+    default Player getCurrentContextPlayer() {
+        return null;
     }
 }

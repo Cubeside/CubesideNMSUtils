@@ -5,12 +5,14 @@ import de.cubeside.nmsutils.NMSUtils;
 import io.papermc.paper.adventure.PaperAdventure;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.util.UUID;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.numbers.BlankFormat;
 import net.minecraft.network.chat.numbers.NumberFormat;
 import net.minecraft.network.protocol.game.ClientboundSetPlayerTeamPacket;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockBehaviour.BlockStateBase;
@@ -23,6 +25,7 @@ import net.minecraft.world.scores.Team.Visibility;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.util.CraftChatMessage;
 import org.bukkit.craftbukkit.util.CraftMagicNumbers;
+import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team.OptionStatus;
 
 public class MiscUtilsImpl implements MiscUtils {
@@ -31,9 +34,23 @@ public class MiscUtilsImpl implements MiscUtils {
     private Field fieldBlockBehaviour_properties;
     private MapColor transparentColor;
     private Field fieldBlockStateBase_materialColor;
+    private final ThreadLocal<UUID> currentContextPlayer;
 
     public MiscUtilsImpl(NMSUtilsImpl nmsUtils) {
         this.nmsUtils = nmsUtils;
+        this.currentContextPlayer = getCurrentContextPlayerInstanceFromPacketListener();
+    }
+
+    @SuppressWarnings("unchecked")
+    private ThreadLocal<UUID> getCurrentContextPlayerInstanceFromPacketListener() {
+        try {
+            Field currentPacketHandledPlayer = ServerGamePacketListenerImpl.class.getDeclaredField("currentPacketHandledPlayer");
+            currentPacketHandledPlayer.setAccessible(true);
+            return (ThreadLocal<UUID>) currentPacketHandledPlayer.get(null);
+        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException | ClassCastException e) {
+            nmsUtils.getPlugin().getLogger().info("Could not find field currentContextPlayer");
+        }
+        return null;
     }
 
     @Override
@@ -123,5 +140,17 @@ public class MiscUtilsImpl implements MiscUtils {
     @Override
     public Object getBlankNumberFormatInstance() {
         return BlankFormat.INSTANCE;
+    }
+
+    @Override
+    public Player getCurrentContextPlayer() {
+        if (currentContextPlayer != null) {
+            UUID possiblePlayer = currentContextPlayer.get();
+            if (possiblePlayer != null)
+                if (StackWalker.getInstance().walk(s -> s.anyMatch(f -> f.getDeclaringClass() == ServerGamePacketListenerImpl.class))) {
+                    return nmsUtils.getPlugin().getServer().getPlayer(possiblePlayer);
+                }
+        }
+        return null;
     }
 }
