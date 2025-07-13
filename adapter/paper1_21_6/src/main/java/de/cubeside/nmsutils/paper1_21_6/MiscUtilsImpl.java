@@ -3,6 +3,7 @@ package de.cubeside.nmsutils.paper1_21_6;
 import de.cubeside.nmsutils.MiscUtils;
 import de.cubeside.nmsutils.NMSUtils;
 import io.papermc.paper.adventure.PaperAdventure;
+import java.lang.StackWalker.Option;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.UUID;
@@ -147,7 +148,7 @@ public class MiscUtilsImpl implements MiscUtils {
         if (currentContextPlayer != null) {
             UUID possiblePlayer = currentContextPlayer.get();
             if (possiblePlayer != null)
-                if (StackWalker.getInstance().walk(s -> s.anyMatch(f -> f.getDeclaringClass() == ServerGamePacketListenerImpl.class))) {
+                if (StackWalker.getInstance(Option.RETAIN_CLASS_REFERENCE).walk(s -> s.anyMatch(f -> f.getDeclaringClass() == ServerGamePacketListenerImpl.class))) {
                     return nmsUtils.getPlugin().getServer().getPlayer(possiblePlayer);
                 }
         }
