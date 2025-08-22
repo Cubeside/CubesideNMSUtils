@@ -1,6 +1,6 @@
 plugins {
     `maven-publish`
-    id("com.gradleup.shadow") version "8.3.1"
+    id("com.gradleup.shadow") version "9.0.2"
     `java-library`
 }
 
@@ -36,7 +36,7 @@ tasks {
 publishing {
     publications {
         create<MavenPublication>("maven") {
-            project.shadow.component(this)
+            artifact(tasks.shadowJar)
             groupId = "de.cubeside.nmsutils"
             artifactId = "nmsutils-plugin"
         }

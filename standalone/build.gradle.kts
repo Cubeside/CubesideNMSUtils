@@ -2,7 +2,7 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
     `maven-publish`
-    id("com.gradleup.shadow") version "8.3.1"
+    id("com.gradleup.shadow") version "9.0.2"
     `java-library`
 }
 
@@ -47,7 +47,7 @@ tasks.named("assemble").configure {
 publishing {
     publications {
         create<MavenPublication>("maven") {
-            project.shadow.component(this)
+            artifact(tasks.shadowJar)
             groupId = "de.cubeside.nmsutils"
             artifactId = "nmsutils-standalone"
         }
