@@ -34,7 +34,7 @@ tasks {
         archiveClassifier = "noshadow"
     }
    shadowJar {
-       archiveClassifier = ""
+       archiveClassifier.set("")
        relocate("net.fabricmc.mappingio", "de.cubeside.nmsutils.libs.net.fabricmc.mappingio")
        relocate("org.objectweb.asm", "de.cubeside.nmsutils.libs.org.objectweb.asm")
    }
@@ -47,7 +47,7 @@ tasks.named("assemble").configure {
 publishing {
     publications {
         create<MavenPublication>("maven") {
-            artifact(tasks.shadowJar)
+            from(components["shadow"])
             groupId = "de.cubeside.nmsutils"
             artifactId = "nmsutils-standalone"
         }

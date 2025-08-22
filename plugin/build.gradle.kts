@@ -30,13 +30,14 @@ tasks.named("assemble").configure {
 tasks {
     shadowJar {
         archiveFileName = "CubesideNMSUtils.jar"
+        archiveClassifier.set("")
     }
 }
 
 publishing {
     publications {
         create<MavenPublication>("maven") {
-            artifact(tasks.shadowJar)
+            from(components["shadow"])
             groupId = "de.cubeside.nmsutils"
             artifactId = "nmsutils-plugin"
         }
