@@ -38,4 +38,8 @@ public interface BiomeUtils {
     default Biome registerBiome(NamespacedKey id, float downfall, float temperature, Precipitation precipitation, Integer fogColor, Integer waterColor, Integer waterFogColor, Integer skyColor, Integer foliageColor, Integer grassColor, GrassColorModifier grassColorModifier) {
         throw new IllegalStateException("not implemented");
     }
+    
+    default org.bukkit.generator.BiomeProvider getVanillaOverworldBiomeProvider(long seed) {
+        throw new IllegalStateException("not implemented");
+    }
 }

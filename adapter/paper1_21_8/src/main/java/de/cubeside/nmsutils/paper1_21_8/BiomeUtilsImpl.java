@@ -19,6 +19,7 @@ import net.minecraft.core.WritableRegistry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.world.level.biome.AmbientMoodSettings;
 import net.minecraft.world.level.biome.Biome;
@@ -26,11 +27,13 @@ import net.minecraft.world.level.biome.Biome.BiomeBuilder;
 import net.minecraft.world.level.biome.Biome.TemperatureModifier;
 import net.minecraft.world.level.biome.BiomeSpecialEffects;
 import net.minecraft.world.level.biome.BiomeSpecialEffects.Builder;
+import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.biome.Biomes;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Server;
 import org.bukkit.craftbukkit.CraftServer;
+import org.bukkit.generator.WorldInfo;
 
 public class BiomeUtilsImpl implements BiomeUtils {
     private final NMSUtilsImpl nmsUtils;
@@ -136,5 +139,35 @@ public class BiomeUtilsImpl implements BiomeUtils {
     @Override
     public CustomBiome getCustomBiome(NamespacedKey id) {
         throw new IllegalStateException("not implemented");
+    }
+
+    @Override
+    public org.bukkit.generator.BiomeProvider getVanillaOverworldBiomeProvider(long seed) {
+        LevelStem stem = MinecraftServer.getServer().registryAccess().lookupOrThrow(Registries.LEVEL_STEM).getValue(LevelStem.OVERWORLD);
+
+        final net.minecraft.world.level.levelgen.RandomState randomState;
+        if (stem.generator() instanceof net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator noiseBasedChunkGenerator) {
+            randomState = net.minecraft.world.level.levelgen.RandomState.create(noiseBasedChunkGenerator.generatorSettings().value(),
+                    MinecraftServer.getServer().registryAccess().lookupOrThrow(net.minecraft.core.registries.Registries.NOISE), seed);
+        } else {
+            randomState = net.minecraft.world.level.levelgen.RandomState.create(net.minecraft.world.level.levelgen.NoiseGeneratorSettings.dummy(),
+                    MinecraftServer.getServer().registryAccess().lookupOrThrow(net.minecraft.core.registries.Registries.NOISE), seed);
+        }
+
+        final java.util.List<org.bukkit.block.Biome> possibleBiomes = stem.generator().getBiomeSource().possibleBiomes().stream()
+                .map(biome -> org.bukkit.craftbukkit.block.CraftBiome.minecraftHolderToBukkit(biome))
+                .toList();
+        return new org.bukkit.generator.BiomeProvider() {
+            @Override
+            public org.bukkit.block.Biome getBiome(final WorldInfo worldInfo, final int x, final int y, final int z) {
+                return org.bukkit.craftbukkit.block.CraftBiome.minecraftHolderToBukkit(
+                        stem.generator().getBiomeSource().getNoiseBiome(x >> 2, y >> 2, z >> 2, randomState.sampler()));
+            }
+
+            @Override
+            public java.util.List<org.bukkit.block.Biome> getBiomes(final org.bukkit.generator.WorldInfo worldInfo) {
+                return possibleBiomes;
+            }
+        };
     }
 }
