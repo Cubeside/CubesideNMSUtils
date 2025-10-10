@@ -1,14 +1,22 @@
 package de.cubeside.nmsutils.paper1_21_9;
 
+import com.destroystokyo.paper.profile.ProfileProperty;
+import com.google.common.collect.LinkedHashMultimap;
+import com.google.common.collect.Multimap;
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
+import com.mojang.authlib.properties.PropertyMap;
 import de.cubeside.nmsutils.MiscUtils;
 import de.cubeside.nmsutils.NMSUtils;
 import io.papermc.paper.adventure.PaperAdventure;
 import java.lang.StackWalker.Option;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.util.Collection;
 import java.util.UUID;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.numbers.BlankFormat;
 import net.minecraft.network.chat.numbers.NumberFormat;
@@ -153,5 +161,16 @@ public class MiscUtilsImpl implements MiscUtils {
                 }
         }
         return null;
+    }
+
+    public Object createNMSProfile(UUID uniqueId, String name, Collection<ProfileProperty> properties) {
+        Multimap<String, Property> propertiesInternal = LinkedHashMultimap.create();
+        for (ProfileProperty e : properties) {
+            propertiesInternal.put(e.getName(), new Property(e.getName(), e.getValue(), e.getSignature()));
+        }
+        return new GameProfile(
+                uniqueId != null ? uniqueId : Util.NIL_UUID,
+                name != null ? name : "",
+                new PropertyMap(propertiesInternal));
     }
 }

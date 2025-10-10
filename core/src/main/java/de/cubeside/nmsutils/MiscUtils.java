@@ -1,5 +1,8 @@
 package de.cubeside.nmsutils;
 
+import com.destroystokyo.paper.profile.ProfileProperty;
+import java.util.Collection;
+import java.util.UUID;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -36,6 +39,10 @@ public interface MiscUtils {
      * @return a player or null
      */
     default Player getCurrentContextPlayer() {
+        return null;
+    }
+
+    default public Object createNMSProfile(UUID uniqueId, String name, Collection<ProfileProperty> properties) {
         return null;
     }
 }
