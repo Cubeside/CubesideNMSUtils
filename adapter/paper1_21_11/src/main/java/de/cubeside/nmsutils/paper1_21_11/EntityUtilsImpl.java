@@ -330,7 +330,7 @@ public class EntityUtilsImpl implements EntityUtils {
     @Override
     public void setWolfAngerTime(org.bukkit.entity.Wolf entity, int timeInTicks) {
         Wolf nmsEntity = ((CraftWolf) entity).getHandle();
-        nmsEntity.setRemainingPersistentAngerTime(timeInTicks);
+        nmsEntity.setTimeToRemainAngry(timeInTicks);
     }
 
     @Override
@@ -430,7 +430,7 @@ public class EntityUtilsImpl implements EntityUtils {
     public void resyncEntityPosition(org.bukkit.entity.Entity entity) {
         Entity nmsEntity = ((CraftEntity) entity).getHandle();
         nmsEntity.moonrise$getTrackedEntity().serverEntity.onPlayerAdd();
-        nmsEntity.hasImpulse = true;
+        nmsEntity.needsSync = true;
     }
 
     @Override

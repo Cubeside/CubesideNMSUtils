@@ -16,12 +16,12 @@ import java.util.Collection;
 import java.util.UUID;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.numbers.BlankFormat;
 import net.minecraft.network.chat.numbers.NumberFormat;
 import net.minecraft.network.protocol.game.ClientboundSetPlayerTeamPacket;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.util.Util;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockBehaviour.BlockStateBase;
@@ -163,6 +163,7 @@ public class MiscUtilsImpl implements MiscUtils {
         return null;
     }
 
+    @Override
     public Object createNMSProfile(UUID uniqueId, String name, Collection<ProfileProperty> properties) {
         Multimap<String, Property> propertiesInternal = LinkedHashMultimap.create();
         for (ProfileProperty e : properties) {

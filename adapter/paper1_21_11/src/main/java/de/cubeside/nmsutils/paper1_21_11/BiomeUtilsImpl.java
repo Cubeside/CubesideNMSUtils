@@ -17,16 +17,16 @@ import net.minecraft.core.MappedRegistry;
 import net.minecraft.core.RegistrationInfo;
 import net.minecraft.core.WritableRegistry;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.dedicated.DedicatedServer;
-import net.minecraft.world.level.biome.AmbientMoodSettings;
+import net.minecraft.world.attribute.EnvironmentAttributeMap;
+import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biome.BiomeBuilder;
 import net.minecraft.world.level.biome.Biome.TemperatureModifier;
 import net.minecraft.world.level.biome.BiomeSpecialEffects;
-import net.minecraft.world.level.biome.BiomeSpecialEffects.Builder;
 import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.biome.Biomes;
 import org.bukkit.Location;
@@ -56,7 +56,7 @@ public class BiomeUtilsImpl implements BiomeUtils {
         Server server = nmsUtils.getPlugin().getServer();
         CraftServer craftserver = (CraftServer) server;
         DedicatedServer dedicatedserver = craftserver.getServer();
-        ResourceKey<Biome> newKey = ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(id.getNamespace(), id.getKey()));
+        ResourceKey<Biome> newKey = ResourceKey.create(Registries.BIOME, Identifier.fromNamespaceAndPath(id.getNamespace(), id.getKey()));
 
         ResourceKey<Biome> oldKey = Biomes.FOREST;
         WritableRegistry<Biome> registrywritable = (WritableRegistry<Biome>) dedicatedserver.registryAccess().lookupOrThrow(Registries.BIOME);
@@ -84,25 +84,33 @@ public class BiomeUtilsImpl implements BiomeUtils {
         builder.mobSpawnSettings(forestbiome.getMobSettings());
         builder.generationSettings(forestbiome.getGenerationSettings());
         builder.temperatureAdjustment(TemperatureModifier.NONE);
-        Builder effects = new BiomeSpecialEffects.Builder();
-        effects.waterColor(waterColor == null ? forestbiome.getWaterColor() : waterColor);
-        effects.waterFogColor(waterFogColor == null ? forestbiome.getWaterFogColor() : waterFogColor);
-        effects.fogColor(fogColor == null ? forestbiome.getFogColor() : fogColor);
-        effects.skyColor(skyColor == null ? forestbiome.getSkyColor() : skyColor);
+        BiomeSpecialEffects.Builder effects = new BiomeSpecialEffects.Builder();
+        effects.waterColor(waterColor == null ? forestbiome.getSpecialEffects().waterColor() : waterColor);
         if (foliageColor != null) {
             effects.foliageColorOverride(foliageColor);
         }
         if (grassColor != null) {
             effects.grassColorOverride(grassColor);
         }
-        effects.ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS);
-        net.minecraft.world.level.biome.BiomeSpecialEffects.GrassColorModifier nativeGrassColorModifier = switch (grassColorModifier) {
-            case DARK_FOREST -> net.minecraft.world.level.biome.BiomeSpecialEffects.GrassColorModifier.DARK_FOREST;
-            case SWAMP -> net.minecraft.world.level.biome.BiomeSpecialEffects.GrassColorModifier.SWAMP;
-            default -> net.minecraft.world.level.biome.BiomeSpecialEffects.GrassColorModifier.NONE;
+        BiomeSpecialEffects.GrassColorModifier nativeGrassColorModifier = switch (grassColorModifier) {
+            case DARK_FOREST -> BiomeSpecialEffects.GrassColorModifier.DARK_FOREST;
+            case SWAMP -> BiomeSpecialEffects.GrassColorModifier.SWAMP;
+            default -> BiomeSpecialEffects.GrassColorModifier.NONE;
         };
         effects.grassColorModifier(nativeGrassColorModifier);
         builder.specialEffects(effects.build());
+        EnvironmentAttributeMap.Builder attributes = EnvironmentAttributeMap.builder();
+        attributes.putAll(forestbiome.getAttributes());
+        if (fogColor != null) {
+            attributes.set(EnvironmentAttributes.FOG_COLOR, fogColor);
+        }
+        if (waterFogColor != null) {
+            attributes.set(EnvironmentAttributes.WATER_FOG_COLOR, waterFogColor);
+        }
+        if (skyColor != null) {
+            attributes.set(EnvironmentAttributes.SKY_COLOR, skyColor);
+        }
+        builder.putAttributes(attributes.build());
 
         Biome newbiome = builder.build();
 

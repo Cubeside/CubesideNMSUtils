@@ -10,7 +10,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Holder.Reference;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity;
@@ -83,8 +83,8 @@ public class BlockUtilsImpl implements BlockUtils {
         }
         Registry<TrialSpawnerConfig> trialSpawnerConfigRegistry = MinecraftServer.getServer().registryAccess().lookup(Registries.TRIAL_SPAWNER_CONFIG).get();
 
-        ResourceLocation normal = ResourceLocation.fromNamespaceAndPath(key.namespace(), key.value() + "/normal");
-        ResourceLocation ominous = ResourceLocation.fromNamespaceAndPath(key.namespace(), key.value() + "/ominous");
+        Identifier normal = Identifier.fromNamespaceAndPath(key.namespace(), key.value() + "/normal");
+        Identifier ominous = Identifier.fromNamespaceAndPath(key.namespace(), key.value() + "/ominous");
 
         Optional<Reference<TrialSpawnerConfig>> normalConfig = trialSpawnerConfigRegistry.get(normal);
         Optional<Reference<TrialSpawnerConfig>> ominousConfig = trialSpawnerConfigRegistry.get(ominous);
@@ -99,7 +99,7 @@ public class BlockUtilsImpl implements BlockUtils {
     public Set<NamespacedKey> getTrialSpawnerConfigs() {
         HashSet<NamespacedKey> result = new HashSet<>();
         Registry<TrialSpawnerConfig> trialSpawnerConfigRegistry = MinecraftServer.getServer().registryAccess().lookup(Registries.TRIAL_SPAWNER_CONFIG).get();
-        for (ResourceLocation loc : trialSpawnerConfigRegistry.keySet()) {
+        for (Identifier loc : trialSpawnerConfigRegistry.keySet()) {
             if (loc.getPath().endsWith("/normal")) {
                 String path = loc.getPath().substring(0, loc.getPath().length() - 7);
                 result.add(new NamespacedKey(loc.getNamespace(), path));
