@@ -17,6 +17,22 @@ java {
   toolchain.languageVersion = JavaLanguageVersion.of(17)
 }
 
+val published by configurations.creating {
+    isCanBeConsumed = true
+    isCanBeResolved = false
+    attributes {
+        attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage.JAVA_RUNTIME))
+        attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category.LIBRARY))
+        attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
+        attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE,
+            objects.named(LibraryElements.JAR))
+    }
+}
+
+artifacts {
+    add(published.name, tasks.named("reobfJar"))
+}
+
 dependencies {
   implementation(project(":core"))
   // implementation("de.cubeside.nmsutils:nmsutils-core:0.0.1-SNAPSHOT")

@@ -20,8 +20,8 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT")
     implementation("net.fabricmc:mapping-io:0.3.0")
     implementation(project(":core"))
-    project.project(":adapter").subprojects.forEach {
-        implementation(project(it.path, "reobf"))
+    project.project(":adapter").subprojects.forEach { sub ->
+        implementation(project(sub.path, "published"))
     }
 }
 

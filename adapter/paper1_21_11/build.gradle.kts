@@ -17,10 +17,28 @@ java {
   toolchain.languageVersion = JavaLanguageVersion.of(21)
 }
 
+val published by configurations.creating {
+    isCanBeConsumed = true
+    isCanBeResolved = false
+    attributes {
+        attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage.JAVA_RUNTIME))
+        attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category.LIBRARY))
+        attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
+        attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE,
+            objects.named(LibraryElements.JAR))
+    }
+}
+
+artifacts {
+    add(published.name, tasks.named("jar"))
+}
+
+paperweight.reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArtifactConfiguration.MOJANG_PRODUCTION
+
 dependencies {
   implementation(project(":core"))
   // implementation("de.cubeside.nmsutils:nmsutils-core:0.0.1-SNAPSHOT")
-  implementation("net.kyori:adventure-text-serializer-ansi:4.24.0")
+  // implementation("net.kyori:adventure-text-serializer-ansi:4.24.0")
   paperweight.paperDevBundle("1.21.11-pre3-R0.1-SNAPSHOT")
   // paperweight.foliaDevBundle("1.20.4-R0.1-SNAPSHOT")
   // paperweight.devBundle("com.example.paperfork", "1.20.4-R0.1-SNAPSHOT")
@@ -29,7 +47,7 @@ dependencies {
 tasks {
   // Configure reobfJar to run when invoking the build task
   assemble {
-    dependsOn(reobfJar)
+    // dependsOn(reobfJar)
   }
 
   compileJava {
