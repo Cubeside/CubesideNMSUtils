@@ -38,7 +38,7 @@ paperweight.reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArt
 dependencies {
   implementation(project(":core"))
   // implementation("de.cubeside.nmsutils:nmsutils-core:0.0.1-SNAPSHOT")
-  // implementation("net.kyori:adventure-text-serializer-ansi:4.24.0")
+  compileOnly("net.kyori:adventure-text-serializer-ansi:4.24.0")
   paperweight.paperDevBundle("1.21.11-pre3-R0.1-SNAPSHOT")
   // paperweight.foliaDevBundle("1.20.4-R0.1-SNAPSHOT")
   // paperweight.devBundle("com.example.paperfork", "1.20.4-R0.1-SNAPSHOT")
