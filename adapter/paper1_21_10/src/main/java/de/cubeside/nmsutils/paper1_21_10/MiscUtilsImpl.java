@@ -15,6 +15,7 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
@@ -162,7 +163,7 @@ public class MiscUtilsImpl implements MiscUtils {
                     return nmsUtils.getPlugin().getServer().getPlayer(possiblePlayer);
                 }
         } else if (currentContextPlayerMissingWarningPrinted.compareAndSet(false, true)) {
-            nmsUtils.getPlugin().getLogger().severe("Could not find field currentContextPlayer");
+            nmsUtils.getPlugin().getLogger().log(Level.SEVERE, "Could not find field currentContextPlayer", new RuntimeException());
         }
         return null;
     }
