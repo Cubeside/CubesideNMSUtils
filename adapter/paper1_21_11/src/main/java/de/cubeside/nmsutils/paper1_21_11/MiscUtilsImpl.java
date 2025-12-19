@@ -14,6 +14,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -44,6 +45,7 @@ public class MiscUtilsImpl implements MiscUtils {
     private MapColor transparentColor;
     private Field fieldBlockStateBase_materialColor;
     private final ThreadLocal<UUID> currentContextPlayer;
+    private final AtomicBoolean currentContextPlayerMissingWarningPrinted = new AtomicBoolean(false);
 
     public MiscUtilsImpl(NMSUtilsImpl nmsUtils) {
         this.nmsUtils = nmsUtils;
@@ -57,7 +59,7 @@ public class MiscUtilsImpl implements MiscUtils {
             currentPacketHandledPlayer.setAccessible(true);
             return (ThreadLocal<UUID>) currentPacketHandledPlayer.get(null);
         } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException | ClassCastException e) {
-            nmsUtils.getPlugin().getLogger().info("Could not find field currentContextPlayer");
+            // warn later on first use
         }
         return null;
     }
@@ -159,6 +161,8 @@ public class MiscUtilsImpl implements MiscUtils {
                 if (StackWalker.getInstance(Option.RETAIN_CLASS_REFERENCE).walk(s -> s.anyMatch(f -> f.getDeclaringClass() == ServerGamePacketListenerImpl.class))) {
                     return nmsUtils.getPlugin().getServer().getPlayer(possiblePlayer);
                 }
+        } else if (currentContextPlayerMissingWarningPrinted.compareAndSet(false, true)) {
+            nmsUtils.getPlugin().getLogger().severe("Could not find field currentContextPlayer");
         }
         return null;
     }
