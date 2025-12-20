@@ -1,6 +1,8 @@
 package de.cubeside.nmsutils.nbt;
 
 import java.util.UUID;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
 
 public interface ListTag extends Cloneable {
     int size();
@@ -134,6 +136,21 @@ public interface ListTag extends Cloneable {
     boolean addUUID(int index, UUID v);
 
     boolean setUUID(int index, UUID v);
+
+    default Component getTextComponent(int index) {
+        return getTextComponent(index, null);
+    }
+
+    default Component getTextComponent(int index, Component defaultValue) {
+        // legacy behaviour before 1.21.5
+        String json = getString(index);
+        return json != null ? JSONComponentSerializer.json().deserialize(json) : defaultValue;
+    }
+
+    default boolean setTextComponent(int index, Component value) {
+        // legacy behaviour before 1.21.5
+        return setString(index, JSONComponentSerializer.json().serialize(value));
+    }
 
     public void remove(int index);
 

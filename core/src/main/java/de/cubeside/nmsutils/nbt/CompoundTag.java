@@ -2,6 +2,8 @@ package de.cubeside.nmsutils.nbt;
 
 import java.util.Set;
 import java.util.UUID;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
 
 public interface CompoundTag extends Cloneable {
 
@@ -92,6 +94,17 @@ public interface CompoundTag extends Cloneable {
     UUID getUUID(String name);
 
     void setUUID(String name, UUID value);
+
+    default Component getTextComponent(String name) {
+        // legacy behaviour before 1.21.5
+        String json = getString(name);
+        return json != null ? JSONComponentSerializer.json().deserialize(json) : null;
+    }
+
+    default void setTextComponent(String name, Component value) {
+        // legacy behaviour before 1.21.5
+        setString(name, JSONComponentSerializer.json().serialize(value));
+    }
 
     @Override
     int hashCode();

@@ -1,7 +1,10 @@
 package de.cubeside.nmsutils.paper1_21_10;
 
+import com.google.common.base.Preconditions;
 import de.cubeside.nmsutils.nbt.TagType;
+import io.papermc.paper.adventure.PaperAdventure;
 import java.util.UUID;
+import net.kyori.adventure.text.Component;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.nbt.ByteArrayTag;
 import net.minecraft.nbt.ByteTag;
@@ -17,6 +20,10 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.NumericTag;
 import net.minecraft.nbt.ShortTag;
 import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.ComponentSerialization;
+import net.minecraft.resources.RegistryOps;
+import org.bukkit.craftbukkit.CraftRegistry;
 
 public final class ListTagImpl implements de.cubeside.nmsutils.nbt.ListTag {
     final ListTag handle;
@@ -403,6 +410,39 @@ public final class ListTagImpl implements de.cubeside.nmsutils.nbt.ListTag {
             return false;
         }
         handle.set(index, UUIDUtil.CODEC.encodeStart(NbtOps.INSTANCE, v).getOrThrow());
+        return true;
+    }
+
+    @Override
+    public Component getTextComponent(int index) {
+        return getTextComponent(index, null);
+    }
+
+    @Override
+    public Component getTextComponent(int index, Component defaultValue) {
+        if (index >= 0 && index < handle.size()) {
+            Tag tag = handle.get(index);
+            if (tag == null) {
+                return defaultValue;
+            }
+            try {
+                net.minecraft.network.chat.Component component = ComponentSerialization.CODEC.parse(
+                        CraftRegistry.getMinecraftRegistry().createSerializationContext(NbtOps.INSTANCE), tag).getOrThrow();
+                return PaperAdventure.asAdventure(component);
+            } catch (Exception e) {
+                return defaultValue; // not parseable as component
+            }
+        }
+        return defaultValue;
+    }
+
+    @Override
+    public boolean setTextComponent(int index, Component value) {
+        Preconditions.checkNotNull(value);
+        net.minecraft.network.chat.Component component = PaperAdventure.asVanilla(value);
+        RegistryOps<Tag> ops = CraftRegistry.getMinecraftRegistry().createSerializationContext(NbtOps.INSTANCE);
+        Tag result = ComponentSerialization.CODEC.encodeStart(ops, component).getOrThrow();
+        handle.set(index, result);
         return true;
     }
 

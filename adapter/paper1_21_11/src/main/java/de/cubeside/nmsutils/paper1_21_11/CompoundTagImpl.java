@@ -2,19 +2,25 @@ package de.cubeside.nmsutils.paper1_21_11;
 
 import com.google.common.base.Preconditions;
 import de.cubeside.nmsutils.nbt.TagType;
+import io.papermc.paper.adventure.PaperAdventure;
 import java.util.Collections;
 import java.util.Set;
 import java.util.UUID;
+import net.kyori.adventure.text.Component;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.nbt.ByteArrayTag;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.IntArrayTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.LongArrayTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.NumericTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.nbt.TagTypes;
+import net.minecraft.network.chat.ComponentSerialization;
+import net.minecraft.resources.RegistryOps;
+import org.bukkit.craftbukkit.CraftRegistry;
 
 public final class CompoundTagImpl implements de.cubeside.nmsutils.nbt.CompoundTag {
     final CompoundTag handle;
@@ -306,6 +312,33 @@ public final class CompoundTagImpl implements de.cubeside.nmsutils.nbt.CompoundT
         Preconditions.checkNotNull(name);
         Preconditions.checkNotNull(v);
         handle.store(name, UUIDUtil.CODEC, v);
+    }
+
+    @Override
+    public Component getTextComponent(String name) {
+        Preconditions.checkNotNull(name);
+        Tag tag = handle.get(name);
+        if (tag == null) {
+            return null;
+        }
+        try {
+            net.minecraft.network.chat.Component component = ComponentSerialization.CODEC.parse(
+                    CraftRegistry.getMinecraftRegistry().createSerializationContext(NbtOps.INSTANCE), tag).getOrThrow();
+            return PaperAdventure.asAdventure(component);
+        } catch (Exception e) {
+            return null; // not parseable as component
+        }
+
+    }
+
+    @Override
+    public void setTextComponent(String name, Component value) {
+        Preconditions.checkNotNull(name);
+        Preconditions.checkNotNull(value);
+        net.minecraft.network.chat.Component component = PaperAdventure.asVanilla(value);
+        RegistryOps<Tag> ops = CraftRegistry.getMinecraftRegistry().createSerializationContext(NbtOps.INSTANCE);
+        Tag result = ComponentSerialization.CODEC.encodeStart(ops, component).getOrThrow();
+        handle.put(name, result);
     }
 
     @Override
