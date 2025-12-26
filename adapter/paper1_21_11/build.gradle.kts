@@ -30,16 +30,14 @@ val published by configurations.creating {
 }
 
 artifacts {
-    add(published.name, tasks.named("jar"))
+    add(published.name, tasks.named("reobfJar"))
 }
-
-paperweight.reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArtifactConfiguration.MOJANG_PRODUCTION
 
 dependencies {
   implementation(project(":core"))
   // implementation("de.cubeside.nmsutils:nmsutils-core:0.0.1-SNAPSHOT")
   compileOnly("net.kyori:adventure-text-serializer-ansi:4.24.0")
-  paperweight.paperDevBundle("1.21.11-pre3-R0.1-SNAPSHOT")
+  paperweight.paperDevBundle("1.21.11-R0.1-SNAPSHOT")
   // paperweight.foliaDevBundle("1.20.4-R0.1-SNAPSHOT")
   // paperweight.devBundle("com.example.paperfork", "1.20.4-R0.1-SNAPSHOT")
 }
@@ -47,7 +45,7 @@ dependencies {
 tasks {
   // Configure reobfJar to run when invoking the build task
   assemble {
-    // dependsOn(reobfJar)
+    dependsOn(reobfJar)
   }
 
   compileJava {
