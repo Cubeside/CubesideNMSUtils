@@ -4,6 +4,8 @@ import com.destroystokyo.paper.entity.ai.VanillaGoal;
 import de.cubeside.nmsutils.EntityUtils;
 import de.cubeside.nmsutils.NMSUtils;
 import de.cubeside.nmsutils.nbt.CompoundTag;
+import de.cubeside.nmsutils.util.ReobfHelper;
+import java.lang.reflect.Field;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
@@ -23,6 +25,10 @@ import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.WrappedGoal;
 import net.minecraft.world.entity.animal.camel.Camel;
 import net.minecraft.world.entity.animal.wolf.Wolf;
+import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
+import net.minecraft.world.entity.vehicle.minecart.MinecartBehavior;
+import net.minecraft.world.entity.vehicle.minecart.NewMinecartBehavior;
+import net.minecraft.world.entity.vehicle.minecart.OldMinecartBehavior;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.storage.TagValueInput;
 import net.minecraft.world.level.storage.TagValueOutput;
@@ -30,6 +36,7 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
+import org.bukkit.FeatureFlag;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.CraftWorld;
@@ -38,6 +45,7 @@ import org.bukkit.craftbukkit.entity.CraftCamel;
 import org.bukkit.craftbukkit.entity.CraftCreature;
 import org.bukkit.craftbukkit.entity.CraftCreeper;
 import org.bukkit.craftbukkit.entity.CraftEntity;
+import org.bukkit.craftbukkit.entity.CraftMinecart;
 import org.bukkit.craftbukkit.entity.CraftMob;
 import org.bukkit.craftbukkit.entity.CraftPiglin;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
@@ -55,6 +63,8 @@ import org.bukkit.entity.Vex;
 import org.bukkit.util.Vector;
 
 public class EntityUtilsImpl implements EntityUtils {
+    private static final Field FIELD_ABSTRACT_MINECART_BEHAVIOUR = ReobfHelper.getFieldByMojangName(AbstractMinecart.class, "behavior");
+
     private final NMSUtilsImpl nmsUtils;
 
     public EntityUtilsImpl(NMSUtilsImpl nmsUtils) {
@@ -450,5 +460,28 @@ public class EntityUtilsImpl implements EntityUtils {
     @Override
     public void setOriginWorld(org.bukkit.entity.Entity entity, World world) {
         ((CraftEntity) entity).getHandle().originWorld = world == null ? null : world.getUID();
+    }
+
+    @Override
+    public void setUseNewMinecartBehaviour(org.bukkit.entity.Minecart entity, boolean useNew) {
+        AbstractMinecart cart = ((CraftMinecart) entity).getHandle();
+        MinecartBehavior updatedBehaviour = null;
+        if (useNew && !(cart.getBehavior() instanceof NewMinecartBehavior)) {
+            if (cart.maxSpeed == null && !entity.getWorld().getFeatureFlags().contains(FeatureFlag.MINECART_IMPROVEMENTS)) {
+                // we have to set the explicit max speed because the gamerule is not available
+                cart.maxSpeed = 0.4;
+            }
+            updatedBehaviour = new NewMinecartBehavior(cart);
+        }
+        else if (!useNew && !(cart.getBehavior() instanceof OldMinecartBehavior)) {
+            updatedBehaviour = new OldMinecartBehavior(cart);
+        }
+        if (updatedBehaviour != null) {
+            try {
+                FIELD_ABSTRACT_MINECART_BEHAVIOUR.set(cart, updatedBehaviour);
+            } catch (IllegalArgumentException | IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

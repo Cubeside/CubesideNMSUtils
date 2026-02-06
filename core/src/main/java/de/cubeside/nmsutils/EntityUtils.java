@@ -11,6 +11,7 @@ import org.bukkit.entity.Camel;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Pose;
@@ -305,5 +306,17 @@ public interface EntityUtils {
     default boolean canInstaBuild(Player player) {
         getNMSUtils().getPlugin().getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
         return player.getGameMode() == GameMode.CREATIVE;
+    }
+
+    /**
+     * Sets if a minecart should use the new or old movement behaviour
+     * 
+     * @param entity
+     *            a minecart
+     * @param useNew
+     *            true for new behaviour, false for old behaviour
+     */
+    default void setUseNewMinecartBehaviour(Minecart entity, boolean useNew) {
+        getNMSUtils().getPlugin().getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
     }
 }
