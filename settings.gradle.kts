@@ -15,15 +15,24 @@ include("core")
 val adapterDirName = "adapter";
 // Get all directories inside the adapters directory
 
-val filter = extra.has("adapter").let { if (it) extra.get("adapter") as String else ""};
-println("Adapter Pattern: " + filter);
-val subprojectDirs = File(settings.settingsDir, adapterDirName).listFiles().filter { it.isDirectory && !it.name.startsWith(".")}
-// Add them as subprojects
-subprojectDirs.forEach { subprojectDir -> run {
-        if (subprojectDir.name.contains(filter)) {
-            println("Including Adapter: " + subprojectDir.name);
-            include(adapterDirName + ":" + subprojectDir.name);
-        }
+val filters = providers.gradleProperty("adapter")
+    .orNull
+    ?.split(",")
+    ?.map { it.trim() }
+    ?.filter { it.isNotEmpty() }
+    ?: emptyList()
+
+println("Adapter Patterns: $filters")
+
+val subprojectDirs = File(settings.settingsDir, adapterDirName)
+    .listFiles()
+    ?.filter { it.isDirectory && !it.name.startsWith(".") }
+    ?: emptyList()
+
+subprojectDirs.forEach { subprojectDir ->
+    if (filters.isEmpty() || filters.any { subprojectDir.name.contains(it) }) {
+        println("Including Adapter: ${subprojectDir.name}")
+        include("$adapterDirName:${subprojectDir.name}")
     }
 }
 
