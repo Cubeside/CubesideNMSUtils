@@ -26,6 +26,10 @@ public interface WorldUtils {
      */
     public void forceUnloadWorldWithoutSaving(World world, Location playerTarget);
 
+    /**
+     * @deprecated No longer implemented
+     */
+    @Deprecated(forRemoval = true)
     default void saveChunkNow(Chunk chunk) {
         Bukkit.getLogger().log(Level.SEVERE, "Call to unimplemented method", new RuntimeException());
     }
