@@ -4,14 +4,11 @@ import de.cubeside.nmsutils.WorldUtils;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import net.kyori.adventure.text.Component;
-import net.minecraft.server.level.ChunkHolder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.CraftChunk;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.Player;
 
