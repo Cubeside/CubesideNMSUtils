@@ -1,4 +1,4 @@
-package de.cubeside.nmsutils.paper26_1_1;
+package de.cubeside.nmsutils.paper26_1_2;
 
 import com.destroystokyo.paper.profile.ProfileProperty;
 import com.google.common.collect.LinkedHashMultimap;

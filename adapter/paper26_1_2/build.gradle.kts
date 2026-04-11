@@ -37,7 +37,7 @@ dependencies {
   implementation(project(":core"))
   // implementation("de.cubeside.nmsutils:nmsutils-core:0.0.1-SNAPSHOT")
   compileOnly("net.kyori:adventure-text-serializer-ansi:4.24.0")
-  paperweight.paperDevBundle("26.1.1.build.28-alpha")
+  paperweight.paperDevBundle("26.1.2.build.5-alpha")
   // paperweight.foliaDevBundle("1.20.4-R0.1-SNAPSHOT")
   // paperweight.devBundle("com.example.paperfork", "1.20.4-R0.1-SNAPSHOT")
 }

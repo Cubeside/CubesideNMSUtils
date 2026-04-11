@@ -1,4 +1,4 @@
-package de.cubeside.nmsutils.paper26_1_1;
+package de.cubeside.nmsutils.paper26_1_2;
 
 import de.cubeside.nmsutils.BiomeUtils;
 import de.cubeside.nmsutils.BlockUtils;
